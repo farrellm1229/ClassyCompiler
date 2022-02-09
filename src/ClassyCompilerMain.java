@@ -22,6 +22,9 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
         Pattern closeBracketToken = Pattern.compile("\\}");
 
 		while ((currentLine = lineScanner.readLine()) != null) { //while current line in text file is not blank
+            if (currentLine.length() == 0) { //if current line is empty move to next
+				continue;
+            }
             
             lexemeValue = openBracketToken.matcher(currentLine);
             if (lexemeValue.find()) {
@@ -31,8 +34,10 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 lexemeValue = openBracketToken.matcher(currentLine);
 					continue;
                 }
+                continue;
             }
-    }
+
+            }
     public static void main(String[] args) throws IOException{
         System.out.println("\n------------- Welcome To The Classy Compiler! -------------\n");
         
