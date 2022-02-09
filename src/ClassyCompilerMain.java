@@ -34,6 +34,14 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 lexemeValue = openBracketToken.matcher(currentLine);
 					continue;
                 }
+            lexemeValue = closeBracketToken.matcher(currentLine);
+            if (lexemeValue.find()) {
+                System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.RIGHT_BRACKET + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " );//+ lineNumber);
+                currentLine = currentLine.substring(lexemeValue.end());
+                currentLine = currentLine.trim();
+                lexemeValue = closeBracketToken.matcher(currentLine);
+                    continue;
+                }
                 continue;
             }
 

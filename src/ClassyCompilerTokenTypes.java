@@ -17,16 +17,8 @@
 		}
 
 		public String toString() {
-			
+
 			return name; //returns name in parentheses aka the token name
 			
 		}
 	}
-	
-	/*
-		private ClassyCompilerTokenTypes(String nameOfToken) { //this allows me to have the corresponding string values
-												//for the token names
-		}
-	}
-
-	*/
