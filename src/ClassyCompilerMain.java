@@ -16,6 +16,8 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
         //Variable Declaration
 		Matcher lexemeValue;
         String currentLine;
+        int programNumber=1;
+
 
         //REGEX pattern matching for creating tokens and matching lexemes
         //symbols
@@ -64,11 +66,13 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
             lexemeValue = endOfProgram.matcher(currentLine);
             if (lexemeValue.find()) {
                 System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.EOP + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: \n" );//+ lineNumber);
-                System.out.println("------------- Classy Compiler has finished Lexical Analysis of Program: #" + " -------------" + "\n");
+                System.out.println("------------- Classy Compiler has finished Lexical Analysis of Program: #" + programNumber + " -------------" + "\n");
                 
                 currentLine = currentLine.substring(lexemeValue.end());
                 currentLine = currentLine.trim();
                 lexemeValue = endOfProgram.matcher(currentLine);
+                programNumber++;
+
                     continue;
                 }
                 continue;
