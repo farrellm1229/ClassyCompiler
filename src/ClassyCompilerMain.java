@@ -17,6 +17,7 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
 		Matcher lexemeValue;
         String currentLine;
         int programNumber=1;
+        //int lineNumber=1;
 
 
         //REGEX pattern matching for creating tokens and matching lexemes
@@ -24,19 +25,27 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
         Pattern openBracketToken = Pattern.compile("\\{", Pattern.MULTILINE);
         Pattern closeBracketToken = Pattern.compile("\\}", Pattern.MULTILINE);
         Pattern endOfProgram = Pattern.compile("[$]$");
+        Pattern openParenthesisToken = Pattern.compile("\\(");
+        Pattern closeParenthesisToken = Pattern.compile("\\)");
+        Pattern assignmentToken = Pattern.compile("(?<!=)={1}(?!=)");
         
         //keywords
-        
+        Pattern boolValToken = Pattern.compile("(?i:false|true)");
+        Pattern stringToken = Pattern.compile("(?i:string)");
+		Pattern printToken = Pattern.compile("(?i:print)");
+		Pattern whileToken = Pattern.compile("(?i:while)");
+		Pattern intToken = Pattern.compile("((?i:\\bint\\b))", Pattern.MULTILINE | Pattern.COMMENTS);
 		Pattern ifToken = Pattern.compile("(?i:if)");
 
-
-        //Pattern insideString = Pattern.compile(\\"\".*?\\"), Pattern.MULTILINE | Pattern.COMMENTS);
         
 		while ((currentLine = lineScanner.readLine()) != null) { //while current line in text file is not blank
             if (currentLine.length() == 0) { //if current line is empty move to next
 				continue;
             }
-            
+/*start of searching for symbols*/
+            //Find symbol matches in text file
+
+            //find openBracket
             lexemeValue = openBracketToken.matcher(currentLine);
             if (lexemeValue.find()) {
                 System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.LEFT_BRACKET + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " );//+ lineNumber);
@@ -45,6 +54,7 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 lexemeValue = openBracketToken.matcher(currentLine);
 					continue;
                 }
+            //find closeBracket
             lexemeValue = closeBracketToken.matcher(currentLine);
             if (lexemeValue.find()) {
                 System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.RIGHT_BRACKET + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " );//+ lineNumber);
@@ -53,6 +63,26 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 lexemeValue = closeBracketToken.matcher(currentLine);
                     continue;
                 }
+                //find open Parenthesis
+            lexemeValue = openParenthesisToken.matcher(currentLine);
+            if (lexemeValue.find()) {
+                System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.LEFT_PARENTHESIS + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " );//+ lineNumber);
+                currentLine = currentLine.substring(lexemeValue.end());
+                currentLine = currentLine.trim();
+                lexemeValue = openParenthesisToken.matcher(currentLine);
+					continue;
+                }
+            //find close Parenthesis
+            lexemeValue = closeParenthesisToken.matcher(currentLine);
+            if (lexemeValue.find()) {
+                System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.RIGHT_PARENTHESIS + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " );//+ lineNumber);
+                currentLine = currentLine.substring(lexemeValue.end());
+                currentLine = currentLine.trim();
+                lexemeValue =closeParenthesisToken.matcher(currentLine);
+                    continue;
+                }
+
+            //find if Keyword
             lexemeValue = ifToken.matcher(currentLine);
             if (lexemeValue.find()) {
                 System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.IF + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " );//+ lineNumber);
@@ -62,7 +92,7 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                     continue;
                 }
 
-             //Looking for End Of Program symbol ($)   
+            //Looking for End Of Program symbol ($)   
             lexemeValue = endOfProgram.matcher(currentLine);
             if (lexemeValue.find()) {
                 System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.EOP + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: \n" );//+ lineNumber);
@@ -77,6 +107,7 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 }
                 continue;
             }
+            //lineNumber = lineNumber + 1;
 
             }
     public static void main(String[] args) throws IOException{
