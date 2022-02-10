@@ -6,6 +6,8 @@
 	  
 		LEFT_BRACKET("T_OPEN_BRACE"),
 		RIGHT_BRACKET("T_CLOSE_BRACE"),
+		STRING("T_STRING"),
+		IF("T_IF"),
 		EOP("T_EOP");
 
 		public final String name;
