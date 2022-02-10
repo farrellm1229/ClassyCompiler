@@ -29,9 +29,4 @@
 			
 		}
 
-		public String getNameOfToken() {
-
-			return name; //returns name in parentheses aka the token name
-			
-		}
 	}
