@@ -19,6 +19,7 @@
 		CHAR("T_CHAR"),
 		DIGIT("T_DIGIT"),
 		BOOL_OP("T_BOOL_OP"),
+		TYPE("T_TYPE"),
 		EOP("T_EOP");
 
 		public final String name;

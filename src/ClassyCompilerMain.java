@@ -41,6 +41,7 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
 		Pattern whileToken = Pattern.compile("(?i:while)");
 		Pattern intToken = Pattern.compile("((?i:\\bint\\b))", Pattern.MULTILINE | Pattern.COMMENTS);
 		Pattern ifToken = Pattern.compile("(?i:if)");
+        Pattern typeToken = Pattern.compile("(?i:string|int|boolean)");
 
         
 		while ((currentLine = lineScanner.readLine()) != null) { //while current line in text file is not blank
@@ -119,26 +120,16 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 lexemeValue = boolValToken.matcher(currentLine);
 					continue;
                 }
-                //find "string" keywords
-            lexemeValue = stringToken.matcher(currentLine);
+               
+                //find type keywords: string, int, boolean
+            lexemeValue = typeToken.matcher(currentLine);
             if (lexemeValue.find()) {
                                 //token type from enum                       lexeme (the match that is found)                       number of line
-                displayMessage(ClassyCompilerTokenTypes.STRING, currentLine.substring(lexemeValue.start(), lexemeValue.end()), lineNumber);
+                displayMessage(ClassyCompilerTokenTypes.TYPE, currentLine.substring(lexemeValue.start(), lexemeValue.end()), lineNumber);
                 //System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.LEFT_BRACKET + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " + lineNumber);
                 currentLine = currentLine.substring(lexemeValue.end());
                 currentLine = currentLine.trim();
-                lexemeValue = stringToken.matcher(currentLine);
-					continue;
-                }
-                //find "print" keyword
-            lexemeValue = printToken.matcher(currentLine);
-            if (lexemeValue.find()) {
-                                //token type from enum                       lexeme (the match that is found)                       number of line
-                displayMessage(ClassyCompilerTokenTypes.PRINT, currentLine.substring(lexemeValue.start(), lexemeValue.end()), lineNumber);
-                //System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.LEFT_BRACKET + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " + lineNumber);
-                currentLine = currentLine.substring(lexemeValue.end());
-                currentLine = currentLine.trim();
-                lexemeValue = printToken.matcher(currentLine);
+                lexemeValue = typeToken.matcher(currentLine);
 					continue;
                 }
                 //find "while" keyword
@@ -152,17 +143,7 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 lexemeValue = whileToken.matcher(currentLine);
 					continue;
                 }
-                //find true or false keywords
-            lexemeValue = intToken.matcher(currentLine);
-            if (lexemeValue.find()) {
-                                //token type from enum                       lexeme (the match that is found)                       number of line
-                displayMessage(ClassyCompilerTokenTypes.INT, currentLine.substring(lexemeValue.start(), lexemeValue.end()), lineNumber);
-                //System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.LEFT_BRACKET + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " + lineNumber);
-                currentLine = currentLine.substring(lexemeValue.end());
-                currentLine = currentLine.trim();
-                lexemeValue = intToken.matcher(currentLine);
-					continue;
-                }
+               
 
             //find if Keyword
             lexemeValue = ifToken.matcher(currentLine);

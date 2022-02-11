@@ -11,3 +11,5 @@ int 6 = $
 while
 print
 string
+int
+boolean
