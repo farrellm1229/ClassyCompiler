@@ -192,7 +192,7 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
             lexemeValue = endOfProgram.matcher(currentLine);
             if (lexemeValue.find()) {
                 System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.EOP + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " + lineNumber + "\n");
-                System.out.println("------------- Classy Compiler has finished Lexical Analysis of Program: #" + programNumber + " -------------" + "\n");
+                System.out.println("INFO  Lexer -  Classy Compiler has finished Lexical Analysis of Program: #" + programNumber + "\n");
                 
                 currentLine = currentLine.substring(lexemeValue.end());
                 currentLine = currentLine.trim();
@@ -214,7 +214,7 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
             }
         
     public static void main(String[] args) throws IOException{
-        System.out.println("\n------------- Welcome To The Classy Compiler! -------------\n");
+        System.out.println("\nINFO  Lexer - Welcome To The Classy Compiler!\n");
         
         matchTokens(args[0]);
         //call match tokens, args[0] represents the sample program file
