@@ -39,9 +39,8 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
 		Pattern whileToken = Pattern.compile("(?i:while)");
 		Pattern ifToken = Pattern.compile("(?i:if)");
         Pattern typeToken = Pattern.compile("(?i:string|int|boolean)");
-        Pattern digitToken = Pattern.compile("(?i:string|int|boolean)");
-
-        Pattern charToken = Pattern.compile("[a.b.c.d.e.f.g.h.i.j.k.l.m.n.o.p.q.r.s.t.u.v.w.x.y.z]"); //super ugly but it does what I need it to!
+        Pattern digitToken = Pattern.compile("[0-9.]");
+        Pattern charToken = Pattern.compile("[a-z.]");
 
 
         
@@ -166,7 +165,7 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 lexemeValue = openBracketToken.matcher(currentLine);
 					continue;
                 }
-                
+//find single lowercase letters            
             lexemeValue = charToken.matcher(currentLine);
             if (lexemeValue.find()) {
                                 //token type from enum                       lexeme (the match that is found)                       number of line
@@ -175,6 +174,17 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 currentLine = currentLine.substring(lexemeValue.end());
                 currentLine = currentLine.trim();
                 lexemeValue = charToken.matcher(currentLine);
+					continue;
+                }
+//find single digits          
+            lexemeValue = digitToken.matcher(currentLine);
+            if (lexemeValue.find()) {
+                                //token type from enum                       lexeme (the match that is found)                       number of line
+                displayMessage(ClassyCompilerTokenTypes.DIGIT, currentLine.substring(lexemeValue.start(), lexemeValue.end()), lineNumber);
+                //System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.LEFT_BRACKET + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " + lineNumber);
+                currentLine = currentLine.substring(lexemeValue.end());
+                currentLine = currentLine.trim();
+                lexemeValue = digitToken.matcher(currentLine);
 					continue;
                 }
                 

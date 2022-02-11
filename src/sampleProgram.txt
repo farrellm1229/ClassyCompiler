@@ -15,4 +15,5 @@ int
 boolean$
 a
 =b
-A
+0 1
+12
