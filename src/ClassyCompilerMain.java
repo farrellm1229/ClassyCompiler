@@ -33,6 +33,11 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
         Pattern openParenthesisToken = Pattern.compile("\\(");
         Pattern closeParenthesisToken = Pattern.compile("\\)");
         Pattern assignmentToken = Pattern.compile("(?<!=)={1}(?!=)");
+        Pattern notEqualToken = Pattern.compile("(?<!=)!={1}(?!=)");
+        Pattern additionToken = Pattern.compile("(?<!=)[+{1}](?!=)");
+
+        Pattern boolOpToken = Pattern.compile("(?i:false|true)");
+
         
         //keywords
         Pattern boolValToken = Pattern.compile("(?i:false|true)");
@@ -163,6 +168,27 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 currentLine = currentLine.substring(lexemeValue.end());
                 currentLine = currentLine.trim();
                 lexemeValue = openBracketToken.matcher(currentLine);
+					continue;
+                } 
+                //find single equals sign (=)
+            lexemeValue = notEqualToken.matcher(currentLine);
+            if (lexemeValue.find()) {
+                                //token type from enum                       lexeme (the match that is found)                       number of line
+                displayMessage(ClassyCompilerTokenTypes.ASSIGNMENT, currentLine.substring(lexemeValue.start(), lexemeValue.end()), lineNumber);
+                //System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.LEFT_BRACKET + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " + lineNumber);
+                currentLine = currentLine.substring(lexemeValue.end());
+                currentLine = currentLine.trim();
+                lexemeValue = notEqualToken.matcher(currentLine);
+					continue;
+                }
+            lexemeValue = additionToken.matcher(currentLine);
+            if (lexemeValue.find()) {
+                                //token type from enum                       lexeme (the match that is found)                       number of line
+                displayMessage(ClassyCompilerTokenTypes.PLUS, currentLine.substring(lexemeValue.start(), lexemeValue.end()), lineNumber);
+                //System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.LEFT_BRACKET + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " + lineNumber);
+                currentLine = currentLine.substring(lexemeValue.end());
+                currentLine = currentLine.trim();
+                lexemeValue = additionToken.matcher(currentLine);
 					continue;
                 }
 //find single lowercase letters            
