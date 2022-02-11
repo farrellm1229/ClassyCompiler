@@ -12,4 +12,7 @@ while
 print
 string
 int
-boolean
+boolean$
+a
+=b
+A

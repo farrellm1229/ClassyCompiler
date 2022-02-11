@@ -36,12 +36,13 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
         
         //keywords
         Pattern boolValToken = Pattern.compile("(?i:false|true)");
-        Pattern stringToken = Pattern.compile("(?i:string)");
-		Pattern printToken = Pattern.compile("(?i:print)");
 		Pattern whileToken = Pattern.compile("(?i:while)");
-		Pattern intToken = Pattern.compile("((?i:\\bint\\b))", Pattern.MULTILINE | Pattern.COMMENTS);
 		Pattern ifToken = Pattern.compile("(?i:if)");
         Pattern typeToken = Pattern.compile("(?i:string|int|boolean)");
+        Pattern digitToken = Pattern.compile("(?i:string|int|boolean)");
+
+        Pattern charToken = Pattern.compile("[a.b.c.d.e.f.g.h.i.j.k.l.m.n.o.p.q.r.s.t.u.v.w.x.y.z]"); //super ugly but it does what I need it to!
+
 
         
 		while ((currentLine = lineScanner.readLine()) != null) { //while current line in text file is not blank
@@ -163,6 +164,17 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 currentLine = currentLine.substring(lexemeValue.end());
                 currentLine = currentLine.trim();
                 lexemeValue = openBracketToken.matcher(currentLine);
+					continue;
+                }
+                
+            lexemeValue = charToken.matcher(currentLine);
+            if (lexemeValue.find()) {
+                                //token type from enum                       lexeme (the match that is found)                       number of line
+                displayMessage(ClassyCompilerTokenTypes.CHAR, currentLine.substring(lexemeValue.start(), lexemeValue.end()), lineNumber);
+                //System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.LEFT_BRACKET + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " + lineNumber);
+                currentLine = currentLine.substring(lexemeValue.end());
+                currentLine = currentLine.trim();
+                lexemeValue = charToken.matcher(currentLine);
 					continue;
                 }
                 
