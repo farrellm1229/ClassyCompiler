@@ -120,7 +120,7 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 }
 
             //Looking for End Of Program symbol ($)   
-            /*lexemeValue = endOfProgram.matcher(currentLine);
+            lexemeValue = endOfProgram.matcher(currentLine);
             if (lexemeValue.find()) {
                 System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.EOP + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " + lineNumber + "\n");
                 System.out.println("------------- Classy Compiler has finished Lexical Analysis of Program: #" + programNumber + " -------------" + "\n");
@@ -131,7 +131,17 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 programNumber++;
 
                     continue;
-                }*/
+                }
+            lexemeValue = assignmentToken.matcher(currentLine);
+            if (lexemeValue.find()) {
+                                //token type from enum                       lexeme (the match that is found)                       number of line
+                displayMessage(ClassyCompilerTokenTypes.ASSIGNMENT, currentLine.substring(lexemeValue.start(), lexemeValue.end()), lineNumber);
+                //System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.LEFT_BRACKET + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " + lineNumber);
+                currentLine = currentLine.substring(lexemeValue.end());
+                currentLine = currentLine.trim();
+                lexemeValue = openBracketToken.matcher(currentLine);
+					continue;
+                }
 
                 continue;
             }
