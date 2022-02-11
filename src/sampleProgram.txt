@@ -4,3 +4,10 @@
 {$
 }$
 =
+true
+false
+truefalse
+int 6 = $
+while
+print
+string
