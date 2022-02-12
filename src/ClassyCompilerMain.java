@@ -98,6 +98,7 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
 					while (lexemeValue.find() == false) { //look for end of comment if we did not find it already
 						lexemeValue = endOfComment.matcher(currentLine);
 						if (lexemeValue.find() == false) { //if we did not find end of comment
+                            currentLine = lineScanner.readLine(); //go to next line
 							break;
 						}
 					
