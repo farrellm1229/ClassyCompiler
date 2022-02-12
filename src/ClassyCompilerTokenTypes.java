@@ -17,7 +17,9 @@
 		DIGIT("T_DIGIT"),
 		BOOL_OP("T_BOOL_OP"),
 		TYPE("T_TYPE"),
+		STRING("T_STRING"),
 		PLUS("T_INT_OP"),
+		ERROR("T_ERROR"),
 		EOP("T_EOP");
 
 		public final String name;

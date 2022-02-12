@@ -13,6 +13,11 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
 
     }
 
+    public static void errorMessage(ClassyCompilerTokenTypes token, String value, int lineNum){
+        System.out.println("ERROR Lexer -  " + token.name + " [ " + value + " ] found at line: " + lineNum);
+
+    }
+
     public static void matchTokens(String currentLineFile) throws IOException{
         //Read Sample/currentLine File
         File sampleProgram = new File(currentLineFile);
@@ -37,7 +42,11 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
         Pattern isEqualToken = Pattern.compile("(?<!=)={2}(?!=)");
         Pattern notEqualToken = Pattern.compile("(!=){1}");
         Pattern additionToken = Pattern.compile("(?<!=)[+{1}](?!=)");
-        Pattern commentToken = Pattern.compile("(//[^\\n]*$|/(?!\\\\)\\*[\\s\\S]*?\\*(?!\\\\)/)");
+        Pattern insideStringToken = Pattern.compile("\"([^\"]*)\"");
+        
+        Pattern error = Pattern.compile("\\b(?!(string|int|boolean|for|while|true|false|print|[a-z.]$)\\b)\\w+\\b");
+        
+		
 
 
         Pattern boolOpToken = Pattern.compile("(?<![!==])!?=(?![!=])");
@@ -54,7 +63,7 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
 		Pattern ifToken = Pattern.compile("(?i:if)");
         Pattern typeToken = Pattern.compile("(?i:string|int|boolean)");
         Pattern digitToken = Pattern.compile("[0-9.]");
-        Pattern charToken = Pattern.compile("[a-z.]");
+        Pattern charToken = Pattern.compile("^[a-z.]$");
 
 
         
@@ -131,6 +140,16 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 lexemeValue = commentToken.matcher(currentLine);
 					continue;
                 } */
+            lexemeValue = insideStringToken.matcher(currentLine);
+            if (lexemeValue.find()) {
+                                //token type from enum                       lexeme (the match that is found)                       number of line
+                displayMessage(ClassyCompilerTokenTypes.STRING, "' '", lineNumber);
+                //System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.LEFT_BRACKET + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " + lineNumber);
+                currentLine = currentLine.substring(lexemeValue.end());
+                currentLine = currentLine.trim();
+                lexemeValue = insideStringToken.matcher(currentLine);
+					continue;
+                }
             //find openBracket
             lexemeValue = openBracketToken.matcher(currentLine);
             if (lexemeValue.find()) {
@@ -287,6 +306,17 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 currentLine = currentLine.trim();
                 lexemeValue = digitToken.matcher(currentLine);
 					continue;
+                }
+
+            lexemeValue = error.matcher(currentLine);
+            if (lexemeValue.find()) {
+                                //token type from enum                       lexeme (the match that is found)                       number of line
+                errorMessage(ClassyCompilerTokenTypes.ERROR, currentLine.substring(lexemeValue.start(), lexemeValue.end()), lineNumber);
+                //System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.LEFT_BRACKET + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " + lineNumber);
+                currentLine = currentLine.substring(lexemeValue.end());
+                currentLine = currentLine.trim();
+                lexemeValue = error.matcher(currentLine);
+                    continue;
                 }
                 
                 //Looking for End Of Program symbol ($)   
