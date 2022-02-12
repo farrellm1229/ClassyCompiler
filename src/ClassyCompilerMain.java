@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
 
     public static void displayMessage(ClassyCompilerTokenTypes token, String value, int lineNum){
-        System.out.println("DEBUG Lexer -  " + token.name + " [ " + value + " ] found at line: " + lineNum);
+        System.out.println("DEBUG Lexer - " + token.name + " [ " + value + " ] found at line: " + lineNum);
 
     }
 
@@ -332,8 +332,9 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 //Looking for End Of Program symbol ($)   
             lexemeValue = endOfProgram.matcher(currentLine);
             if (lexemeValue.find()) {
-                System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.EOP + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " + lineNumber + "\n");
-                System.out.println("INFO  Lexer -  Classy Compiler has finished Lexical Analysis of Program: #" + programNumber + "\n");
+                displayMessage(ClassyCompilerTokenTypes.EOP, currentLine.substring(lexemeValue.start(), lexemeValue.end()), lineNumber);
+                //System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.EOP + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " + lineNumber + "\n");
+                System.out.println("INFO  Lexer - Classy Compiler has finished Lexical Analysis of Program: #" + programNumber + "\n");
                 
                 currentLine = currentLine.substring(lexemeValue.end());
                 currentLine = currentLine.trim();
