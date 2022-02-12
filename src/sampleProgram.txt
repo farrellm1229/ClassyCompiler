@@ -1,6 +1,3 @@
-{}$	
-ok
-idkkoi
-print
-int
-01
+!=
+=
+==
