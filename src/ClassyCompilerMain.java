@@ -14,12 +14,12 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
     }
 
     public static void errorMessage(ClassyCompilerTokenTypes token, String value, int lineNum){
-        System.out.println("ERROR Lexer -  " + token.name + " [ " + value + " ] found at line: " + lineNum);
+        System.out.println("ERROR Lexer - " + token.name + " Unrecognized Token [ " + value + " ] found at line: " + lineNum);
 
     }
 
     public static void matchTokens(String currentLineFile) throws IOException{
-        //Read Sample/currentLine File
+        //Read Sample Program File
         File sampleProgram = new File(currentLineFile);
 		BufferedReader lineScanner = new BufferedReader(new FileReader(sampleProgram));
 
@@ -54,16 +54,16 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
         
         Pattern endOfComment = Pattern.compile("\\*/");
         Pattern startOfComment = Pattern.compile("^/\\*");
-		Pattern doubleSlashComment = Pattern.compile("^//");
 
         
         //keywords
         Pattern boolValToken = Pattern.compile("(?i:false|true)");
 		Pattern whileToken = Pattern.compile("(?i:while)");
 		Pattern ifToken = Pattern.compile("(?i:if)");
-        Pattern typeToken = Pattern.compile("(?i:string|int|boolean)");
+        Pattern typeToken = Pattern.compile("\\b(?i:string|int|boolean)\\b");
         Pattern digitToken = Pattern.compile("[0-9.]");
         Pattern charToken = Pattern.compile("^[a-z.]$");
+        Pattern printToken = Pattern.compile("(?i:print)");
 
 
         
@@ -221,6 +221,16 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 currentLine = currentLine.trim();
                 lexemeValue = whileToken.matcher(currentLine);
 					continue;
+                }
+            lexemeValue = printToken.matcher(currentLine);
+            if (lexemeValue.find()) {
+                                //token type from enum                       lexeme (the match that is found)                       number of line
+                displayMessage(ClassyCompilerTokenTypes.PRINT, currentLine.substring(lexemeValue.start(), lexemeValue.end()), lineNumber);
+                //System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.LEFT_BRACKET + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " + lineNumber);
+                currentLine = currentLine.substring(lexemeValue.end());
+                currentLine = currentLine.trim();
+                lexemeValue = printToken.matcher(currentLine);
+                    continue;
                 }
                
 
