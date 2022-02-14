@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,6 +32,29 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
         Boolean ignoreComment = false;
 
 
+		ArrayList<ClassyCompilerTokenTypes> lexemes=new ArrayList<ClassyCompilerTokenTypes>();
+
+        // KEYWORDS REGEX
+        lexemes.add(new TokenStream(Pattern.compile("(?i:if)"),ClassyCompilerTokenTypes.IF));
+		lexemes.add(new TokenStream(Pattern.compile("(?i:while)"),ClassyCompilerTokenTypes.WHILE));
+		lexemes.add(new TokenStream(Pattern.compile("(?i:print)"),ClassyCompilerTokenTypes.PRINT));
+		lexemes.add(new TokenStream(Pattern.compile("\\b(?i:string|int|boolean)\\b"),ClassyCompilerTokenTypes.TYPE));
+		lexemes.add(new TokenStream(Pattern.compile("[0-9.]"),ClassyCompilerTokenTypes.DIGIT));
+		lexemes.add(new TokenStream(Pattern.compile("\"([^\"]*)\""),ClassyCompilerTokenTypes.STRING));
+		lexemes.add(new TokenStream(Pattern.compile("(?i:false|true)"),ClassyCompilerTokenTypes.BOOL_VAL));
+		lexemes.add(new TokenStream(Pattern.compile("^([a-z.])"),ClassyCompilerTokenTypes.CHAR));
+		
+		// SYMBOLS REGEX
+		lexemes.add(new TokenStream(Pattern.compile("^(\\{)"),ClassyCompilerTokenTypes.LEFT_BRACKET));
+		lexemes.add(new TokenStream(Pattern.compile("^(\\})"),ClassyCompilerTokenTypes.RIGHT_BRACKET));
+		lexemes.add(new TokenStream(Pattern.compile("^(\\()"),ClassyCompilerTokenTypes.LEFT_PARENTHESIS));
+		lexemes.add(new TokenStream(Pattern.compile("^(\\))"),ClassyCompilerTokenTypes.RIGHT_PARENTHESIS));
+		lexemes.add(new TokenStream(Pattern.compile("((!=)|(==))"),ClassyCompilerTokenTypes.BOOL_OP));
+		lexemes.add(new TokenStream(Pattern.compile("^(=)"),ClassyCompilerTokenTypes.ASSIGNMENT));
+		lexemes.add(new TokenStream(Pattern.compile("(?<!=)[+.](?!=)"),ClassyCompilerTokenTypes.PLUS));
+		lexemes.add(new TokenStream(Pattern.compile("([$])"),ClassyCompilerTokenTypes.EOP));
+
+
         //REGEX pattern matching for creating tokens and matching lexemes
         //symbols
         Pattern openBracketToken = Pattern.compile("\\{", Pattern.MULTILINE);
@@ -39,7 +63,7 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
         Pattern openParenthesisToken = Pattern.compile("\\(");
         Pattern closeParenthesisToken = Pattern.compile("\\)");
         Pattern assignmentToken = Pattern.compile("(?<![=!])=(?!=)");
-        Pattern additionToken = Pattern.compile("(?<!=)[+{1}](?!=)");
+        Pattern additionToken = Pattern.compile("(?<!=)[+.](?!=)");
         Pattern insideStringToken = Pattern.compile("\"([^\"]*)\"");
         
         Pattern error = Pattern.compile("\\b(?!(string|int|boolean|for|while|true|false|print|[a-z.]$)\\b)\\w+\\b");
@@ -249,7 +273,7 @@ public class ClassyCompilerMain { //good name? maybe, maybe not...but maybe?
                 //System.out.println("DEBUG Lexer - " + ClassyCompilerTokenTypes.LEFT_BRACKET + " [ " + currentLine.substring(lexemeValue.start(), lexemeValue.end()) + " ] found at line: " + lineNumber);
                 currentLine = currentLine.substring(lexemeValue.end());
                 currentLine = currentLine.trim();
-                lexemeValue = openBracketToken.matcher(currentLine);
+                lexemeValue = assignmentToken.matcher(currentLine);
 					continue;
                 } 
                 //find not equals sign (!=)
