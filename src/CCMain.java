@@ -64,6 +64,17 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 		String currentLine = sampleProgramContents; //I refer to this variable to move the buffer/scanner
         //to the next line when reading multiline comments, as well as when there is nothing left to read
 
+        /*--------------------------------------------------------------------------*/
+        /* --- ALL REGEX WERE CREATED AND TESTED USING https://regex101.com/ --- */
+        /*--------------------------------------------------------------------------*/
+
+        /*Like I described in the comments and sample program commit messages
+        sometimes the token stream gets created out of order. The order and specific
+        pattern changes things even when it seems like it shouldn't. This is a work in progress
+        but for the most part everything gets read the way it should, with some minor exceptions
+        displayed in the test cases.
+        */
+
         //REGEX pattern matching for KEYWORDS/SYMBOLS as well as adding them to the array list
         //(I have tried to move around the order and it results in the lexer recognizing
         //certain symbols before others. I have found this is the best way to order them)
