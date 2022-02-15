@@ -11,6 +11,6 @@ Testing will be achieved with the compilation command
   > javac CCMain.java 
 
 Input will be taken as a command line parameter, e.g.,
-  > java mainFileName sampleProgram(s).txt
+  > java CCMain sampleProgram(s).txt
 
 and write output to standard out.
