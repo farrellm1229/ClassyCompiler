@@ -19,7 +19,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
         System.out.println("ERROR Lexer - Unrecognized Token [ " + value + " ] found at line: " + (lineNum-1));
     }
 	public static void warningMessage(int lineNum) {
-        System.out.println("WARNING Lexer - Unterminated Comment! found at line: " + lineNum);
+        System.out.println("    WARNING - Unterminated Comment! found at line: " + lineNum);
 
     }
 
@@ -71,10 +71,10 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:while)"), CCTokenTypes.WHILE));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:print)"), CCTokenTypes.PRINT));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("\\b(?i:string|int|boolean)\\b"), CCTokenTypes.TYPE));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("^((-)?[0-9]+)"), CCTokenTypes.DIGIT));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("\\b[0-9.]\\b"), CCTokenTypes.DIGIT));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\".*\")"), CCTokenTypes.STRING));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(true|false)"), CCTokenTypes.BOOL_VAL));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("^([a-z.])"), CCTokenTypes.CHAR));	
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:true|false)"), CCTokenTypes.BOOL_VAL));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("\\b[a-z.]\\b"), CCTokenTypes.CHAR));	
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\{)"), CCTokenTypes.LEFT_BRACKET));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\})"), CCTokenTypes.RIGHT_BRACKET));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\()"), CCTokenTypes.LEFT_PARENTHESIS));
@@ -209,8 +209,10 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
             //if we do, that means we have at least one error
 			int numberOfErrors = 1;
 			errorMessage(unrecognizedSymbol, lineNumber - 1);
-			System.out.print("\nINFO  Lexer - Classy Compiler has failed lexical analysis due to " + numberOfErrors + " error(s).\n");
-			numberOfErrors = numberOfErrors + 1;
+            System.out.println("-----------------------------------------------------------");
+			System.out.print("INFO  Lexer - Classy Compiler has failed lexical analysis due to " + numberOfErrors + " error(s).\n");
+            System.out.println("-----------------------------------------------------------");
+            numberOfErrors = numberOfErrors + 1;
 		}
     
         lineScanner.close();
