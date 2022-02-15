@@ -1,0 +1,11 @@
+/*this program
+tests multi-line comments
+and multiple programs separated by $ */
+{
+boolean 2 /*hey the words are still right ok*/
+if boolean == true
+print 7
+}$
+
+while 1 == 2
+print(a)$

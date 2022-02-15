@@ -1,0 +1,9 @@
+{
+    string while if
+    if 7 == true
+    print(false)
+}$
+{
+    if 8 != boolean
+    7 + 7 = 4
+}

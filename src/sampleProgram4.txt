@@ -1,0 +1,7 @@
+/* This exposes some of my flaws (don't judge I am very insecure)
+ It stores everything after the first 
+unrecognized symbol rather than just the first instance. This will be fixed.*/
+trueprintwhile 2 if a @int7$
+/*this also shows the misorder of reading the token stream I was talking about in my comments.
+this will also be fixed. Also, the line numbers/number of errors for error messages
+are not perfect.*/
