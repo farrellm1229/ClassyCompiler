@@ -2,7 +2,7 @@
 	but it doesn't allow me to import the enum, removing the class name
 	fixed the issue.
 */
-public enum ClassyCompilerTokenTypes {
+public enum CCTokenTypes {
 	  
 	LEFT_BRACKET("T_OPEN_BRACE"),
 	RIGHT_BRACKET("T_CLOSE_BRACE"),
@@ -24,7 +24,7 @@ public enum ClassyCompilerTokenTypes {
 
 	public final String name;
 
-	private ClassyCompilerTokenTypes(String name) { //this allows me to have the corresponding string values
+	private CCTokenTypes(String name) { //this allows me to have the corresponding string values
 													//for the token names
 		this.name = name;
 		
