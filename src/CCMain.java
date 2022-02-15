@@ -91,7 +91,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
    
 		//unrecognizedSymbol stores any symbols that are not
         //considered tokens by the lexer/our grammar
-		String unrecognizedSymbol=null;
+		String unrecognizedSymbol = "";
 		
 		while ((currentLine = lineScanner.readLine()) != null) { //while current line in text file is not blank
                 
@@ -184,7 +184,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 				}
 				
 				//get rid of LPM from current line in sample program
-				currentLine=longestPossibleMatch.replaceFirst("");
+				currentLine = longestPossibleMatch.replaceFirst("");
 	
 				//put LPM into the other arraylist
 				CCToken lpmToken = new CCToken(lpmData.getType().name(),value);
@@ -195,7 +195,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 			else {
                  //if an unrecognized symbol is found
                  //set it to the current line
-				unrecognizedSymbol=currentLine;
+				unrecognizedSymbol = currentLine;
 				break;
             }
 			//lineNumber++;
