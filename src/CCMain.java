@@ -65,7 +65,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
         //to the next line when reading multiline comments, as well as when there is nothing left to read
 
         /*--------------------------------------------------------------------------*/
-        /* --- ALL REGEX WERE CREATED AND TESTED USING https://regex101.com/ --- */
+        /*  ---  ALL REGEX WERE CREATED AND TESTED USING https://regex101.com/  --- */
         /*--------------------------------------------------------------------------*/
 
         /*Like I described in the comments and sample program commit messages
@@ -81,7 +81,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:if)"), CCTokenTypes.IF));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:while)"), CCTokenTypes.WHILE));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:print)"), CCTokenTypes.PRINT));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("\\b(?i:string|int|boolean)\\b"), CCTokenTypes.TYPE));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:string|int|boolean)"), CCTokenTypes.TYPE));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^((-)?[0-9.])"), CCTokenTypes.DIGIT));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("\\\"([^\\\"]*)\\\""), CCTokenTypes.STRING));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:true|false)"), CCTokenTypes.BOOL_VAL));
