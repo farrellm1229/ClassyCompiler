@@ -178,7 +178,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 				if (lpmData.getType().name == "T_EOP") {
 					//int programNumber = 1;
 					System.out.println("-----------------------------------------------------------");
-                    System.out.println("\nINFO  Lexer - Classy Compiler has finished lexical analysis of Program #" + programNumber + "\n");
+                    System.out.println("INFO  Lexer - Classy Compiler has finished lexical analysis of Program #" + programNumber);
 					System.out.println("-----------------------------------------------------------");
 					programNumber = programNumber + 1;
 				}
@@ -218,7 +218,9 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 	}
 	
     public static void main(String[] args) throws IOException{
-        System.out.println("\nINFO  Lexer - Welcome To The Classy Compiler!\n");
+        System.out.println("-----------------------------------------------------------");
+        System.out.println("INFO  Lexer - Welcome To The Classy Compiler!");
+        System.out.println("-----------------------------------------------------------");
         
         matchTokens(args[0]);
         //call match tokens, args[0] represents the sample program file
