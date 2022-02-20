@@ -68,16 +68,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
         /*  ---  ALL REGEX WERE CREATED AND TESTED USING https://regex101.com/  --- */
         /*--------------------------------------------------------------------------*/
 
-        /*Like I described in the comments and sample program commit messages
-        sometimes the token stream gets created out of order. The order and specific
-        pattern changes things even when it seems like it shouldn't. This is a work in progress
-        but for the most part everything gets read the way it should, with some minor exceptions
-        displayed in the test cases.
-        */
-
-        //REGEX pattern matching for KEYWORDS/SYMBOLS as well as adding them to the array list
-        //(I have tried to move around the order and it results in the lexer recognizing
-        //certain symbols before others. I have found this is the best way to order them)
+        //REGEX pattern matching for KEYWORDS/SYMBOLS as well as adding them to the array list        
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(if)"), CCTokenTypes.IF));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(while)"), CCTokenTypes.WHILE));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(print)"), CCTokenTypes.PRINT));
