@@ -85,16 +85,16 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^((-)?[0-9.])"), CCTokenTypes.DIGIT));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("\\\"([^\\\"]*)\\\""), CCTokenTypes.STRING));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(true|false)"), CCTokenTypes.BOOL_VAL));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("\\b[a-z.]\\b"), CCTokenTypes.CHAR));	
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^[a-z.]"), CCTokenTypes.CHAR));	
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\{)"), CCTokenTypes.LEFT_BRACKET));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\})"), CCTokenTypes.RIGHT_BRACKET));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\()"), CCTokenTypes.LEFT_PARENTHESIS));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\))"), CCTokenTypes.RIGHT_PARENTHESIS));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(==)"), CCTokenTypes.BOOL_OP));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?<![=!])=(?!=)"), CCTokenTypes.ASSIGNMENT));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(?<![=!])=(?!=)"), CCTokenTypes.ASSIGNMENT));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(!=)"), CCTokenTypes.BOOL_OP));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\+)"), CCTokenTypes.PLUS));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("([$])"), CCTokenTypes.EOP));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^([$])"), CCTokenTypes.EOP));
         
         //REGEX pattern matching for finding start and end comment symbols
         Pattern endOfComment = Pattern.compile("\\*/");
