@@ -78,23 +78,23 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
         //REGEX pattern matching for KEYWORDS/SYMBOLS as well as adding them to the array list
         //(I have tried to move around the order and it results in the lexer recognizing
         //certain symbols before others. I have found this is the best way to order them)
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:if)"), CCTokenTypes.IF));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:while)"), CCTokenTypes.WHILE));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:print)"), CCTokenTypes.PRINT));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:string|int|boolean)"), CCTokenTypes.TYPE));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(if)"), CCTokenTypes.IF));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(while)"), CCTokenTypes.WHILE));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(print)"), CCTokenTypes.PRINT));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(string|int|boolean)"), CCTokenTypes.TYPE));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^((-)?[0-9.])"), CCTokenTypes.DIGIT));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("\\\"([^\\\"]*)\\\""), CCTokenTypes.STRING));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:true|false)"), CCTokenTypes.BOOL_VAL));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("\\b[a-z.]\\b"), CCTokenTypes.CHAR));	
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\\"([^\\\"\\n]*)\\\")"), CCTokenTypes.STRING));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(true|false)"), CCTokenTypes.BOOL_VAL));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^[a-z.]"), CCTokenTypes.CHAR));	
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\{)"), CCTokenTypes.LEFT_BRACKET));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\})"), CCTokenTypes.RIGHT_BRACKET));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\()"), CCTokenTypes.LEFT_PARENTHESIS));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\))"), CCTokenTypes.RIGHT_PARENTHESIS));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(==)"), CCTokenTypes.BOOL_OP));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?<![=!])=(?!=)"), CCTokenTypes.ASSIGNMENT));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(?<![=!])=(?!=)"), CCTokenTypes.ASSIGNMENT));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(!=)"), CCTokenTypes.BOOL_OP));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\+)"), CCTokenTypes.PLUS));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("([$])"), CCTokenTypes.EOP));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^([$])"), CCTokenTypes.EOP));
         
         //REGEX pattern matching for finding start and end comment symbols
         Pattern endOfComment = Pattern.compile("\\*/");
