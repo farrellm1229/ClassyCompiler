@@ -83,7 +83,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(print)"), CCTokenTypes.PRINT));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(string|int|boolean)"), CCTokenTypes.TYPE));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^((-)?[0-9.])"), CCTokenTypes.DIGIT));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("\\\"([^\\\"]*)\\\""), CCTokenTypes.STRING));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\\"([^\\\"\\n]*)\\\")"), CCTokenTypes.STRING));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(true|false)"), CCTokenTypes.BOOL_VAL));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^[a-z.]"), CCTokenTypes.CHAR));	
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\{)"), CCTokenTypes.LEFT_BRACKET));
