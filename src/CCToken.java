@@ -8,6 +8,13 @@ public class CCToken {
 		this.tokenType=tokenType;
 		this.token=token;
 	}
+
+	public String getTypeOfToken() {
+		return tokenType;
+	}
+	public String getValueOfToken() {
+		return token;
+	}
 	
 
 	

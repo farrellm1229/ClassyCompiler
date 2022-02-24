@@ -216,7 +216,12 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
             System.out.println("-----------------------------------------------------------");
             numberOfErrors = numberOfErrors + 1;
 		}
+
+        //Begin Parsing Process
+        CCParser parser = new CCParser();
+        System.out.println("DEBUG Parser - Classy Compiler " + parser.parseOutcome(listOfTokens));
     
+
         lineScanner.close();
         readFileContents.close();
 	}
