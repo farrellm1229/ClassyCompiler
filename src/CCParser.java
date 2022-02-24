@@ -7,10 +7,23 @@ public class CCParser {
     public boolean result;
     static int indexOfToken = 0;
 
-    public boolean parseOutcome(ArrayList<CCToken> tokenStream){
+    public boolean parseOutcome(ArrayList<CCToken> tokenStream) {
 
         resultOfParse = program();
         return resultOfParse;
+    }
+
+    public boolean program() {
+        if (blockStart() == true) {
+            if (blockEnd() == true){
+                result = true;
+            }
+        }
+        else {
+            result = false;
+        }
+        return result;
+
     }
     
 }
