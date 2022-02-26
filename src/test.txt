@@ -1,2 +1,2 @@
 /*ok*/
-{print(1+2+3) print("ok") print(7)}
+{a=1+2+3}

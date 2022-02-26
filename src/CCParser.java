@@ -116,6 +116,10 @@ public class CCParser {
                
         }
     }
+        if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
+            result = blockEnd();
+        }
+
         //}
 
         //blockEnd();
@@ -148,16 +152,24 @@ public class CCParser {
         //checking for int expr 
         if ((tokens.get(indexOfToken).getTypeOfToken().equals("DIGIT"))) {
             indexOfToken = indexOfToken + 1;
-        
             if (!tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
+
+                result = statementList();
+            }
+        
+            if (tokens.get(indexOfToken).getTypeOfToken().equals("PLUS")) {
                 result = intExpr(); //found digit, next token must be + so check for intExpr
             }
 
             if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
 
-                //result = true;
                 System.out.println("yup");
                 indexOfToken = indexOfToken + 1;
+
+            //    result = endOfPrintStatement();
+
+                //result = true;
+                //indexOfToken = indexOfToken + 1;
                 if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
                     result = blockEnd();
                 }
@@ -211,6 +223,12 @@ public class CCParser {
         //result = statementList();
         return result;
     }
+    /*public boolean endOfPrintStatement() {
+        if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
+
+        }
+        
+    } */
 
 }
 
