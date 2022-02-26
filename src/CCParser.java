@@ -119,6 +119,27 @@ public class CCParser {
         if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
             result = blockEnd();
         }
+        //check for variable declaration
+        if (tokens.get(indexOfToken).getTypeOfToken().equals("TYPE")) {
+            indexOfToken = indexOfToken + 1;
+            if (tokens.get(indexOfToken).getTypeOfToken().equals("CHAR")) {
+                System.out.println("variable declared!");
+                indexOfToken = indexOfToken + 1;
+                result = statementList();
+                if (tokens.get(indexOfToken).getTypeOfToken().equals("ASSIGNMENT")){
+                    indexOfToken = indexOfToken + 1;
+                    result = expression();
+                }
+                if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
+                    result = blockEnd();
+
+                }
+            }
+
+                
+
+        }
+
 
         //}
 
