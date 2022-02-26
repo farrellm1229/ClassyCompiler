@@ -225,6 +225,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
         lineScanner.close();
         readFileContents.close();
 	}
+    
 	
     public static void main(String[] args) throws IOException{
         System.out.println("-----------------------------------------------------------");
@@ -234,6 +235,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
         matchTokens(args[0]);
         //call match tokens, args[0] represents the sample program file
         //when running java ClassyCompilerMain sampleProgram.txt
+        
 
     }
     
