@@ -44,7 +44,7 @@ public class CCParser {
             //in the token stream
             indexOfToken = indexOfToken + 1;
 
-            result = statementList();
+            result = statementList(); //check for statement list inside block
             //blockEnd(); //since we found the start, look for the end
            
         }
@@ -133,12 +133,22 @@ public class CCParser {
         return result;
         
     }
+    public boolean stringExpr() {
+        if (tokens.get(indexOfToken).getTypeOfToken().equals("STRING")) {
+            indexOfToken = indexOfToken + 1;
+            result = statementList();
+
+        }
+        return result;
+        
+    }
 
     public boolean expression() {
         //expression can be IntExpr, StringExpr, BooleanExpr, or ID
         //checking for int expr 
         if ((tokens.get(indexOfToken).getTypeOfToken().equals("DIGIT"))) {
             indexOfToken = indexOfToken + 1;
+        
             if (!tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
                 result = intExpr(); //found digit, next token must be + so check for intExpr
             }
@@ -155,32 +165,34 @@ public class CCParser {
                 
                     result = statementList();
                 }
-            
-        
-        else{
-            if(tokens.get(indexOfToken).getTypeOfToken().equals("STRING")) {
-                indexOfToken = indexOfToken + 1;
+            }
+        }
+       // else {
+           //check for StringExpr
+            else if(tokens.get(indexOfToken).getTypeOfToken().equals("STRING")) {
+                //indexOfToken = indexOfToken + 1;
                 System.out.println("Found string");
+                result = stringExpr();
                 
         }
 
-        }
+      //  }
     
         //checking for string expr 
-        if ((tokens.get(indexOfToken).getTypeOfToken().equals("STRING"))) {
+        /*if ((tokens.get(indexOfToken).getTypeOfToken().equals("STRING"))) {
             indexOfToken = indexOfToken + 1;
 
-        }
+        } */
         //checking for boolean expr 
         if ((tokens.get(indexOfToken).getTypeOfToken().equals("BOOLEAN"))) {
             indexOfToken = indexOfToken + 1;
 
         }
-    }
+    //}
 
-}
+//}
 
-    statementList();
+    //statementList();
     return result;
 
 
