@@ -134,11 +134,17 @@ public class CCParser {
                     result = blockEnd();
 
                 }
-            }
-
-                
+            }   
 
         }
+        if (tokens.get(indexOfToken).getTypeOfToken().equals("WHILE")) {
+            indexOfToken = indexOfToken + 1;
+            result = booleanExpr();
+
+
+        }
+
+
 
 
         //}
@@ -149,6 +155,25 @@ public class CCParser {
 
     
 //}
+    public boolean booleanExpr(){
+        if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_PARENTHESIS")) {
+            indexOfToken = indexOfToken + 1;
+            //result = expression();
+            exprForBoolExpr();
+            if (exprForBoolExpr() == true){
+                System.out.println("12345");
+                //System.out.println(tokens.get(indexOfToken-4).getValueOfToken());
+                //indexOfToken = indexOfToken + 1;
+                if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
+                    System.out.println("6789");
+                }
+                result = true;
+            }
+        }
+        return result;
+
+
+    }
     public boolean intExpr() {
         if (tokens.get(indexOfToken).getTypeOfToken().equals("PLUS")) {
             indexOfToken = indexOfToken + 1;
@@ -225,6 +250,113 @@ public class CCParser {
 
 //}
 
+    //statementList();
+    return result;
+
+
+            
+    }
+
+    public boolean exprForBoolExpr() { 
+        //expression can be IntExpr, StringExpr, BooleanExpr, or ID
+        if (tokens.get(indexOfToken).getTypeOfToken().equals("CHAR")) {
+            indexOfToken = indexOfToken + 1;
+            if (tokens.get(indexOfToken).getTypeOfToken().equals("BOOL_OP")) {
+                indexOfToken = indexOfToken + 1;
+                if (tokens.get(indexOfToken).getTypeOfToken().equals("BOOL_VAL")) {
+                    System.out.println("working");
+                    indexOfToken = indexOfToken + 1;
+                    if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
+                        System.out.println("ok");
+                        indexOfToken = indexOfToken + 1;
+                        if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_BRACKET")) {
+
+                            indexOfToken = indexOfToken + 1;
+                            statementList();
+                            if (statementList() == true){
+                                System.out.println("success");
+                                indexOfToken = indexOfToken + 1;
+                                if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
+
+                                    System.out.println("end of boolexpr");
+
+                                }
+
+
+
+                            }
+
+
+                        }
+
+                    }
+
+
+                }
+
+
+            }
+
+            
+
+        }
+        /*
+        //checking for int expr 
+        if ((tokens.get(indexOfToken).getTypeOfToken().equals("DIGIT"))) {
+            indexOfToken = indexOfToken + 1;
+            if (!tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
+
+                result = statementList();
+            }
+        
+            if (tokens.get(indexOfToken).getTypeOfToken().equals("PLUS")) {
+                indexOfToken = indexOfToken + 1;
+                //result = intExpr(); //found digit, next token must be + so check for intExpr
+            }
+
+            if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
+
+                System.out.println("nope");
+                indexOfToken = indexOfToken + 1;
+
+            //    result = endOfPrintStatement();
+
+                //result = true;
+                //indexOfToken = indexOfToken + 1;
+                if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
+                    result = blockEnd();
+                }
+                if(!tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
+                
+                    result = statementList();
+                }
+            }
+        }
+       // else {
+           //check for StringExpr
+            else if(tokens.get(indexOfToken).getTypeOfToken().equals("STRING")) {
+                //indexOfToken = indexOfToken + 1;
+                System.out.println("Found string");
+                result = stringExpr();
+                
+        }
+
+      //  }
+    
+        //checking for string expr 
+        /*if ((tokens.get(indexOfToken).getTypeOfToken().equals("STRING"))) {
+            indexOfToken = indexOfToken + 1;
+
+        } */ /*
+        //checking for boolean expr 
+        if ((tokens.get(indexOfToken).getTypeOfToken().equals("BOOLEAN"))) {
+            indexOfToken = indexOfToken + 1;
+
+        }
+    //}
+
+//}
+*/
     //statementList();
     return result;
 
