@@ -97,6 +97,7 @@ public class CCParser {
     }
 
     public boolean statementList() {
+
         
         //if (statement() == true) {
           //  if (statementList() == true){
@@ -104,24 +105,19 @@ public class CCParser {
             indexOfToken = indexOfToken + 1; //look for ( ) after print
             result = printStatement();
 
-            //result = true;   
-            //if ((tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_PARENTHESIS"))) {
-              //  indexOfToken = indexOfToken + 1; //look for ( expression ) after (
-                //expression();
-        //}
-    }
+        }
         //look for assignment statement ( ID = EXPR )
         if ((tokens.get(indexOfToken).getTypeOfToken().equals("CHAR"))) { // looking for ID
             indexOfToken = indexOfToken + 1; //look for = after ID in assignment statement
             if ((tokens.get(indexOfToken).getTypeOfToken().equals("ASSIGNMENT"))) { // looking for ID
                 indexOfToken = indexOfToken + 1; //look for expression after = in assignment statement
                 result = expression();
-                
                
+            }
         }
-    }
+
         if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
-            result = blockEnd();
+            result = blockEnd(); //must be end of block so go to block end
         }
         //check for variable declaration
         if (tokens.get(indexOfToken).getTypeOfToken().equals("TYPE")) {
@@ -142,6 +138,14 @@ public class CCParser {
 
         }
         if (tokens.get(indexOfToken).getTypeOfToken().equals("WHILE")) {
+            indexOfToken = indexOfToken + 1;
+            if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_PARENTHESIS")) {
+                indexOfToken = indexOfToken + 1;
+                result = booleanExpr();
+
+            }
+        }
+        if (tokens.get(indexOfToken).getTypeOfToken().equals("IF")) {
             indexOfToken = indexOfToken + 1;
             if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_PARENTHESIS")) {
                 indexOfToken = indexOfToken + 1;
@@ -176,9 +180,18 @@ public class CCParser {
                             indexOfToken = indexOfToken + 1;
                             statementList();
                             if (statementList()==true){
-                                System.out.println("GOOD");
-                                result = true;
-                            }
+                                //System.out.println(tokens.get(indexOfToken).getValueOfToken());
+                                
+                            //}
+                                if(!tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
+                                    //end of program not found yet, so check for another statement
+                                    result = statementList();
+                                }
+                                else {
+                                    result = blockEnd();
+                                }
+                        }
+
                         }
                 }
                 }

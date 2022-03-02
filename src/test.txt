@@ -1,4 +1,6 @@
 /*ok*/
 {
-while(a == true){print(8)}
+if(a==2){
+print(9)
+}
 }

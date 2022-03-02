@@ -219,7 +219,19 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 
         //Begin Parsing Process
         CCParser parser = new CCParser();
-        System.out.println("DEBUG Parser - Classy Compiler " + parser.parseOutcome(listOfTokens));
+        boolean parseStatus = parser.parseOutcome(listOfTokens);
+        if (parseStatus == true) {
+            System.out.println("-----------------------------------------------------------");
+            System.out.print("INFO  Parser - Classy Compiler Parser Outcome: SUCCESS\n");
+            System.out.println("-----------------------------------------------------------");
+
+        }
+        else {
+            System.out.println("-----------------------------------------------------------");
+            System.out.print("INFO  Parser - Classy Compiler Parser Outcome: FAILED");
+            System.out.println("-----------------------------------------------------------");
+
+        }
     
 
         lineScanner.close();
