@@ -228,7 +228,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
         }
         else {
             System.out.println("-----------------------------------------------------------");
-            System.out.print("INFO  Parser - Classy Compiler Parser Outcome: FAILED");
+            System.out.print("INFO  Parser - Classy Compiler Parser Outcome: FAILED\n");
             System.out.println("-----------------------------------------------------------");
 
         }

@@ -1,6 +1,5 @@
 /*ok*/
 {
-if(a==2){
-print(9)
-}
+boolean b
+b = true
 }

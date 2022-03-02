@@ -223,7 +223,7 @@ public class CCParser {
     public boolean expression() {
         //expression can be IntExpr, StringExpr, BooleanExpr, or ID
         //checking for int expr 
-        if ((tokens.get(indexOfToken).getTypeOfToken().equals("DIGIT"))) {
+        if ((tokens.get(indexOfToken).getTypeOfToken().equals("DIGIT")) || tokens.get(indexOfToken).getTypeOfToken().equals(("BOOL_VAL"))) {
             indexOfToken = indexOfToken + 1;
             if (!tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
 
@@ -254,7 +254,7 @@ public class CCParser {
         }
        // else {
            //check for StringExpr
-            else if(tokens.get(indexOfToken).getTypeOfToken().equals("STRING")) {
+            if(tokens.get(indexOfToken).getTypeOfToken().equals("STRING")) {
                 //indexOfToken = indexOfToken + 1;
                 System.out.println("Found string");
                 result = stringExpr();
