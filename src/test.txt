@@ -1,5 +1,4 @@
 /*ok*/
-{while(a==true){
-print(7+1)
-}
+{
+while(a == true){print(8)}
 }

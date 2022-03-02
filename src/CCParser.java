@@ -44,7 +44,11 @@ public class CCParser {
             //in the token stream
             indexOfToken = indexOfToken + 1;
 
-            result = statementList(); //check for statement list inside block
+            statementList();
+            if (statementList() == true){
+                result = blockEnd();
+            }
+            //result = statementList(); //check for statement list inside block
             //blockEnd(); //since we found the start, look for the end
            
         }
@@ -139,9 +143,11 @@ public class CCParser {
         }
         if (tokens.get(indexOfToken).getTypeOfToken().equals("WHILE")) {
             indexOfToken = indexOfToken + 1;
-            result = booleanExpr();
+            if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_PARENTHESIS")) {
+                indexOfToken = indexOfToken + 1;
+                result = booleanExpr();
 
-
+            }
         }
 
 
@@ -156,18 +162,26 @@ public class CCParser {
     
 //}
     public boolean booleanExpr(){
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_PARENTHESIS")) {
-            indexOfToken = indexOfToken + 1;
-            //result = expression();
-            exprForBoolExpr();
-            if (exprForBoolExpr() == true){
-                System.out.println("12345");
-                //System.out.println(tokens.get(indexOfToken-4).getValueOfToken());
-                //indexOfToken = indexOfToken + 1;
-                if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
-                    System.out.println("6789");
+
+
+        if (tokens.get(indexOfToken).getTypeOfToken().equals("CHAR")) {
+            indexOfToken = indexOfToken + 1;        
+            if (tokens.get(indexOfToken).getTypeOfToken().equals("BOOL_OP")) {
+                indexOfToken = indexOfToken + 1;        
+                if ((tokens.get(indexOfToken).getTypeOfToken().equals("DIGIT")) || (tokens.get(indexOfToken).getTypeOfToken().equals("BOOL_VAL"))) {
+                    indexOfToken = indexOfToken + 1;
+                    if(tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
+                        indexOfToken = indexOfToken + 1;
+                        if(tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_BRACKET")) {
+                            indexOfToken = indexOfToken + 1;
+                            statementList();
+                            if (statementList()==true){
+                                System.out.println("GOOD");
+                                result = true;
+                            }
+                        }
                 }
-                result = true;
+                }
             }
         }
         return result;
@@ -261,6 +275,11 @@ public class CCParser {
         //expression can be IntExpr, StringExpr, BooleanExpr, or ID
         if (tokens.get(indexOfToken).getTypeOfToken().equals("CHAR")) {
             indexOfToken = indexOfToken + 1;
+            result = booleanExpr();
+        }
+        /*
+        if (tokens.get(indexOfToken).getTypeOfToken().equals("CHAR")) {
+            indexOfToken = indexOfToken + 1;
             if (tokens.get(indexOfToken).getTypeOfToken().equals("BOOL_OP")) {
                 indexOfToken = indexOfToken + 1;
                 if (tokens.get(indexOfToken).getTypeOfToken().equals("BOOL_VAL")) {
@@ -278,9 +297,21 @@ public class CCParser {
                                 indexOfToken = indexOfToken + 1;
                                 if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
 
+                                    result = blockEnd();
                                     System.out.println("end of boolexpr");
+                                
+                                    indexOfToken = indexOfToken + 1;
+                                    
 
                                 }
+                                else{
+                                    System.out.println("not end yet of program");
+                                    result = statementList();
+
+                                }
+
+
+
 
 
 
@@ -299,7 +330,7 @@ public class CCParser {
 
             
 
-        }
+        } */
         /*
         //checking for int expr 
         if ((tokens.get(indexOfToken).getTypeOfToken().equals("DIGIT"))) {
