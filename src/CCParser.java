@@ -68,7 +68,10 @@ public class CCParser {
 
             //programEnd();
             //blockEnd(); //since we found the start, look for the end
-            result = true; 
+            result = true;
+
+            
+            
         }
         else {
             //System.out.print(tokens);
@@ -77,20 +80,33 @@ public class CCParser {
             result = false;
             
         }
+        
         return result;
     }
 
     public boolean programEnd() {
-        if (blockEnd() == true) {
-            if (tokens.get(indexOfToken).getTypeOfToken().equals("EOP")) {
-                result = true;
-                program();
+    
+        if (tokens.get(indexOfToken).getTypeOfToken().equals("EOP")) {
+            result = true;
+            System.out.println("FOUND EOP");
+            indexOfToken = indexOfToken + 1;
+            if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_BRACKET")) {//found new program
+                result = blockStart();
+            }
 
-            }
-            else {
-                System.out.println("Was expecting an EOP [$]");
-                result = false;
-            }
+        }
+        else {
+            System.out.println("Was expecting an EOP [$]");
+            result = false;
+        }
+    return result;
+
+    }
+    public boolean statement() {
+        if ((tokens.get(indexOfToken).getTypeOfToken().equals("PRINT"))) {
+            indexOfToken = indexOfToken + 1; //look for ( ) after print
+            result = printStatement();
+
         }
         return result;
 

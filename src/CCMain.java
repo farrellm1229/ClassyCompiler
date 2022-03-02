@@ -183,6 +183,21 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                     System.out.println("INFO  Lexer - Classy Compiler has finished lexical analysis of Program #" + programNumber);
 					System.out.println("-----------------------------------------------------------");
 					programNumber = programNumber + 1;
+                    //Begin Parsing Process
+                    CCParser parser = new CCParser();
+                    boolean parseStatus = parser.parseOutcome(listOfTokens);
+                    if (parseStatus == true) {
+                        System.out.println("-----------------------------------------------------------");
+                        System.out.print("INFO  Parser - Classy Compiler Parser Outcome: SUCCESS\n");
+                        System.out.println("-----------------------------------------------------------");
+
+                    }
+                    else {
+                        System.out.println("-----------------------------------------------------------");
+                        System.out.print("INFO  Parser - Classy Compiler Parser Outcome: FAILED\n");
+                        System.out.println("-----------------------------------------------------------");
+
+                    }
 				}
 				
 				//get rid of LPM from current line in sample program
@@ -217,21 +232,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
             numberOfErrors = numberOfErrors + 1;
 		}
 
-        //Begin Parsing Process
-        CCParser parser = new CCParser();
-        boolean parseStatus = parser.parseOutcome(listOfTokens);
-        if (parseStatus == true) {
-            System.out.println("-----------------------------------------------------------");
-            System.out.print("INFO  Parser - Classy Compiler Parser Outcome: SUCCESS\n");
-            System.out.println("-----------------------------------------------------------");
-
-        }
-        else {
-            System.out.println("-----------------------------------------------------------");
-            System.out.print("INFO  Parser - Classy Compiler Parser Outcome: FAILED\n");
-            System.out.println("-----------------------------------------------------------");
-
-        }
+        
     
 
         lineScanner.close();
