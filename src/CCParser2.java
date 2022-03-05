@@ -233,29 +233,35 @@ public class CCParser2 {
                     
                         //System.out.println(tokens.get(indexOfToken).getValueOfToken());
 
-                        //System.out.println("found end of assignment");
-                        indexOfToken++;
-                        //System.out.println(tokens.get(indexOfToken).getValueOfToken());
-                        
-                        blockEnd();
-                        if (blockEnd() == true){
-                            //System.out.println("okokokok");
-                            result = true;
-                        }
-                        else {
+                        expression();
+                        if (expression() == true) {
+
+                            
+                            System.out.println("found end of assignment");
                             //indexOfToken++;
-                            result = statementList();
-                        }
-                        
-                        /*for(CCToken name:tokens) {
-                            System.out.println(name.getValueOfToken());
+                            //System.out.println(tokens.get(indexOfToken).getValueOfToken());
+                            
+                            blockEnd();
+                            if (blockEnd() == true){
+                                //System.out.println("okokokok");
+                                result = true;
+                            }
+                            else {
+                                //indexOfToken++;
+                                result = statementList();
+                            }
+                            
+                            /*for(CCToken name:tokens) {
+                                System.out.println(name.getValueOfToken());
 
-                        } */
+                            } */
 
-                        result = true;
-                }
+                            result = true;
+                    }
+                
                 result = true;
             }
+        }
                 
             
 
@@ -305,6 +311,7 @@ public class CCParser2 {
                         indexOfToken++;
                         expression();
                         if (expression() == true){
+                            System.out.println(tokens.get(indexOfToken).getTypeOfToken());
                     
                             if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
                                 indexOfToken++;
@@ -437,8 +444,10 @@ public class CCParser2 {
     }
     public boolean stringExpr() {
         if (tokens.get(indexOfToken).getTypeOfToken().equals("STRING")) {
+            System.out.println("plus");
+
             indexOfToken = indexOfToken + 1;
-            result = statementList();
+            result = expression();
 
         }
         return result;
@@ -498,13 +507,23 @@ public class CCParser2 {
             */
         }
        // else {
-           //check for StringExpr
-            if(tokens.get(indexOfToken).getTypeOfToken().equals("STRING")) {
-                //indexOfToken = indexOfToken + 1;
-                System.out.println("Found string");
-                result = stringExpr();
-                
-        }
+        //check for StringExpr
+        if(tokens.get(indexOfToken).getTypeOfToken().equals("STRING")) {
+            indexOfToken = indexOfToken + 1;
+            if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")){
+                indexOfToken = indexOfToken + 1;
+                if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")){
+                        
+                    result = blockEnd();
+                }
+                else {
+                    result = statementList();
+                }
+                }
+                else {
+                    result = statementList();
+                }
+    }
 
       //  }
     
