@@ -6,15 +6,17 @@ public class CCParser2 {
     public static List<CCToken> tokens = new ArrayList<CCToken>();
     public Boolean resultOfParse = null;
     public boolean result;
-    static int indexOfToken = 0;
+    static int indexOfToken = -1;
 
     //Overall result of parse
     public boolean parseOutcome(List<CCToken> tokenStream) {
 
         tokens = tokenStream;
-        blockStart();
-        System.out.println(blockStart());
-        if (blockStart() == true){
+        proStart();
+        System.out.println("farrell");
+
+        System.out.println(result);
+        if (result == true){
             indexOfToken=0; //program found, so set index back to 0
                             //after clearing the tokenList
             result = true;
@@ -56,7 +58,11 @@ public class CCParser2 {
     public boolean program() {
         blockStart();
         if (blockStart() == true){
-            result = true;
+            blockEnd();
+            if (blockEnd() == true){
+
+            }
+
         }
         else {
             result = false;
@@ -95,15 +101,16 @@ public class CCParser2 {
 
     }
 
-    public boolean blockStart() {
-        boolean idk = true;
+    public boolean proStart() {
+        //boolean idk = true;
+        indexOfToken++;
         if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_BRACKET")) {
             //System.out.println("123");
             indexOfToken++;
             
             statementList();
             if (statementList() == false) {
-                idk = false;
+                result = false;
                 System.out.println("matt");
 
             }
@@ -115,9 +122,9 @@ public class CCParser2 {
                     
                 blockEnd();
                 if (blockEnd() == true) {
-                    //System.out.println("check2");
+                    System.out.println("check2");
                     //indexOfToken++;
-                    //System.out.println(tokens.get(indexOfToken+1).getValueOfToken());
+                    System.out.println(tokens.get(indexOfToken+1).getValueOfToken());
                     //for(CCToken name:tokens) {
                       //    System.out.println(name.getTypeOfToken());
                 
@@ -129,9 +136,9 @@ public class CCParser2 {
                             
                             programEnd();
                             if (programEnd() == true){
-                                //System.out.println("987");
+                                System.out.println("987");
                                 indexOfToken++;
-                                //System.out.println(tokens.get(indexOfToken).getValueOfToken());
+                                System.out.println(tokens.get(indexOfToken).getValueOfToken());
                                 
                                 result = true;
                         }
@@ -146,7 +153,35 @@ public class CCParser2 {
             
         }
         
-        return idk;
+        return result;
+    }
+    //look for end of block token
+    public boolean blockStart() {
+        //indexOfToken++;
+        
+        if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_BRACKET")) {
+            //if we found block end symbol, move to next token
+            //in the token stream
+            //indexOfToken = indexOfToken + 1;
+            
+
+            //indexOfToken++;
+            //programEnd();
+            //blockEnd(); //since we found the start, look for the end
+            result = true;
+
+            
+            
+        }
+        else {
+            //System.out.print(tokens);
+            System.out.println("ERROR Parser - Was here but nope } but found " + tokens.get(indexOfToken).getValueOfToken());
+
+            result = false;
+            
+        }
+        
+        return result;
     }
     //look for end of block token
     public boolean blockEnd() {
@@ -393,6 +428,8 @@ public class CCParser2 {
                                 if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
                                     indexOfToken++;
                                     System.out.println(tokens.get(indexOfToken).getTypeOfToken());
+                                    System.out.println("love");
+
                                     
 
                         
@@ -401,6 +438,7 @@ public class CCParser2 {
                                     blockStart();
                                     if (blockStart() == true){
                                         System.out.println("when");
+
                                         //System.out.println(blockStart());
                                         indexOfToken++;
                                         blockEnd();

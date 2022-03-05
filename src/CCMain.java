@@ -244,10 +244,10 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 
                                     //Begin Parsing Process
                     CCParser2 parser = new CCParser2();
-                    // System.out.println("here");
+                    System.out.println("here");
                     
                     //for(CCToken name:listOfTokens) {
-                        //  System.out.println(name.getTypeOfToken());
+                      //  System.out.println(name.getTypeOfToken());
                 
                     //}
                     boolean parseStatus = parser.parseOutcome(listOfTokens);
@@ -255,17 +255,12 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                         System.out.println("-----------------------------------------------------------");
                         System.out.print("INFO  Parser - Classy Compiler Parser Outcome: SUCCESS\n");
                         System.out.println("-----------------------------------------------------------");
-                        /*for(CCToken name:listOfTokens) {
-                            System.out.println(name.getTypeOfToken());
+                        //for(CCToken name:listOfTokens) {
+                          //  System.out.println(name.getTypeOfToken());
                 
-                    }
+                    //}
                 
-                        System.out.println(listOfTokens.get(listOfTokens.size()-1).getValueOfToken());
-                        if (listOfTokens.get(listOfTokens.size()-1).getValueOfToken().equals("$")){
-                            System.out.println("working on it");
-                            //listOfTokens.clear();
-                            //System.out.println(listOfTokens.get(0).getValueOfToken());
-                        } */
+                        
                     }
                     else {
                         System.out.println("-----------------------------------------------------------");
@@ -274,6 +269,12 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                         
                 
                     } 
+                    System.out.println(listOfTokens.get(listOfTokens.size()-1).getValueOfToken());
+                        //if (listOfTokens.get(listOfTokens.size()-1).getValueOfToken().equals("$")){
+                            System.out.println("working on it");
+                            //listOfTokens.clear();
+                            //System.out.println(listOfTokens.get(0).getValueOfToken());
+                        //} 
                                     
                     listOfTokens.clear();
 

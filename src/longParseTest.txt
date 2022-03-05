@@ -1,10 +1,7 @@
-{
+{ 
 
-if(m==2{
-print(c)}
-}$
-{
+if(a==4{
+print(a)
+}
 
-if(m==2){
-print(c)}
 }$
