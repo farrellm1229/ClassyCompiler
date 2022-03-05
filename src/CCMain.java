@@ -174,11 +174,11 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                        //) System.out.println(token);
                         
                         //System.out.println(lpmData.getType());
-                        if (lpmData.getType().toString() == "EOP") {
-                            System.out.println("idk");
+                        //if (lpmData.getType().toString() == "EOP") {
+                          //  System.out.println("idk");
 
                             
-                        }
+                        //}
 
                     }
 				}

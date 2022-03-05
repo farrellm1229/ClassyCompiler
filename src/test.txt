@@ -1,2 +1,5 @@
-{while(a!=2){print(a)
-if(b==3){print(b)}}}${}$
+{
+boolean b
+b = true
+print(b)
+}$
