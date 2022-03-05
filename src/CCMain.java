@@ -171,9 +171,9 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                             lpmData = valueOfLexemes;
                             
                         }
-                        System.out.println(token);
+                       //) System.out.println(token);
                         
-                        System.out.println(lpmData.getType());
+                        //System.out.println(lpmData.getType());
                         if (lpmData.getType().toString() == "EOP") {
                             System.out.println("idk");
 
@@ -197,9 +197,9 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 					System.out.println("-----------------------------------------------------------");
 					programNumber = programNumber + 1;
                     
-     /* //Begin Parsing Process
+      //Begin Parsing Process
       CCParser2 parser = new CCParser2();
-      System.out.println("here");
+     // System.out.println("here");
       
       //for(CCToken name:listOfTokens) {
         //  System.out.println(name.getTypeOfToken());
@@ -225,8 +225,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
           
 
       } 
-          */
-
+       
 
                     
                     
