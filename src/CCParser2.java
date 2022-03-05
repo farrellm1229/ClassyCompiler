@@ -12,8 +12,10 @@ public class CCParser2 {
     public boolean parseOutcome(List<CCToken> tokenStream) {
 
         tokens = tokenStream;
-        program();
-        if (program() == true){
+        blockStart();
+        if (blockStart() == true){
+            indexOfToken=0; //program found, so set index back to 0
+                            //after clearing the tokenList
             result = true;
         }
         else{
@@ -25,20 +27,16 @@ public class CCParser2 {
     public boolean programEnd() {
         
 
-        for(CCToken name:tokens) {
-            System.out.println(name.getValueOfToken());
-
-        }
         //indexOfToken++;
         if (tokens.get(indexOfToken+1).getTypeOfToken().equals("EOP")) {
-            System.out.println("FOUND EOP");
+            /*System.out.println("FOUND EOP");
             System.out.println(indexOfToken);
             System.out.println(tokens.get(indexOfToken-1).getTypeOfToken());
             System.out.println(tokens.get(indexOfToken+1).getTypeOfToken());
             System.out.println(tokens.size());
 
             System.out.println(tokens.subList(indexOfToken, tokens.size()).get(0).getValueOfToken());
-
+            */
 
             //tokens.clear();
             
@@ -60,7 +58,7 @@ public class CCParser2 {
             result = true;
         }
         else {
-            System.out.println("nipoee");
+            result = false;
         }
         return result;
         /*
@@ -121,6 +119,12 @@ public class CCParser2 {
                         
                         programEnd();
                         if (programEnd() == true){
+                            System.out.println("987");
+                            indexOfToken++;
+                            System.out.println(tokens.get(indexOfToken).getValueOfToken());
+
+
+
                                 
                             /*boolean parseStatus = parseOutcome(tokens);
                             parseOutcome(tokens);
@@ -148,11 +152,7 @@ public class CCParser2 {
 
             }
         }
-        else{
-            
-            
-            System.out.println("no valid");
-        }
+        
         return result;
 
 
@@ -651,4 +651,3 @@ public class CCParser2 {
     } */
 
 }
-
