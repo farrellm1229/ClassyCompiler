@@ -1,2 +1,10 @@
 {
-b=true}$
+
+if(m==2{
+print(c)}
+}$
+{
+
+if(m==2){
+print(c)}
+}$

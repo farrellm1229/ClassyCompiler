@@ -13,6 +13,7 @@ public class CCParser2 {
 
         tokens = tokenStream;
         blockStart();
+        System.out.println(blockStart());
         if (blockStart() == true){
             indexOfToken=0; //program found, so set index back to 0
                             //after clearing the tokenList
@@ -95,13 +96,21 @@ public class CCParser2 {
     }
 
     public boolean blockStart() {
+        boolean idk = true;
         if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_BRACKET")) {
             //System.out.println("123");
             indexOfToken++;
             
             statementList();
+            if (statementList() == false) {
+                idk = false;
+                System.out.println("matt");
+
+            }
+
+
             if (statementList() == true) {
-                //System.out.println("check");
+                System.out.println("check");
                 //indexOfToken++;
                     
                 blockEnd();
@@ -131,11 +140,13 @@ public class CCParser2 {
             }
             else{
                 System.out.println("no statement");
+                result = false;
 
             }
+            
         }
         
-        return result;
+        return idk;
     }
     //look for end of block token
     public boolean blockEnd() {
@@ -371,16 +382,18 @@ public class CCParser2 {
                     
                     expression();
                     if (expression() == true){
-                        //System.out.println("foud boolexprwihle");
+                        System.out.println("foud boolexprwihle");
                         //System.out.println(tokens.get(indexOfToken).getTypeOfToken());
                         if (tokens.get(indexOfToken).getTypeOfToken().equals("BOOL_OP")) {
                             indexOfToken++;
                             expression();
                             if (expression() == true){
-                        
+                                System.out.println(tokens.get(indexOfToken).getTypeOfToken());
+                                
                                 if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
                                     indexOfToken++;
                                     System.out.println(tokens.get(indexOfToken).getTypeOfToken());
+                                    
 
                         
     
@@ -388,6 +401,7 @@ public class CCParser2 {
                                     blockStart();
                                     if (blockStart() == true){
                                         System.out.println("when");
+                                        //System.out.println(blockStart());
                                         indexOfToken++;
                                         blockEnd();
                                         if (blockEnd() == true) {
@@ -406,11 +420,17 @@ public class CCParser2 {
                                         tokens.get(indexOfToken).getValueOfToken() + " ]");
                                     }
                                 }
+                                else{
+                                    result=false;
+                                    //System.exit(0); //this is if the if statement doesnt have 
+                                    //a right parenthesis: if() <----
+                                }
+                                
                             }
     
                         }
     
-                        result = true;
+                        //result = true;
                     }
                     else {
                         //indexOfToken++;
@@ -422,9 +442,10 @@ public class CCParser2 {
     
                     } */
     
-                    result = true;
+                    //result = true;
             }
-            result = true;
+            //result = true;
+            return result;
                 
         }    
             
