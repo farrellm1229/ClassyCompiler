@@ -109,10 +109,10 @@ public class CCParser2 {
                     System.out.println("check2");
                     //indexOfToken++;
                     System.out.println(tokens.get(indexOfToken+1).getValueOfToken());
-                    for(CCToken name:tokens) {
-                          System.out.println(name.getTypeOfToken());
+                    //for(CCToken name:tokens) {
+                      //    System.out.println(name.getTypeOfToken());
                 
-                      }
+                      //}
                       if (tokens.get(indexOfToken+1).getValueOfToken().equals("$")) {
                           System.out.println("matt");
                         
@@ -351,12 +351,18 @@ public class CCParser2 {
                             if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
                                 indexOfToken++;
                     
+                                
 
 
                                 blockStart();
                                 if (blockStart() == true){
                                     System.out.println("when");
                                     indexOfToken++;
+                                    blockEnd();
+                                    if (blockEnd() == true) {
+                                        System.out.println(tokens.get(indexOfToken).getTypeOfToken());
+
+                                    }
 
 
 
@@ -387,9 +393,80 @@ public class CCParser2 {
                 result = true;
         }
         result = true;
+    }
+        
+            /*  -----------------------------------------------------------
+            ------------- SYNTAX FOR IF STATEMENT -------------
+            ----------------------------------------------------------- */
+
+            if ((tokens.get(indexOfToken).getTypeOfToken().equals("IF"))) {
+                indexOfToken++;
+                if ((tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_PARENTHESIS"))) {
+                    indexOfToken++;
+                    
+                    expression();
+                    if (expression() == true){
+                        //System.out.println("foud boolexprwihle");
+                        System.out.println(tokens.get(indexOfToken).getTypeOfToken());
+                        if (tokens.get(indexOfToken).getTypeOfToken().equals("BOOL_OP")) {
+                            indexOfToken++;
+                            expression();
+                            if (expression() == true){
+                        
+                                if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
+                                    indexOfToken++;
+                                    System.out.println(tokens.get(indexOfToken).getTypeOfToken());
+
+                        
+    
+    
+                                    blockStart();
+                                    if (blockStart() == true){
+                                        System.out.println("when");
+                                        indexOfToken++;
+                                        blockEnd();
+                                        if (blockEnd() == true) {
+                                            System.out.println(tokens.get(indexOfToken).getTypeOfToken());
+    
+                                        }
+    
+    
+    
+                                        result = blockEnd();
+    
+                                    }
+                                    
+                                    else {
+                                        System.out.println("Was Expecting [ { ] but found [ "+ 
+                                        tokens.get(indexOfToken).getValueOfToken() + " ]");
+                                    }
+                                }
+                            }
+    
+                        }
+    
+                        result = true;
+                    }
+                    else {
+                        //indexOfToken++;
+                        result = statementList();
+                    }
+                    
+                    /*for(CCToken name:tokens) {
+                        System.out.println(name.getValueOfToken());
+    
+                    } */
+    
+                    result = true;
+            }
+            result = true;
+                
+        }    
             
 
-    }
+        
+    
+    
             
             
             return result;

@@ -277,21 +277,9 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                                     
                     listOfTokens.clear();
 
-
-                     
-
-                        
             
                     }
-                    
-                    if (lpmToken.getValueOfToken()=="$"){
-                        System.out.println("testing$$$$$");
-
-
-
-                    }
-                    
-                    
+                
                 
 			}
 
@@ -318,32 +306,6 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
             numberOfErrors = numberOfErrors + 1;
             
 		}
-        /*
-
-        //Begin Parsing Process
-        CCParser2 parser = new CCParser2();
-        System.out.println("here");
-        
-        for(CCToken name:listOfTokens) {
-            System.out.println(name.getTypeOfToken());
-
-        }
-        boolean parseStatus = parser.parseOutcome(listOfTokens);
-        if (parseStatus == true) {
-            System.out.println("-----------------------------------------------------------");
-            System.out.print("INFO  Parser - Classy Compiler Parser Outcome: SUCCESS\n");
-            System.out.println("-----------------------------------------------------------");
-
-        }
-        else {
-            System.out.println("-----------------------------------------------------------");
-            System.out.print("INFO  Parser - Classy Compiler Parser Outcome: FAILED\n");
-            System.out.println("-----------------------------------------------------------");
-            
-
-        }
-    */
-     
                             
                             
         lineScanner.close();
