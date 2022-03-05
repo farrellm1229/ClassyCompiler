@@ -13,6 +13,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 
     public static void displayMessage(CCTokenTypes token, String value, int lineNum) {
         System.out.println("DEBUG Lexer - " + token.name + " [ " + value + " ] found at line: " + lineNum);
+        
     }
 
     public static void errorMessage(String value, int lineNum) {
@@ -158,6 +159,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                 for(CCTokenStream valueOfLexemes : listOfLexemes) {
                     Matcher lookForMatch = valueOfLexemes.getRegExPattern().matcher(currentLine);
                     
+                    
                     if(lookForMatch.find()) {
 
                         String token = lookForMatch.group().trim();
@@ -167,7 +169,17 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                             lpmLength = tokenLength;
                             longestPossibleMatch = lookForMatch;
                             lpmData = valueOfLexemes;
+                            
                         }
+                        System.out.println(token);
+                        
+                        System.out.println(lpmData.getType());
+                        if (lpmData.getType().toString() == "EOP") {
+                            System.out.println("idk");
+
+                            
+                        }
+
                     }
 				}
 
@@ -179,25 +191,48 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                 //look for EOP symbol
 				if (lpmData.getType().name == "T_EOP") {
 					//int programNumber = 1;
+                    
 					System.out.println("-----------------------------------------------------------");
                     System.out.println("INFO  Lexer - Classy Compiler has finished lexical analysis of Program #" + programNumber);
 					System.out.println("-----------------------------------------------------------");
 					programNumber = programNumber + 1;
-                    //Begin Parsing Process
-                    CCParser parser = new CCParser();
-                    boolean parseStatus = parser.parseOutcome(listOfTokens);
-                    if (parseStatus == true) {
-                        System.out.println("-----------------------------------------------------------");
-                        System.out.print("INFO  Parser - Classy Compiler Parser Outcome: SUCCESS\n");
-                        System.out.println("-----------------------------------------------------------");
+                    
+     /* //Begin Parsing Process
+      CCParser2 parser = new CCParser2();
+      System.out.println("here");
+      
+      //for(CCToken name:listOfTokens) {
+        //  System.out.println(name.getTypeOfToken());
 
-                    }
-                    else {
-                        System.out.println("-----------------------------------------------------------");
-                        System.out.print("INFO  Parser - Classy Compiler Parser Outcome: FAILED\n");
-                        System.out.println("-----------------------------------------------------------");
+      //}
+      boolean parseStatus = parser.parseOutcome(listOfTokens);
+      if (parseStatus == true) {
+          System.out.println("-----------------------------------------------------------");
+          System.out.print("INFO  Parser - Classy Compiler Parser Outcome: SUCCESS\n");
+          System.out.println("-----------------------------------------------------------");
 
-                    }
+          System.out.println(listOfTokens.get(listOfTokens.size()-1).getValueOfToken());
+          if (listOfTokens.get(listOfTokens.size()-1).getValueOfToken().equals("$")){
+              System.out.println("working on it");
+              //listOfTokens.clear();
+              //System.out.println(listOfTokens.get(0).getValueOfToken());
+          }
+      }
+      else {
+          System.out.println("-----------------------------------------------------------");
+          System.out.print("INFO  Parser - Classy Compiler Parser Outcome: FAILED\n");
+          System.out.println("-----------------------------------------------------------");
+          
+
+      } 
+          */
+
+
+                    
+                    
+                    
+                    //listOfTokens = (ArrayList<CCToken>) listOfTokens.subList(listOfTokens.size()-2, listOfTokens.size()-1);
+                    
 				}
 				
 				//get rid of LPM from current line in sample program
@@ -205,8 +240,44 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 	
 				//put LPM into the other arraylist
 				CCToken lpmToken = new CCToken(lpmData.getType().name(),value);
-                listOfTokens.add(lpmToken);	
+                listOfTokens.add(lpmToken);
+                	
 				//lineNumber++;
+				if (lpmData.getType().name == "T_EOP") {
+                    
+
+
+                     
+
+                    System.out.println("done1234");
+                    
+                    System.out.println(lpmData.getType().name);
+                        
+                        for(CCToken name:listOfTokens) {
+                            
+                            System.out.println(name.getValueOfToken());
+
+                            //System.out.println(name.getValueOfToken());
+                            //if (item.getValueOfToken()=="{"){
+                              //  System.out.println("testing$$$$$");
+
+                            //}
+                    }
+                    listOfTokens.clear();
+
+                        
+            
+                    }
+                    
+                    if (lpmToken.getValueOfToken()=="$"){
+                        System.out.println("testing$$$$$");
+
+
+
+                    }
+                    
+                    
+                
 			}
 
 			else {
@@ -231,13 +302,38 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
             System.out.println("-----------------------------------------------------------");
             numberOfErrors = numberOfErrors + 1;
 		}
+        /*
 
+        //Begin Parsing Process
+        CCParser2 parser = new CCParser2();
+        System.out.println("here");
         
-    
+        for(CCToken name:listOfTokens) {
+            System.out.println(name.getTypeOfToken());
 
+        }
+        boolean parseStatus = parser.parseOutcome(listOfTokens);
+        if (parseStatus == true) {
+            System.out.println("-----------------------------------------------------------");
+            System.out.print("INFO  Parser - Classy Compiler Parser Outcome: SUCCESS\n");
+            System.out.println("-----------------------------------------------------------");
+
+        }
+        else {
+            System.out.println("-----------------------------------------------------------");
+            System.out.print("INFO  Parser - Classy Compiler Parser Outcome: FAILED\n");
+            System.out.println("-----------------------------------------------------------");
+            
+
+        }
+    */
+     
+                            
+                            
         lineScanner.close();
         readFileContents.close();
 	}
+    
     
 	
     public static void main(String[] args) throws IOException{

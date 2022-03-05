@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class CCParser {
+public class CCParser2 {
 
     public static List<CCToken> tokens = new ArrayList<CCToken>();
     public Boolean resultOfParse = null;
@@ -9,21 +9,41 @@ public class CCParser {
     static int indexOfToken = 0;
 
     //Overall result of parse
-    public boolean parseOutcome(ArrayList<CCToken> tokenStream) {
+    public boolean parseOutcome(List<CCToken> tokenStream) {
 
         tokens = tokenStream;
-        resultOfParse = program();
-        return resultOfParse;
+        program();
+        if (program() == true){
+            result = true;
+        }
+        else{
+            result = false;
+        }
+        return result;
     }
 
-    //Checking if input is a valid program
-    public boolean program() {
-        blockStart();
-        indexOfToken++;
+    public boolean programEnd() {
+        
 
+        for(CCToken name:tokens) {
+            System.out.println(name.getValueOfToken());
+
+        }
+        //indexOfToken++;
         if (tokens.get(indexOfToken).getTypeOfToken().equals("EOP")) {
             System.out.println("FOUND EOP");
-            return true;
+            System.out.println(indexOfToken);
+            System.out.println(tokens.get(indexOfToken-1).getTypeOfToken());
+            System.out.println(tokens.get(indexOfToken+1).getTypeOfToken());
+            System.out.println(tokens.size());
+
+            System.out.println(tokens.subList(indexOfToken, tokens.size()).get(0).getValueOfToken());
+
+
+            //tokens.clear();
+            
+            result = true;
+
         }
         else{
             System.out.println("No EOP");
@@ -32,26 +52,39 @@ public class CCParser {
         }
         return result;
 
-        //does the input start with [ { ], if yes
-            //then program is valid so far
-            /*
-        if (blockStart() == true) {
-
-            if (statementList() == true) {
-                
-                //is the next token stream [ } ] ?
-                if (blockEnd() == true) {
-                    //if (programEnd() == true) {
-                        result = true; //yay valid program!
-            //    }
-            }
-           }
+    }
+    //Checking if input is a valid program
+    public boolean program() {
+        blockStart();
+        if (blockStart() == true){
+            result = true;
         }
         else {
-            result = false;
+            System.out.println("nipoee");
         }
         return result;
-*/
+        /*
+        //indexOfToken++;
+        //blockStart();
+        
+        //indexOfToken++;
+        System.out.println("PROGRAM");
+
+        System.out.println(tokens.get(indexOfToken).getValueOfToken());
+
+        if (tokens.get(indexOfToken).getTypeOfToken().equals("EOP")) {
+            System.out.println("FOUND EOP");
+            result = true;
+        }
+        else{
+            System.out.println("No EOP");
+            result = false;
+            
+        }
+        return result;
+        */
+
+       
     }
     public boolean test() {
         
@@ -61,20 +94,49 @@ public class CCParser {
         }
         return result;
 
-
-
     }
 
     public boolean blockStart() {
         if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_BRACKET")) {
+            System.out.println("123");
             indexOfToken++;
             
             statementList();
             if (statementList() == true) {
+                System.out.println("check");
+                //indexOfToken++;
+                    
                 blockEnd();
                 if (blockEnd() == true) {
+                    System.out.println("check2");
+                    //indexOfToken++;
+                    System.out.println(tokens.get(indexOfToken).getValueOfToken());
+                    for(CCToken name:tokens) {
+                          System.out.println(name.getTypeOfToken());
+                
+                      }
                     
-                    result = program();
+                    programEnd();
+                    if (programEnd() == true){
+                            
+                        boolean parseStatus = parseOutcome(tokens);
+                        parseOutcome(tokens);
+                        if (parseStatus == true) {
+                            System.out.println("-----------------------------------------------------------");
+                            System.out.print("INFO  Parser - Classy Compiler Parser Outcome: SUCCESS\n");
+                            System.out.println("-----------------------------------------------------------");
+                
+                        }
+                        else {
+                            System.out.println("-----------------------------------------------------------");
+                            System.out.print("INFO  Parser - Classy Compiler Parser Outcome: FAILED\n");
+                            System.out.println("-----------------------------------------------------------");
+                            
+                
+                        }
+
+                        result = true;
+                    }
                 }
             }
             else{
@@ -83,6 +145,8 @@ public class CCParser {
             }
         }
         else{
+            
+            
             System.out.println("no valid");
         }
         return result;
@@ -113,6 +177,7 @@ public class CCParser {
     }
     //look for end of block token
     public boolean blockEnd() {
+        //indexOfToken++;
         
         if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
             //if we found block end symbol, move to next token
@@ -120,7 +185,7 @@ public class CCParser {
             //indexOfToken = indexOfToken + 1;
             
 
-            indexOfToken++;
+            //indexOfToken++;
             //programEnd();
             //blockEnd(); //since we found the start, look for the end
             result = true;
@@ -139,25 +204,7 @@ public class CCParser {
         return result;
     }
 
-    public boolean programEnd() {
-        
     
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("EOP")) {
-            result = true;
-            System.out.println("FOUND EOP");
-            indexOfToken = indexOfToken + 1;
-            if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_BRACKET")) {//found new program
-                result = blockStart();
-            }
-
-        }
-        else {
-            System.out.println("Was expecting an EOP [$]");
-            result = false;
-        }
-    return result;
-
-    }
     public boolean statement() {
         if ((tokens.get(indexOfToken).getTypeOfToken().equals("PRINT"))) {
             indexOfToken = indexOfToken + 1; //look for ( ) after print
@@ -169,7 +216,48 @@ public class CCParser {
     }
 
     public boolean statementList() {
+        if ((tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET"))) {
+            result = blockEnd();
+        }
         
+
+        if ((tokens.get(indexOfToken).getTypeOfToken().equals("PRINT"))) {
+            indexOfToken++;
+            if ((tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_PARENTHESIS"))) {
+                indexOfToken++;
+            
+                expression();
+                if (expression() == true) {
+                    if ((tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS"))) {
+
+                        System.out.println("found end of print");
+                        indexOfToken++;
+                        System.out.println(tokens.get(indexOfToken).getValueOfToken());
+                        
+                        blockEnd();
+                        if (blockEnd() == true){
+                            System.out.println("okokokok");
+                            result = true;
+                        }
+                        else {
+                            result = statementList();
+                        }
+                        
+                        /*for(CCToken name:tokens) {
+                            System.out.println(name.getValueOfToken());
+
+                        } */
+
+                        result = true;
+                }
+                result = true;
+            }
+                }
+            }
+            return result;
+
+    }
+    /*    
         if (tokens.get(indexOfToken).getTypeOfToken().equals("PRINT")) {
             indexOfToken = indexOfToken + 1;
             printStatement();
@@ -267,7 +355,7 @@ public class CCParser {
 
         //blockEnd();
         return result;
-    }
+    } */
 
     
 //}
@@ -308,8 +396,7 @@ public class CCParser {
 
     }
     public boolean intExpr() {
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("PLUS")) {
-            indexOfToken = indexOfToken + 1;
+        if (tokens.get(indexOfToken).getTypeOfToken().equals("DIGIT")) {
             result = expression();
 
         }
@@ -327,6 +414,19 @@ public class CCParser {
     }
 
     public boolean expression() {
+        if ((tokens.get(indexOfToken).getTypeOfToken().equals("DIGIT")) || tokens.get(indexOfToken).getTypeOfToken().equals(("BOOL_VAL"))) {
+
+            indexOfToken++;
+                if ((tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS"))) {
+                    result = true;
+                }
+                if (tokens.get(indexOfToken).getTypeOfToken().equals("PLUS")) {
+                    System.out.println("plus");
+                    indexOfToken++;
+                    result = intExpr();
+                }
+            }
+
         //expression can be IntExpr, StringExpr, BooleanExpr, or ID
         //checking for int expr 
         if ((tokens.get(indexOfToken).getTypeOfToken().equals("DIGIT")) || tokens.get(indexOfToken).getTypeOfToken().equals(("BOOL_VAL"))) {
@@ -523,6 +623,7 @@ public class CCParser {
             indexOfToken = indexOfToken + 1; //look for ( expression ) after (
             expression();
             if (expression() == true) {
+                
                 result = true;
             }
             else {
