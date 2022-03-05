@@ -197,34 +197,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 					System.out.println("-----------------------------------------------------------");
 					programNumber = programNumber + 1;
                     
-      //Begin Parsing Process
-      CCParser2 parser = new CCParser2();
-     // System.out.println("here");
       
-      //for(CCToken name:listOfTokens) {
-        //  System.out.println(name.getTypeOfToken());
-
-      //}
-      boolean parseStatus = parser.parseOutcome(listOfTokens);
-      if (parseStatus == true) {
-          System.out.println("-----------------------------------------------------------");
-          System.out.print("INFO  Parser - Classy Compiler Parser Outcome: SUCCESS\n");
-          System.out.println("-----------------------------------------------------------");
-
-          System.out.println(listOfTokens.get(listOfTokens.size()-1).getValueOfToken());
-          if (listOfTokens.get(listOfTokens.size()-1).getValueOfToken().equals("$")){
-              System.out.println("working on it");
-              //listOfTokens.clear();
-              //System.out.println(listOfTokens.get(0).getValueOfToken());
-          }
-      }
-      else {
-          System.out.println("-----------------------------------------------------------");
-          System.out.print("INFO  Parser - Classy Compiler Parser Outcome: FAILED\n");
-          System.out.println("-----------------------------------------------------------");
-          
-
-      } 
        
 
                     
@@ -243,6 +216,35 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                 	
 				//lineNumber++;
 				if (lpmData.getType().name == "T_EOP") {
+
+                    //Begin Parsing Process
+      CCParser2 parser = new CCParser2();
+      // System.out.println("here");
+       
+       //for(CCToken name:listOfTokens) {
+         //  System.out.println(name.getTypeOfToken());
+ 
+       //}
+       boolean parseStatus = parser.parseOutcome(listOfTokens);
+       if (parseStatus == true) {
+           System.out.println("-----------------------------------------------------------");
+           System.out.print("INFO  Parser - Classy Compiler Parser Outcome: SUCCESS\n");
+           System.out.println("-----------------------------------------------------------");
+ 
+           System.out.println(listOfTokens.get(listOfTokens.size()-1).getValueOfToken());
+           if (listOfTokens.get(listOfTokens.size()-1).getValueOfToken().equals("$")){
+               System.out.println("working on it");
+               //listOfTokens.clear();
+               //System.out.println(listOfTokens.get(0).getValueOfToken());
+           }
+       }
+       else {
+           System.out.println("-----------------------------------------------------------");
+           System.out.print("INFO  Parser - Classy Compiler Parser Outcome: FAILED\n");
+           System.out.println("-----------------------------------------------------------");
+           
+ 
+       } 
                     
 
 

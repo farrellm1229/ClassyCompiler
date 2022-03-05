@@ -30,7 +30,7 @@ public class CCParser2 {
 
         }
         //indexOfToken++;
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("EOP")) {
+        if (tokens.get(indexOfToken+1).getTypeOfToken().equals("EOP")) {
             System.out.println("FOUND EOP");
             System.out.println(indexOfToken);
             System.out.println(tokens.get(indexOfToken-1).getTypeOfToken());
@@ -110,32 +110,36 @@ public class CCParser2 {
                 if (blockEnd() == true) {
                     System.out.println("check2");
                     //indexOfToken++;
-                    System.out.println(tokens.get(indexOfToken).getValueOfToken());
+                    System.out.println(tokens.get(indexOfToken+1).getValueOfToken());
                     for(CCToken name:tokens) {
                           System.out.println(name.getTypeOfToken());
                 
                       }
+                      if (tokens.get(indexOfToken+1).getValueOfToken().equals("$")) {
+                          System.out.println("matt");
+                        
+                        
+                        programEnd();
+                        if (programEnd() == true){
+                                
+                            /*boolean parseStatus = parseOutcome(tokens);
+                            parseOutcome(tokens);
+                            if (parseStatus == true) {
+                                System.out.println("-----------------------------------------------------------");
+                                System.out.print("INFO  Parser - Classy Compiler Parser Outcome: SUCCESS\n");
+                                System.out.println("-----------------------------------------------------------");
                     
-                    programEnd();
-                    if (programEnd() == true){
-                            
-                        boolean parseStatus = parseOutcome(tokens);
-                        parseOutcome(tokens);
-                        if (parseStatus == true) {
-                            System.out.println("-----------------------------------------------------------");
-                            System.out.print("INFO  Parser - Classy Compiler Parser Outcome: SUCCESS\n");
-                            System.out.println("-----------------------------------------------------------");
-                
-                        }
-                        else {
-                            System.out.println("-----------------------------------------------------------");
-                            System.out.print("INFO  Parser - Classy Compiler Parser Outcome: FAILED\n");
-                            System.out.println("-----------------------------------------------------------");
-                            
-                
-                        }
+                            }
+                            else {
+                                System.out.println("-----------------------------------------------------------");
+                                System.out.print("INFO  Parser - Classy Compiler Parser Outcome: FAILED\n");
+                                System.out.println("-----------------------------------------------------------");
+                                
+                    
+                            } */
 
-                        result = true;
+                            result = true;
+                        }
                     }
                 }
             }
