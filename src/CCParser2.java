@@ -258,6 +258,41 @@ public class CCParser2 {
             }
                 }
             }
+            
+        if ((tokens.get(indexOfToken).getTypeOfToken().equals("CHAR"))) {
+            indexOfToken++;
+            if ((tokens.get(indexOfToken).getTypeOfToken().equals("ASSIGNMENT"))) {
+                indexOfToken++;
+            
+                expression();
+                if (expression() == true) {
+                    
+                        System.out.println(tokens.get(indexOfToken).getValueOfToken());
+
+                        System.out.println("found end of assignment");
+                        indexOfToken++;
+                        System.out.println(tokens.get(indexOfToken).getValueOfToken());
+                        
+                        blockEnd();
+                        if (blockEnd() == true){
+                            System.out.println("okokokok");
+                            result = true;
+                        }
+                        else {
+                            result = statementList();
+                        }
+                        
+                        /*for(CCToken name:tokens) {
+                            System.out.println(name.getValueOfToken());
+
+                        } */
+
+                        result = true;
+                }
+                result = true;
+            }
+                
+            }
             return result;
 
     }
