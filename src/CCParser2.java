@@ -199,7 +199,7 @@ public class CCParser2 {
         }
         else {
             //System.out.print(tokens);
-            System.out.println("ERROR Parser - Was expecting } but found " + tokens.get(indexOfToken).getValueOfToken());
+            //System.out.println("ERROR Parser - Was expecting } but found " + tokens.get(indexOfToken).getValueOfToken());
 
             result = false;
             
@@ -225,6 +225,10 @@ public class CCParser2 {
         }
         
 
+        
+        /*  -----------------------------------------------------------
+            ---------------- SYNTAX FOR PRINT STATEMENT ---------------
+            ----------------------------------------------------------- */
         if ((tokens.get(indexOfToken).getTypeOfToken().equals("PRINT"))) {
             indexOfToken++;
             if ((tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_PARENTHESIS"))) {
@@ -258,14 +262,16 @@ public class CCParser2 {
             }
                 }
             }
+         
             
+        /*  -----------------------------------------------------------
+            ------------- SYNTAX FOR ASSIGNMENT STATEMENT -------------
+            ----------------------------------------------------------- */
+
         if ((tokens.get(indexOfToken).getTypeOfToken().equals("CHAR"))) {
             indexOfToken++;
             if ((tokens.get(indexOfToken).getTypeOfToken().equals("ASSIGNMENT"))) {
                 indexOfToken++;
-            
-                expression();
-                if (expression() == true) {
                     
                         System.out.println(tokens.get(indexOfToken).getValueOfToken());
 
@@ -279,6 +285,7 @@ public class CCParser2 {
                             result = true;
                         }
                         else {
+                            //indexOfToken++;
                             result = statementList();
                         }
                         
@@ -292,7 +299,38 @@ public class CCParser2 {
                 result = true;
             }
                 
+            
+
+            /*  -----------------------------------------------------------
+            ------------- SYNTAX FOR VAR DECL STATEMENT -------------
+            ----------------------------------------------------------- */
+
+        if ((tokens.get(indexOfToken).getTypeOfToken().equals("TYPE"))) {
+            indexOfToken++;
+            if ((tokens.get(indexOfToken).getTypeOfToken().equals("CHAR"))) {
+                indexOfToken++;
+                result = true;
+                blockEnd();
+                if (blockEnd() == true){
+                    System.out.println("foud blicjk end of type");
+                    result = true;
+                }
+                else {
+                    //indexOfToken++;
+                    result = statementList();
+                }
+                
+                /*for(CCToken name:tokens) {
+                    System.out.println(name.getValueOfToken());
+
+                } */
+
+                result = true;
+        }
+        result = true;
             }
+            
+            
             return result;
 
     }
@@ -453,8 +491,8 @@ public class CCParser2 {
     }
 
     public boolean expression() {
-        if ((tokens.get(indexOfToken).getTypeOfToken().equals("DIGIT")) || tokens.get(indexOfToken).getTypeOfToken().equals(("BOOL_VAL"))) {
-
+        if ((tokens.get(indexOfToken).getTypeOfToken().equals("DIGIT")) || tokens.get(indexOfToken).getTypeOfToken().equals(("BOOL_VAL")) || tokens.get(indexOfToken).getTypeOfToken().equals(("CHAR"))) {
+            
             indexOfToken++;
                 if ((tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS"))) {
                     result = true;
@@ -464,7 +502,9 @@ public class CCParser2 {
                     indexOfToken++;
                     result = intExpr();
                 }
+                result = true;
             }
+
 
         //expression can be IntExpr, StringExpr, BooleanExpr, or ID
         //checking for int expr 
