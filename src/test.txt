@@ -1,5 +1,4 @@
-/* Sample Data */
-{}$
-{{{{{{}}}}}}$
-{{{{{{}}}	/*	comments	are	ignored	*/	}}}}$
-{	/*	comments	are	still	ignored	*/	int	@}$
+/* Test case for invalid VarDecl */
+{
+    int 4
+}$

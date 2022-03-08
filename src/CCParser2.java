@@ -15,6 +15,30 @@ public class CCParser2 {
         if (tokens.get(indexOfToken).getTypeOfToken().equals(token)) {
             //indexOfToken++;
             foundMatch = true;
+            /*switch(token){
+                case "LEFT_BRACKET": 
+                    System.out.println("parseBlock();");
+                    
+                case "RIGHT_BRACKET": 
+                    System.out.println("parseBlockEnd();");
+                    //break;
+                case "PRINT": 
+                    System.out.println("statement();");
+                    //break;
+                case "WHILE": 
+                    System.out.println("statement();");
+                    //break;
+                case "IF": 
+                    System.out.println("statement();");
+                    //break;
+                case "TYPE": 
+                    System.out.println("statement();");
+                    //break;      
+                case "CHAR": 
+                    System.out.println("statement2();");
+                    //break;
+                
+            } */
         }
         else {
             //indexOfToken++;
@@ -126,12 +150,16 @@ public class CCParser2 {
       
 
         if (match("LEFT_BRACKET")) {
+            
+
+            System.out.println("parseBlock();");
+
 
             //match("LEFT_BRACKET");
-            System.out.println("123");
+            //System.out.println("123");
             indexOfToken++;
             
-            statementList();
+            //statementList();
             if (statementList() == false) {
                 result = false;
                 System.out.println("matt");
@@ -140,6 +168,8 @@ public class CCParser2 {
 
 
             if (statementList() == true) {
+                System.out.print("parseStatement();\n");
+
                 System.out.println("check");
                 System.out.println(tokens.get(indexOfToken).getValueOfToken());
 
@@ -161,7 +191,7 @@ public class CCParser2 {
                           //System.out.println("matt");
                         
                             
-                        programEnd();
+                        //programEnd();
                         if (programEnd() == true){
                             System.out.println("987");
                             indexOfToken++;
@@ -204,6 +234,9 @@ public class CCParser2 {
         //indexOfToken++;
         
         if (match("LEFT_BRACKET")) {
+            //System.out.println("2parseBlock();");
+
+
             //if we found block end symbol, move to next token
             //in the token stream
             //indexOfToken = indexOfToken + 1;
@@ -232,6 +265,10 @@ public class CCParser2 {
         //indexOfToken++;
         
         if (match("RIGHT_BRACKET")) {
+
+            System.out.print("parseBlockEnd");
+
+        
             //if we found block end symbol, move to next token
             //in the token stream
             //indexOfToken = indexOfToken + 1;
@@ -269,20 +306,28 @@ public class CCParser2 {
 
     public boolean statementList() {
         if ((match("RIGHT_BRACKET")) == true) {
+            //System.out.print("parseBlockEnd");
+
+            result = blockEnd();
+        }
+
+        if ((match("LEFT_BRACKET")) == true) {
+            System.out.print("parseStatementList();");
+
             result = blockEnd();
         }
         
 
         
         /*  -----------------------------------------------------------
-            ---------------- SYNTAX FOR PRINT STATEMENT ---------------
+            ---------------- SYNTAX FOR PRINT statement ---------------
             ----------------------------------------------------------- */
         if ((match("PRINT")) == true) {
             indexOfToken++;
             if ((match("LEFT_PARENTHESIS")) == true) {
                 indexOfToken++;
             
-                expression();
+                //expression();
                 if (expression() == true) {
                     if ((match("RIGHT_PARENTHESIS")) == true) {
 
@@ -290,7 +335,7 @@ public class CCParser2 {
                         indexOfToken++;
                         //System.out.println(tokens.get(indexOfToken).getValueOfToken());
                         
-                        blockEnd();
+                        //blockEnd();
                         if (blockEnd() == true){
                             //System.out.println("okokokok");
                             result = true;
@@ -308,12 +353,20 @@ public class CCParser2 {
                 }
                 result = true;
             }
+            else{
+                System.out.println("Was expecting expression in Print Statement");
+                result = false;
+            }
+                }
+                else{
+                    System.out.println("Imvalid Print Statement");
+                    result = false;
                 }
             }
          
             
         /*  -----------------------------------------------------------
-            ------------- SYNTAX FOR ASSIGNMENT STATEMENT -------------
+            ------------- SYNTAX FOR ASSIGNMENT statement -------------
             ----------------------------------------------------------- */
 
         if ((match("CHAR")) == true) {
@@ -323,7 +376,7 @@ public class CCParser2 {
                     
                         //System.out.println(tokens.get(indexOfToken).getValueOfToken());
 
-                        expression();
+                        //expression();
                         if (expression() == true) {
 
                             
@@ -331,14 +384,14 @@ public class CCParser2 {
                             //indexOfToken++;
                             System.out.println(tokens.get(indexOfToken).getValueOfToken());
                             
-                            blockEnd();
+                            //blockEnd();
                             if (blockEnd() == true){
                                 //System.out.println("okokokok");
                                 result = true;
                             }
                             else {
                                 //indexOfToken++;
-                                //System.out.println("parseStatementList();");
+                                //System.out.println("parsestatementList();");
 
                                 result = statementList();
                             }
@@ -358,7 +411,7 @@ public class CCParser2 {
             
 
             /*  -----------------------------------------------------------
-            ------------- SYNTAX FOR VAR DECL STATEMENT -------------
+            ------------- SYNTAX FOR VAR DECL statement -------------
             ----------------------------------------------------------- */
 
         if ((match("TYPE")) == true) {
@@ -366,6 +419,7 @@ public class CCParser2 {
             if ((match("CHAR")) == true) {
                 indexOfToken++;
                 result = true;
+            
                 blockEnd();
                 if (blockEnd() == true){
                     //System.out.println("foud blicjk end of type");
@@ -383,11 +437,17 @@ public class CCParser2 {
 
                 result = true;
         }
-        result = true;
+        else{
+            System.out.println("Invalid Var Dec");
+            result = false;
+
+
+        }
+        return result;
             }
 
             /*  -----------------------------------------------------------
-            ------------- SYNTAX FOR WHILE STATEMENT -------------
+            ------------- SYNTAX FOR WHILE statement -------------
             ----------------------------------------------------------- */
 
             if ((match("WHILE")) == true) {
@@ -395,15 +455,15 @@ public class CCParser2 {
                 if ((match("LEFT_PARENTHESIS")) == true) {
                     indexOfToken++;
                     
-                    expression();
+                    //expression();
                     if (expression() == true){
-                        System.out.println("foud boolexprwihle");
+                        //System.out.println("foud boolexprwihle");
                         //System.out.println(tokens.get(indexOfToken).getTypeOfToken());
                         if (match("BOOL_OP")) {
                             indexOfToken++;
-                            expression();
+                           // expression();
                             if (expression() == true){
-                                System.out.println(tokens.get(indexOfToken).getTypeOfToken());
+                                //System.out.println(tokens.get(indexOfToken).getTypeOfToken());
                                 
                                 if (match("RIGHT_PARENTHESIS")) {
                                     indexOfToken++;
@@ -415,18 +475,24 @@ public class CCParser2 {
                         
     
     
-                                    blockStart();
+                                  //  blockStart();
                                     if (blockStart() == true){
                                         System.out.println("when");
 
                                         //System.out.println(blockStart());
+                                    
                                         indexOfToken++;
-                                        blockEnd();
-                                        if (blockEnd() == true) {
-                                            result = true;
-    
+                                            
+                                        //  blockEnd();
+                                        if (statementList() == true) {
+                                            indexOfToken++;
+                                            if (blockEnd() == true) {
+                                                result = true;
+        
+                                            }
+                                         
                                         }
-    
+                                        
     
     
                                         result = blockEnd();
@@ -472,7 +538,7 @@ public class CCParser2 {
         
         
             /*  -----------------------------------------------------------
-            ------------- SYNTAX FOR IF STATEMENT -------------
+            ------------- SYNTAX FOR IF statement -------------
             ----------------------------------------------------------- */
 
             if ((match("IF")) == true) {
@@ -480,13 +546,13 @@ public class CCParser2 {
                 if ((match("LEFT_PARENTHESIS")) == true) {
                     indexOfToken++;
                     
-                    expression();
+                   // expression();
                     if (expression() == true){
-                        System.out.println("foud boolexprwihle");
+                       // System.out.println("foud boolexprwihle");
                         //System.out.println(tokens.get(indexOfToken).getTypeOfToken());
                         if (match("BOOL_OP")) {
                             indexOfToken++;
-                            expression();
+                        //    expression();
                             if (expression() == true){
                                 System.out.println(tokens.get(indexOfToken).getTypeOfToken());
                                 
@@ -501,14 +567,14 @@ public class CCParser2 {
                         
     
     
-                                    //if (match("LEFT_BRACKET")) {
-                                    blockStart();
-                                    if (blockStart() == true){
+                                    if (match("LEFT_BRACKET")) {
+                                    //blockStart();
+                                    //if (blockStart() == true){
                                         System.out.println("when");
 
                                         //System.out.println(blockStart());
                                         indexOfToken++;
-                                        blockEnd();
+                                        //blockEnd();
                                         if (blockEnd() == true) {
                                             result = true;
     
@@ -618,7 +684,7 @@ public class CCParser2 {
                 System.out.println("yup");
                 indexOfToken = indexOfToken + 1;
 
-            //    result = endOfPrintStatement();
+            //    result = endOfPrintstatement();
 
                 //result = true;
                 //indexOfToken = indexOfToken + 1;
@@ -678,7 +744,7 @@ public class CCParser2 {
     public boolean printStatement() {
         if ((match("LEFT_PARENTHESIS")) == true) {
             indexOfToken = indexOfToken + 1; //look for ( expression ) after (
-            expression();
+            //expression();
             if (expression() == true) {
                 
                 result = true;
@@ -696,7 +762,7 @@ public class CCParser2 {
         //result = statementList();
         return result;
     }
-    /*public boolean endOfPrintStatement() {
+    /*public boolean endOfPrintstatement() {
         if (match("RIGHT_PARENTHESIS")) {
 
         }
