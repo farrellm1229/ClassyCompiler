@@ -47,6 +47,9 @@ public class CCParser2 {
 
     public boolean programEnd() {
         
+        System.out.println("pro end start/ curren token");
+
+        System.out.println(tokens.get(indexOfToken).getTypeOfToken());
 
         //indexOfToken++;
         if (tokens.get(indexOfToken+1).getTypeOfToken().equals("EOP")) {
@@ -145,23 +148,40 @@ public class CCParser2 {
                     System.out.println("check2");
                     //indexOfToken++;
                     System.out.println(tokens.get(indexOfToken+1).getValueOfToken());
+
                     //for(CCToken name:tokens) {
                       //    System.out.println(name.getTypeOfToken());
                 
                       //}
-                      if (tokens.get(indexOfToken+1).getValueOfToken().equals("$")) {
+                    if (tokens.get(indexOfToken+1).getValueOfToken().equals("$")) {
+
                           
                           //System.out.println("matt");
                         
                             
-                            programEnd();
-                            if (programEnd() == true){
-                                System.out.println("987");
-                                indexOfToken++;
-                                System.out.println(tokens.get(indexOfToken).getValueOfToken());
-                                
-                                result = true;
+                        programEnd();
+                        if (programEnd() == true){
+                            System.out.println("987");
+                            indexOfToken++;
+                            System.out.println(tokens.get(indexOfToken).getValueOfToken());
+                            
+                            result = true;
+                    }
+                        
+                        else {
+
+                            System.out.println("seconderror]");
+
                         }
+
+                }
+                    else {
+
+                        result = false;
+                        System.out.println(tokens.get(indexOfToken+1).getTypeOfToken());
+
+                        System.out.println("ERROR Parser -[ $ ] EOP Expected but found: [ " + tokens.get(indexOfToken).getValueOfToken() + " ]");
+
                     }
                 }
             }
