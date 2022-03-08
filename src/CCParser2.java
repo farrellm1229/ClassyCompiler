@@ -177,11 +177,10 @@ public class CCParser2 {
                 }
                     else {
 
+                        System.out.println("ERROR Parser - EOP [ $ ] Expected but found: [ " + tokens.get(indexOfToken+1).getValueOfToken() + " ]");
                         result = false;
-                        System.out.println(tokens.get(indexOfToken+1).getTypeOfToken());
-
-                        System.out.println("ERROR Parser -[ $ ] EOP Expected but found: [ " + tokens.get(indexOfToken).getValueOfToken() + " ]");
-
+                        //System.out.println(tokens.get(indexOfToken+1).getTypeOfToken());
+                    
                     }
                 }
             }

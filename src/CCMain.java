@@ -304,6 +304,9 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
             System.out.println("-----------------------------------------------------------");
 			System.out.print("INFO  Lexer - Classy Compiler has failed lexical analysis due to " + numberOfErrors + " error(s).\n");
             System.out.println("-----------------------------------------------------------");
+			System.out.print("INFO  Parser - Classy Compiler has skipped Parse (and CST) due to " + numberOfErrors + " lexer error(s).\n");
+            System.out.println("-----------------------------------------------------------");
+
             numberOfErrors = numberOfErrors + 1;
             
 		}
