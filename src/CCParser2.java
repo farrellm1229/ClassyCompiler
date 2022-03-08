@@ -141,6 +141,8 @@ public class CCParser2 {
 
             if (statementList() == true) {
                 System.out.println("check");
+                System.out.println(tokens.get(indexOfToken).getValueOfToken());
+
                 //indexOfToken++;
                     
                 blockEnd();
@@ -177,8 +179,8 @@ public class CCParser2 {
                 }
                     else {
 
-                        System.out.println("ERROR Parser - EOP [ $ ] Expected but found: [ " + tokens.get(indexOfToken+1).getValueOfToken() + " ]");
-                        result = false;
+                        //System.out.println("ERROR Parser - EOP [ $ ] Expected but found: [ " + tokens.get(indexOfToken+1).getValueOfToken() + " ]");
+                        result = statementList();
                         //System.out.println(tokens.get(indexOfToken+1).getTypeOfToken());
                     
                     }
@@ -200,12 +202,8 @@ public class CCParser2 {
     //look for end of block token
     public boolean blockStart() {
         //indexOfToken++;
-        boolean test = match("LEFT_BRACKET");
-        if (test == true){
-            System.out.println("matched block");
-            result = true;
-        }
-        //if (match("LEFT_BRACKET")) {
+        
+        if (match("LEFT_BRACKET")) {
             //if we found block end symbol, move to next token
             //in the token stream
             //indexOfToken = indexOfToken + 1;
@@ -214,11 +212,11 @@ public class CCParser2 {
             //indexOfToken++;
             //programEnd();
             //blockEnd(); //since we found the start, look for the end
-          //  result = true;
+            result = true;
 
             
             
-        //}
+        }
         else {
             //System.out.print(tokens);
             System.out.println("ERROR Parser - Was here but nope } but found " + tokens.get(indexOfToken).getValueOfToken());
@@ -492,6 +490,7 @@ public class CCParser2 {
                             if (expression() == true){
                                 System.out.println(tokens.get(indexOfToken).getTypeOfToken());
                                 
+                                
                                 if (match("RIGHT_PARENTHESIS")) {
                                     indexOfToken++;
                                     System.out.println(tokens.get(indexOfToken).getTypeOfToken());
@@ -502,6 +501,7 @@ public class CCParser2 {
                         
     
     
+                                    //if (match("LEFT_BRACKET")) {
                                     blockStart();
                                     if (blockStart() == true){
                                         System.out.println("when");
@@ -521,6 +521,7 @@ public class CCParser2 {
                                     }
                                     
                                     else {
+                                        System.out.println(tokens.get(indexOfToken).getValueOfToken());
                                         System.out.println("Was Expecting [ { ] but found [ "+ 
                                         tokens.get(indexOfToken).getValueOfToken() + " ]");
                                     }
