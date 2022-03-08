@@ -1,7 +1,6 @@
-{ 
-
-if(a==4{
-print(a)
+{boolean b
+b = true
+while (b!=false)
+print(7)
 }
-
 }$

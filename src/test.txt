@@ -1,8 +1,3 @@
-/* This case demonstrates the compiler's
- - ability to get values added to variables
- - and compare them without overwriting the 
- - the variable's true value, unless it is
- - assigned a new value 
- - Result: int a is 5...int a is 10 int m is 8*/
-{w="ww")
+
+{
 }$
