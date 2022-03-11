@@ -1,3 +1,4 @@
+/*gibberish!*/
 {
     string while if
     if 7 == true
@@ -6,4 +7,4 @@
 {
     if 8 != boolean
     7 + 7 = 4
-}
+}$

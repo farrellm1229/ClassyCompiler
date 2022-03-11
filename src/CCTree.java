@@ -146,6 +146,8 @@ public class CCTree {
                     break;
                 
                 //checking for ID in assignment statement
+                //if I uncomment this it messes EVERYTHING up, so
+                //they will remain commented out until I find an alternative solution
                 /*
                 case "a":
                 case "b":
@@ -224,9 +226,17 @@ public class CCTree {
                     tree.add(getTree(50, "[ " +tokens.get(i+4).getValueOfToken() + " ]", 49));
                     tree.add(getTree(51, "[ " +tokens.get(i+5).getValueOfToken() + " ]", 43));
                     tree.add(getTree(52, "<Block>", 41));
-                    tree.add(getTree(53, tokens.get(i+5).getValueOfToken(), 52));
-                    tree.add(getTree(54, "<StatementList>", 52));
-
+                    tree.add(getTree(53, tokens.get(i+6).getValueOfToken(), 52));
+                    
+                    /*tree.add(getTree(54, "<StatementList>", 52));
+                    tree.add(getTree(55, "<Statement>", 54));
+                    tree.add(getTree(56, "<PrintStatement>", 55));
+                    tree.add(getTree(57, "[ " +tokens.get(i+7).getValueOfToken() + " ]", 56));
+                    tree.add(getTree(58, "[ " +tokens.get(i+8).getValueOfToken() + " ]", 56));
+                    tree.add(getTree(59, "<Expr>", 58));
+                    tree.add(getTree(60, "[ " +tokens.get(i+9).getValueOfToken() + " ]", 59));
+                    tree.add(getTree(61, "[ " +tokens.get(i+10).getValueOfToken() + " ]", 56));
+*/
                     break;
 
                 case "$":

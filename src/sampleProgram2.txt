@@ -1,7 +1,0 @@
-/* It is definitely not 2 in the morning right now... */
-{
-    int a = 3
-    string a
-    /* 2 or 2:30? the world may never know */
-    print(a)
-}$

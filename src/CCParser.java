@@ -126,7 +126,7 @@ public class CCParser {
             result = true;
         }
         else {
-            System.out.println("ERROR Parser - Was Expecting [ } ] but found " + tokens.get(indexOfToken).getValueOfToken());
+            //System.out.println("ERROR Parser - Was Expecting [ } ] but found " + tokens.get(indexOfToken).getValueOfToken());
             result = false;
         }
         
@@ -335,7 +335,12 @@ public class CCParser {
     
                                     if (match("LEFT_BRACKET")) { //block start
                                         indexOfToken++;
+                                        
                                         if (statementList() == true){ //statement in block
+                                            indexOfToken++;
+
+                                        
+                                            
 
                                             if (blockEnd() == true) {
                                                 result = true;
@@ -345,7 +350,7 @@ public class CCParser {
                                     }
                                     else {
                                         result = false;
-                                        System.out.println(tokens.get(indexOfToken).getValueOfToken());
+                                        //System.out.println(tokens.get(indexOfToken).getValueOfToken());
                                         System.out.println("Was Expecting [ { ] but found [ "+ 
                                         tokens.get(indexOfToken).getValueOfToken() + " ]");
                                     }
@@ -400,6 +405,7 @@ public class CCParser {
                                     if (match("LEFT_BRACKET")) {
                                         indexOfToken++;
                                         if (statementList() == true){
+                                            indexOfToken++;
                                         
                                             if (blockEnd() == true) {
                                                 result = true;
@@ -411,7 +417,7 @@ public class CCParser {
                                     
                                     else {
                                         result = false;
-                                        System.out.println(tokens.get(indexOfToken).getValueOfToken());
+                                        //System.out.println(tokens.get(indexOfToken).getValueOfToken());
                                         System.out.println("Was Expecting [ { ] but found [ "+ 
                                         tokens.get(indexOfToken).getValueOfToken() + " ]");
                                     }
