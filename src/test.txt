@@ -1,4 +1,7 @@
-/* Test case for invalid VarDecl */
-{
-    int 4
-}$
+/*  Provided By 
+  - Alan G Labouseur
+*/
+{}$	
+{{{{{{}}}}}}$	
+{{{{{{}}}}}}}$	
+{int @}$

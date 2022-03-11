@@ -242,36 +242,33 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                 //if (lpmData.getType().toString() == "EOP") {
 
 
-                                    //Begin Parsing Process
-                    CCParser2 parser = new CCParser2();
-                    System.out.println("here");
+                    CCTree cst = new CCTree(); //create instance of CST class
+
+                        //Begin Parsing Process
+                    CCParser parser = new CCParser();
                     
-                    //for(CCToken name:listOfTokens) {
-                      //  System.out.println(name.getTypeOfToken());
-                
-                    //}
                     boolean parseStatus = parser.parseOutcome(listOfTokens);
                     if (parseStatus == true) {
                         System.out.println("-----------------------------------------------------------");
                         System.out.print("INFO  Parser - Classy Compiler Parser Outcome: SUCCESS\n");
                         System.out.println("-----------------------------------------------------------");
-                        //for(CCToken name:listOfTokens) {
-                          //  System.out.println(name.getTypeOfToken());
-                
-                    //}
-                
+                        parser.createCST(listOfTokens); //call CST because parse passed
+                        System.out.println("-----------------------------------------------------------");
+                        System.out.print("INFO  Parser - Classy Compiler Has Finished Building CST\n");
+                        System.out.println("-----------------------------------------------------------");
                         
                     }
                     else {
                         System.out.println("-----------------------------------------------------------");
                         System.out.print("INFO  Parser - Classy Compiler Parser Outcome: FAILED\n");
                         System.out.println("-----------------------------------------------------------");
+			            System.out.print("INFO  Parser - Classy Compiler has skipped CST due to parse failure.\n");
                         
                 
                     } 
-                    System.out.println(listOfTokens.get(listOfTokens.size()-1).getValueOfToken());
+                    //System.out.println(listOfTokens.get(listOfTokens.size()-1).getValueOfToken());
                         //if (listOfTokens.get(listOfTokens.size()-1).getValueOfToken().equals("$")){
-                            System.out.println("working on it");
+                      //      System.out.println("working on it");
                             //listOfTokens.clear();
                             //System.out.println(listOfTokens.get(0).getValueOfToken());
                         //} 

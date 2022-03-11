@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CCParser {
 
@@ -8,307 +10,458 @@ public class CCParser {
     public boolean result;
     static int indexOfToken = 0;
 
+    public boolean match(String token){ //match function for matching tokens
+        
+        boolean foundMatch;
+        if (tokens.get(indexOfToken).getTypeOfToken().equals(token)) {
+            foundMatch = true;
+        }
+        else {
+            //indexOfToken++;
+            foundMatch = false;
+        }
+        return foundMatch;
+    }
+
     //Overall result of parse
-    public boolean parseOutcome(ArrayList<CCToken> tokenStream) {
+    public boolean parseOutcome(List<CCToken> tokenStream) {
 
         tokens = tokenStream;
-        resultOfParse = program();
-        return resultOfParse;
-    }
-
-    //Checking if input is a valid program
-    public boolean program() {
-        blockStart();
-        indexOfToken++;
-
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("EOP")) {
-            System.out.println("FOUND EOP");
-            return true;
-        }
-        else{
-            System.out.println("No EOP");
-            result = false;
-            
-        }
-        return result;
-
-        //does the input start with [ { ], if yes
-            //then program is valid so far
-            /*
-        if (blockStart() == true) {
-
-            if (statementList() == true) {
-                
-                //is the next token stream [ } ] ?
-                if (blockEnd() == true) {
-                    //if (programEnd() == true) {
-                        result = true; //yay valid program!
-            //    }
-            }
-           }
-        }
-        else {
-            result = false;
-        }
-        return result;
-*/
-    }
-    public boolean test() {
-        
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_PARENTHESIS")) {
-            System.out.println("ok");
+        proStart(); //check if program is valid
+        if (result == true){
+            indexOfToken=0; //program found, so set index back to 0
+                            //after clearing the tokenList
             result = true;
         }
-        return result;
-
-
-
-    }
-
-    public boolean blockStart() {
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_BRACKET")) {
-            indexOfToken++;
-            
-            statementList();
-            if (statementList() == true) {
-                blockEnd();
-                if (blockEnd() == true) {
-                    
-                    result = program();
-                }
-            }
-            else{
-                System.out.println("no statement");
-
-            }
-        }
         else{
-            System.out.println("no valid");
-        }
-        return result;
-
-
-        /*
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_BRACKET")) {
-            //if we found block start symbol, move to next token
-            //in the token stream
-            indexOfToken = indexOfToken + 1;
-
-            statementList();
-            if (statementList() == true){
-                result = blockEnd();
-            }
-            else{
-                System.out.println("tokens");
-            }
-            //result = statementList(); //check for statement list inside block
-            //blockEnd(); //since we found the start, look for the end
-           
-        }
-        else {
-            System.out.println("ERROR Parser - Was expecting { but found " + tokens.get(indexOfToken).getValueOfToken());
+            indexOfToken = 0;
             result = false;
         }
-        return result; */
+        return result;
     }
-    //look for end of block token
-    public boolean blockEnd() {
+
+    public boolean createCST(List<CCToken> tokenStream) {
+        CCTree cst = new CCTree(); //create instance of class for CST
         
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
-            //if we found block end symbol, move to next token
-            //in the token stream
-            //indexOfToken = indexOfToken + 1;
-            
-
-            indexOfToken++;
-            //programEnd();
-            //blockEnd(); //since we found the start, look for the end
-            result = true;
-
-            
-            
-        }
-        else {
-            //System.out.print(tokens);
-            System.out.println("ERROR Parser - Was expecting } but found " + tokens.get(indexOfToken).getValueOfToken());
-
-            result = false;
-            
-        }
-        
+        tokens = tokenStream; //create instance of tokenStream
+        result = true; //unnecessary but haven't changed it yet
+    
+        cst.create(tokenStream); //create CST
         return result;
+
     }
 
     public boolean programEnd() {
-        
-    
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("EOP")) {
+        //if I do index++ before instead of looking for index+1
+        //I get an out of bounds error, not sure why this
+        //works and the other doesn't
+        if (tokens.get(indexOfToken+1).getTypeOfToken().equals("EOP")) {
             result = true;
-            System.out.println("FOUND EOP");
-            indexOfToken = indexOfToken + 1;
-            if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_BRACKET")) {//found new program
-                result = blockStart();
+        }
+        else{
+            System.out.println("No EOP"); //program end not found
+            result = false;
+        }
+        return result;
+    }
+    public boolean proStart() { //this is what we call to see if program is valid :)
+        if (match("LEFT_BRACKET")) {
+            indexOfToken++;
+            if (statementList() == false) {
+                result = false; //no Statement list found, therefore false
+            }
+
+            if (statementList() == true) {
+                if (blockEnd() == true) {
+                    if (tokens.get(indexOfToken+1).getValueOfToken().equals("$")) { //right bracket found
+                                        //so check if EOP is next token.
+                                        //if it isn't, check for another statement
+                        if (programEnd() == true){
+                            indexOfToken++;
+                            result = true;
+                        }
+                        
+                        else {
+
+                        }
+                    }
+                    else {
+                        System.out.println("ERROR Parser - EOP [ $ ] Expected but found: [ " + tokens.get(indexOfToken+1).getValueOfToken() + " ]");
+                        result = false;
+                    }
+                }
+                else {
+                    indexOfToken++;
+                    result = statementList();
+                }
+            }
+            else{
+                //System.out.println("ERROR Parser - Was Expecting <Statement> but found: [ " +
+                //tokens.get(indexOfToken).getValueOfToken() + " ]");
+                result = statementList();
             }
 
         }
         else {
-            System.out.println("Was expecting an EOP [$]");
+            System.out.println("ERROR Parser - Not A Valid Program Start");     
+        }
+        
+        return result;
+    }
+    //look for start of block token
+    public boolean blockStart() {
+        if (match("LEFT_BRACKET")) {
+            result = true;
+        }
+        else {
+            System.out.println("ERROR Parser - Was Expecting [ { ] but found " + tokens.get(indexOfToken).getValueOfToken());
+            result = false;  
+        }
+        
+        return result;
+    }
+    //look for end of block token
+    public boolean blockEnd() {        
+        if (match("RIGHT_BRACKET")) {
+            result = true;
+        }
+        else {
+            System.out.println("ERROR Parser - Was Expecting [ } ] but found " + tokens.get(indexOfToken).getValueOfToken());
             result = false;
         }
-    return result;
-
-    }
-    public boolean statement() {
-        if ((tokens.get(indexOfToken).getTypeOfToken().equals("PRINT"))) {
-            indexOfToken = indexOfToken + 1; //look for ( ) after print
-            result = printStatement();
-
-        }
-        return result;
-
-    }
-
-    public boolean statementList() {
         
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("PRINT")) {
-            indexOfToken = indexOfToken + 1;
-            printStatement();
-            if (printStatement() == true) {
-                indexOfToken++;
-                if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
-                    System.out.println("found end of print");
-                    result = true; //print statement complete with correct syntax
-                }
-            }
-        }
-        
-
-
-        
-        //if (statement() == true) {
-          //  if (statementList() == true){
-        if ((tokens.get(indexOfToken).getTypeOfToken().equals("PRINT"))) {
-            indexOfToken = indexOfToken + 1; //look for ( ) after print
-            result = printStatement();
-
-        }
-        //look for assignment statement ( ID = EXPR )
-        if ((tokens.get(indexOfToken).getTypeOfToken().equals("CHAR"))) { // looking for ID
-            indexOfToken = indexOfToken + 1; //look for = after ID in assignment statement
-            if ((tokens.get(indexOfToken).getTypeOfToken().equals("ASSIGNMENT"))) { // looking for ID
-                indexOfToken = indexOfToken + 1; //look for expression after = in assignment statement
-                result = expression();
-               
-            }
-        }
-
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
-            System.out.println("yesy");
-            System.out.println(tokens.get(tokens.size()-2).getTypeOfToken());
-            //tokens = tokens.subList(indexOfToken, (tokens.size()-1));
-            //System.out.println(tokens.get(tokens.size()-2).getTypeOfToken());
-            tokens = tokens.subList(indexOfToken, (tokens.size()-1));
-            System.out.println(tokens);
-
-        //indexOfToken++;
-            result = blockEnd(); //must be end of block so go to block end
-        }
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("EOP")) {
-            System.out.println("NPOEE");
-            System.out.println(tokens.get(tokens.size()-2).getTypeOfToken());
-            
-            tokens = tokens.subList(indexOfToken, (tokens.size()-1));
-            System.out.println(tokens);
-            //System.out.println(tokens.get(tokens.size()-2).getTypeOfToken());
-
-        //indexOfToken++;
-            result = blockEnd(); //must be end of block so go to block end
-        }
-        //check for variable declaration
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("TYPE")) {
-            indexOfToken = indexOfToken + 1;
-            if (tokens.get(indexOfToken).getTypeOfToken().equals("CHAR")) {
-                System.out.println("variable declared!");
-                indexOfToken = indexOfToken + 1;
-                result = statementList();
-                if (tokens.get(indexOfToken).getTypeOfToken().equals("ASSIGNMENT")){
-                    indexOfToken = indexOfToken + 1;
-                    result = expression();
-                }
-                if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
-                    
-                    result = blockEnd();
-
-                }
-            }   
-
-        }
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("WHILE")) {
-            indexOfToken = indexOfToken + 1;
-            if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_PARENTHESIS")) {
-                indexOfToken = indexOfToken + 1;
-                result = booleanExpr();
-
-            }
-        }
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("IF")) {
-            indexOfToken = indexOfToken + 1;
-            if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_PARENTHESIS")) {
-                indexOfToken = indexOfToken + 1;
-                result = booleanExpr();
-
-            }
-        }
-
-
-
-
-        //}
-
-        //blockEnd();
         return result;
     }
 
+    //I messed around with this for hours and coudn't get it perfect.
+    //there was always one small case which didn't return correctly.
+    //the goal is to make sure the # of brackets are even
+
+    //This is going to be commented out and I will revert back to what I originally had
+    //because this is giving me a major headache. This should work, and I've tried so many similar variations!
     
-//}
-    public boolean booleanExpr(){
+    //int bracketCounter = 1;
+//check for statements and statementlists
+    public boolean statementList() {
+        //look for [ } ]
+      /*  if ((match("RIGHT_BRACKET")) == true) {
+            bracketCounter--;
 
+            if (bracketCounter == 0){ //this means the brackets are even
+                //indexOfToken++;
+                result = true;
+            }
+            
+            else {
+                indexOfToken++;
+                result = false;    
+            }
+            return result;
+        } 
+        //look for [ { ]
+        if ((match("LEFT_BRACKET")) == true) {
+            bracketCounter++;
 
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("CHAR")) {
-            indexOfToken = indexOfToken + 1;        
-            if (tokens.get(indexOfToken).getTypeOfToken().equals("BOOL_OP")) {
-                indexOfToken = indexOfToken + 1;        
-                if ((tokens.get(indexOfToken).getTypeOfToken().equals("DIGIT")) || (tokens.get(indexOfToken).getTypeOfToken().equals("BOOL_VAL"))) {
-                    indexOfToken = indexOfToken + 1;
-                    if(tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
-                        indexOfToken = indexOfToken + 1;
-                        if(tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_BRACKET")) {
-                            indexOfToken = indexOfToken + 1;
-                            statementList();
-                            if (statementList()==true){
-                                //System.out.println(tokens.get(indexOfToken).getValueOfToken());
-                                
-                            //}
-                                if(!tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
-                                    //end of program not found yet, so check for another statement
-                                    result = statementList();
-                                }
-                                else {
-                                    result = blockEnd();
-                                }
-                        }
-
-                        }
-                }
-                }
+            if (bracketCounter == 0){ //brackets are even, yay!
+                //indexOfToken++;
+                result = true;
+            }
+            else {
+                indexOfToken++;
+                result = false;
+            }
+            
+            return result;
+        } */
+/* saving this just in case I come back and mess around with it
+        if ((match("LEFT_BRACKET")) == true) {
+            bracketCounter++;
+            if (bracketCounter == 0){
+            //indexOfToken++;
+            System.out.print("parseStatementList();");
+            System.out.print(tokens.get(indexOfToken).getTypeOfToken());
+            if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")){
+                result = blockEnd();
             }
         }
+            else{
+                //indexOfToken++;
+                result = statementList();
+            }
+            return result;
+        }
+*/
+
+// This doesn't look right, but it is going to have to do for now. I am defeated...temporarily
+        if ((match("RIGHT_BRACKET")) == true) {
+            if (blockEnd()==true){
+                result = true;
+            }
+            else{
+                result = false;
+            }
+
+            return result;
+        }
+
+        if ((match("LEFT_BRACKET")) == true) {
+            if (blockStart()==true){
+                result = true;
+            }
+            else{
+                result = false;
+            }
+
+            return result;
+        }
+        
+        /*  -----------------------------------------------------------
+            ---------------- SYNTAX FOR PRINT statement ---------------
+            ----------------------------------------------------------- */
+        if ((match("PRINT")) == true) { //print token
+            indexOfToken++;
+            if ((match("LEFT_PARENTHESIS")) == true) { //so far so good
+                indexOfToken++;
+                result = true;
+
+                if (expression() == true) { // ( expr ) <--- syntax
+
+                    if ((match("RIGHT_PARENTHESIS")) == true) {
+                        result = true;
+                        indexOfToken++; //move on
+                        if (blockEnd() == true){ //check for block end, if not then must be another statement
+                            result = true;
+                        }
+                        else {
+                            result = statementList(); //check for statement list
+                        }                        
+                        result = true;
+                    }
+                    else {
+                        indexOfToken++;
+                        //System.out.println("ERROR Parser - Was Expecting [ ) ] but found " + tokens.get(indexOfToken).getValueOfToken());
+                        result = false;
+                    }
+                }
+                else{
+                    indexOfToken++;
+                    //System.out.println("Was expecting expression in Print Statement");
+                    result = false;
+                }
+                }
+                else{
+                    //System.out.println("Imvalid Print Statement");
+                    result = false;
+                }
+                return result;
+            }
+         
+            
+        /*  -----------------------------------------------------------
+            ------------- SYNTAX FOR ASSIGNMENT statement -------------
+            ----------------------------------------------------------- */
+
+        if ((match("CHAR")) == true) { //ID 
+            indexOfToken++;
+            if ((match("ASSIGNMENT")) == true) { // =
+                
+                indexOfToken++;
+                if (expression() == true) { // EXPR
+ 
+                    //blockEnd();
+                    if (blockEnd() == true){
+                        //System.out.println("okokokok");
+                        result = true;
+                    }
+                    else {
+                        result = statementList(); //if blockend not found, must be another statement
+                    }
+
+                    result = true;
+            }
+            else {
+                //System.out.println("Was expecting expression after assignment;");
+                result = false;
+            }
+        
+                result = true;
+            }
+            return result;
+        }
+                
+            /*  -----------------------------------------------------------
+            ------------- SYNTAX FOR VAR DECL statement -------------
+            ----------------------------------------------------------- */
+
+        if ((match("TYPE")) == true) {//TYPE
+            indexOfToken++; //move on
+            if ((match("CHAR")) == true) {//ID
+                indexOfToken++;
+                result = true;
+            
+                if (blockEnd() == true){
+                    result = true;
+                }
+                else {
+                    //indexOfToken++;
+                    result = statementList(); //no block end found sooooo
+                }
+
+                result = true;
+        }
+        else{
+            result = false;
+        }
         return result;
+            }
 
 
-    }
+        /*  -----------------------------------------------------------
+            ------------- SYNTAX FOR WHILE statement -------------
+            ----------------------------------------------------------- */
+
+            if ((match("WHILE")) == true) { //While (BooleanExpr Block)
+                indexOfToken++;
+                if ((match("LEFT_PARENTHESIS")) == true) {
+                    indexOfToken++; //look for booleanexpr
+                    if (expression() == true){ //expr
+                        if (match("BOOL_OP")) { //so far so good
+                            indexOfToken++;
+                       
+                            if (expression() == true){ //expr
+                                
+                                if (match("RIGHT_PARENTHESIS")) {
+                                    indexOfToken++;
+    
+                                    if (match("LEFT_BRACKET")) { //block start
+                                        indexOfToken++;
+                                        if (statementList() == true){ //statement in block
+
+                                            if (blockEnd() == true) {
+                                                result = true;
+                                            }
+                                        }     
+                                        result = blockEnd();
+                                    }
+                                    else {
+                                        result = false;
+                                        System.out.println(tokens.get(indexOfToken).getValueOfToken());
+                                        System.out.println("Was Expecting [ { ] but found [ "+ 
+                                        tokens.get(indexOfToken).getValueOfToken() + " ]");
+                                    }
+                                }
+                                else{
+                                    result=false;
+                                    //System.exit(0); //this is if the if statement doesnt have 
+                                    //a right parenthesis: if() <----
+                                }
+                                
+                            }
+                            else{
+                                
+                            }
+    
+                        }
+                        else{
+
+                        }
+    
+                        //result = true;
+                    }
+                    else {
+                        //indexOfToken++;
+                        result = statementList();
+                    }
+            }
+            else{
+
+            }
+            //result = true;
+            return result;
+                
+        }   
+
+            /*  -----------------------------------------------------------
+            ------------- SYNTAX FOR IF statement -------------
+            ----------------------------------------------------------- */
+
+            if ((match("IF")) == true) {
+                indexOfToken++;
+                if ((match("LEFT_PARENTHESIS")) == true) {
+                    indexOfToken++; 
+                    if (expression() == true){
+                      //so far so good
+                        if (match("BOOL_OP")) {
+                            indexOfToken++;
+                            if (expression() == true){
+                                
+                                if (match("RIGHT_PARENTHESIS")) {
+                                    indexOfToken++;
+                                    if (match("LEFT_BRACKET")) {
+                                        indexOfToken++;
+                                        if (statementList() == true){
+                                        
+                                            if (blockEnd() == true) {
+                                                result = true;
+        
+                                            }
+                                        }
+                                        result = blockEnd();
+                                    }
+                                    
+                                    else {
+                                        result = false;
+                                        System.out.println(tokens.get(indexOfToken).getValueOfToken());
+                                        System.out.println("Was Expecting [ { ] but found [ "+ 
+                                        tokens.get(indexOfToken).getValueOfToken() + " ]");
+                                    }
+
+                                }
+                                else{
+                                    result=false;
+                                    //System.exit(0); //this is if the if statement doesnt have 
+                                    //a right parenthesis: if() <----
+                                }
+                                
+                            }
+                            else{
+
+                            }
+                        }
+                        else{
+
+                        }
+    
+                        //result = true;
+                    }
+                    else {
+                        //indexOfToken++;
+                        result = statementList();
+                    }
+                }
+            //result = true;
+            return result;
+                
+        }
+        else{
+            
+        }   
+        return result;
+    } 
+            
+           
+    
     public boolean intExpr() {
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("PLUS")) {
+        if (match("DIGIT")) { //plus around found, so check for digit
+            result = expression(); //then look for another digit or int expr
+
+        }
+        return result;
+        
+    }
+    public boolean stringExpr() {
+        if (match("STRING")) {
+            
             indexOfToken = indexOfToken + 1;
             result = expression();
 
@@ -316,234 +469,30 @@ public class CCParser {
         return result;
         
     }
-    public boolean stringExpr() {
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("STRING")) {
-            indexOfToken = indexOfToken + 1;
-            result = statementList();
-
-        }
-        return result;
-        
-    }
 
     public boolean expression() {
-        //expression can be IntExpr, StringExpr, BooleanExpr, or ID
-        //checking for int expr 
-        if ((tokens.get(indexOfToken).getTypeOfToken().equals("DIGIT")) || tokens.get(indexOfToken).getTypeOfToken().equals(("BOOL_VAL"))) {
-            indexOfToken = indexOfToken + 1;
-            if (!tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
-
-                result = statementList();
-            }
-            else {
-                result = true;
-            }
-        
-            if (tokens.get(indexOfToken).getTypeOfToken().equals("PLUS")) {
-                result = intExpr(); //found digit, next token must be + so check for intExpr
-            }
-
-            /*if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
-
-                System.out.println("yup");
-                indexOfToken = indexOfToken + 1;
-
-            //    result = endOfPrintStatement();
-
-                //result = true;
-                //indexOfToken = indexOfToken + 1;
-                if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
+        if ((match("DIGIT")) || match(("BOOL_VAL")) || match(("CHAR")) || match(("STRING")) == true) {
+            
+            indexOfToken++;
+                if ((match("RIGHT_PARENTHESIS")) == true) {
+                    result = true;
                     
-                    result = blockEnd();
                 }
-                if(!tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
-                
-                    result = statementList();
+                else{
+                    result = true;
                 }
-            }
-            */
-        }
-       // else {
-           //check for StringExpr
-            if(tokens.get(indexOfToken).getTypeOfToken().equals("STRING")) {
-                //indexOfToken = indexOfToken + 1;
-                System.out.println("Found string");
-                result = stringExpr();
-                
-        }
-
-      //  }
-    
-        //checking for string expr 
-        /*if ((tokens.get(indexOfToken).getTypeOfToken().equals("STRING"))) {
-            indexOfToken = indexOfToken + 1;
-
-        } */
-        //checking for boolean expr 
-        if ((tokens.get(indexOfToken).getTypeOfToken().equals("BOOLEAN"))) {
-            indexOfToken = indexOfToken + 1;
-
-        }
-    //}
-
-//}
-
-    //statementList();
-    return result;
-
-
-            
-    }
-
-    public boolean exprForBoolExpr() { 
-        //expression can be IntExpr, StringExpr, BooleanExpr, or ID
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("CHAR")) {
-            indexOfToken = indexOfToken + 1;
-            result = booleanExpr();
-        }
-        /*
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("CHAR")) {
-            indexOfToken = indexOfToken + 1;
-            if (tokens.get(indexOfToken).getTypeOfToken().equals("BOOL_OP")) {
-                indexOfToken = indexOfToken + 1;
-                if (tokens.get(indexOfToken).getTypeOfToken().equals("BOOL_VAL")) {
-                    System.out.println("working");
-                    indexOfToken = indexOfToken + 1;
-                    if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
-                        System.out.println("ok");
-                        indexOfToken = indexOfToken + 1;
-                        if (tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_BRACKET")) {
-
-                            indexOfToken = indexOfToken + 1;
-                            statementList();
-                            if (statementList() == true){
-                                System.out.println("success");
-                                indexOfToken = indexOfToken + 1;
-                                if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
-
-                                    result = blockEnd();
-                                    System.out.println("end of boolexpr");
-                                
-                                    indexOfToken = indexOfToken + 1;
-                                    
-
-                                }
-                                else{
-                                    System.out.println("not end yet of program");
-                                    result = statementList();
-
-                                }
-
-
-
-
-
-
-                            }
-
-
-                        }
-
-                    }
-
-
+                if (match("PLUS")) {
+                    indexOfToken++; //move to next
+                    result = intExpr();
                 }
-
-
-            }
-
-            
-
-        } */
-        /*
-        //checking for int expr 
-        if ((tokens.get(indexOfToken).getTypeOfToken().equals("DIGIT"))) {
-            indexOfToken = indexOfToken + 1;
-            if (!tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
-
-                result = statementList();
+                else {
+                    //result = false;
+                }
+                return result;//result = true;
             }
         
-            if (tokens.get(indexOfToken).getTypeOfToken().equals("PLUS")) {
-                indexOfToken = indexOfToken + 1;
-                //result = intExpr(); //found digit, next token must be + so check for intExpr
-            }
-
-            if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
-
-                System.out.println("nope");
-                indexOfToken = indexOfToken + 1;
-
-            //    result = endOfPrintStatement();
-
-                //result = true;
-                //indexOfToken = indexOfToken + 1;
-                if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
-                    result = blockEnd();
-                }
-                if(!tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_BRACKET")) {
-                
-                    result = statementList();
-                }
-            }
-        }
-       // else {
-           //check for StringExpr
-            else if(tokens.get(indexOfToken).getTypeOfToken().equals("STRING")) {
-                //indexOfToken = indexOfToken + 1;
-                System.out.println("Found string");
-                result = stringExpr();
-                
-        }
-
-      //  }
-    
-        //checking for string expr 
-        /*if ((tokens.get(indexOfToken).getTypeOfToken().equals("STRING"))) {
-            indexOfToken = indexOfToken + 1;
-
-        } */ /*
-        //checking for boolean expr 
-        if ((tokens.get(indexOfToken).getTypeOfToken().equals("BOOLEAN"))) {
-            indexOfToken = indexOfToken + 1;
-
-        }
-    //}
-
-//}
-*/
-    //statementList();
-    return result;
-
-
-            
-    }
-    public boolean printStatement() {
-        if ((tokens.get(indexOfToken).getTypeOfToken().equals("LEFT_PARENTHESIS"))) {
-            indexOfToken = indexOfToken + 1; //look for ( expression ) after (
-            expression();
-            if (expression() == true) {
-                result = true;
-            }
-            else {
-                result = false;
-            }
-
-
-            //result = true;
-        }
-        else {
-            System.out.println("[ ( ] expected but found " + tokens.get(indexOfToken).getTypeOfToken() + " with value of " + tokens.get(indexOfToken).getValueOfToken());
-        } 
-        //result = statementList();
         return result;
+    
     }
-    /*public boolean endOfPrintStatement() {
-        if (tokens.get(indexOfToken).getTypeOfToken().equals("RIGHT_PARENTHESIS")) {
-
-        }
-        
-    } */
 
 }
-
