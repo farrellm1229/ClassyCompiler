@@ -13,6 +13,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 
     public static void displayMessage(CCTokenTypes token, String value, int lineNum) {
         System.out.println("DEBUG Lexer - " + token.name + " [ " + value + " ] found at line: " + lineNum);
+        
     }
 
     public static void errorMessage(String value, int lineNum) {
@@ -68,33 +69,24 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
         /*  ---  ALL REGEX WERE CREATED AND TESTED USING https://regex101.com/  --- */
         /*--------------------------------------------------------------------------*/
 
-        /*Like I described in the comments and sample program commit messages
-        sometimes the token stream gets created out of order. The order and specific
-        pattern changes things even when it seems like it shouldn't. This is a work in progress
-        but for the most part everything gets read the way it should, with some minor exceptions
-        displayed in the test cases.
-        */
-
-        //REGEX pattern matching for KEYWORDS/SYMBOLS as well as adding them to the array list
-        //(I have tried to move around the order and it results in the lexer recognizing
-        //certain symbols before others. I have found this is the best way to order them)
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:if)"), CCTokenTypes.IF));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:while)"), CCTokenTypes.WHILE));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:print)"), CCTokenTypes.PRINT));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:string|int|boolean)"), CCTokenTypes.TYPE));
+        //REGEX pattern matching for KEYWORDS/SYMBOLS as well as adding them to the array list        
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(if)"), CCTokenTypes.IF));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(while)"), CCTokenTypes.WHILE));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(print)"), CCTokenTypes.PRINT));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(string|int|boolean)"), CCTokenTypes.TYPE));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^((-)?[0-9.])"), CCTokenTypes.DIGIT));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("\\\"([^\\\"]*)\\\""), CCTokenTypes.STRING));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?i:true|false)"), CCTokenTypes.BOOL_VAL));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("\\b[a-z.]\\b"), CCTokenTypes.CHAR));	
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\\"([^\\\"\\n]*)\\\")"), CCTokenTypes.STRING));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(true|false)"), CCTokenTypes.BOOL_VAL));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^[a-z.]"), CCTokenTypes.CHAR));	
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\{)"), CCTokenTypes.LEFT_BRACKET));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\})"), CCTokenTypes.RIGHT_BRACKET));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\()"), CCTokenTypes.LEFT_PARENTHESIS));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\))"), CCTokenTypes.RIGHT_PARENTHESIS));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(==)"), CCTokenTypes.BOOL_OP));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("(?<![=!])=(?!=)"), CCTokenTypes.ASSIGNMENT));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(?<![=!])=(?!=)"), CCTokenTypes.ASSIGNMENT));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(!=)"), CCTokenTypes.BOOL_OP));
 		listOfLexemes.add(new CCTokenStream(Pattern.compile("^(\\+)"), CCTokenTypes.PLUS));
-		listOfLexemes.add(new CCTokenStream(Pattern.compile("([$])"), CCTokenTypes.EOP));
+		listOfLexemes.add(new CCTokenStream(Pattern.compile("^([$])"), CCTokenTypes.EOP));
         
         //REGEX pattern matching for finding start and end comment symbols
         Pattern endOfComment = Pattern.compile("\\*/");
@@ -167,6 +159,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                 for(CCTokenStream valueOfLexemes : listOfLexemes) {
                     Matcher lookForMatch = valueOfLexemes.getRegExPattern().matcher(currentLine);
                     
+                    
                     if(lookForMatch.find()) {
 
                         String token = lookForMatch.group().trim();
@@ -176,7 +169,17 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                             lpmLength = tokenLength;
                             longestPossibleMatch = lookForMatch;
                             lpmData = valueOfLexemes;
+                            
                         }
+                       //) System.out.println(token);
+                        
+                        //System.out.println(lpmData.getType());
+                        //if (lpmData.getType().toString() == "EOP") {
+                          //  System.out.println("idk");
+
+                            
+                        //}
+
                     }
 				}
 
@@ -186,12 +189,44 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                                                         //name of token type    //value of token                    //line number
 				System.out.println("DEBUG Lexer - " + lpmData.getType().name +" [ "+ value + " ] found at line " + lineNumber);
                 //look for EOP symbol
-				if (lpmData.getType().name == "T_EOP") {
+                if (lpmData.getType().toString() == "EOP") {
+
+//				if (lpmData.getType().name == "T_EOP") {
 					//int programNumber = 1;
+                    
 					System.out.println("-----------------------------------------------------------");
                     System.out.println("INFO  Lexer - Classy Compiler has finished lexical analysis of Program #" + programNumber);
 					System.out.println("-----------------------------------------------------------");
 					programNumber = programNumber + 1;
+                    
+                    //System.out.println("done1234");
+                    
+                            
+                    // System.out.println(lpmData.getType().name);
+                        
+                      //  for(CCToken name:listOfTokens) {
+                            
+                        //    System.out.println(name.getValueOfToken());
+                          //  System.out.println(lpmData.getType().toString());
+
+        
+                            //System.out.println(name.getValueOfToken());
+                            //if (item.getValueOfToken()=="{"){
+                            //  System.out.println("testing$$$$$");
+        
+                            //}
+                    //}
+                    //listOfTokens.clear();
+ 
+                    
+      
+       
+
+                    
+                    
+                    
+                    //listOfTokens = (ArrayList<CCToken>) listOfTokens.subList(listOfTokens.size()-2, listOfTokens.size()-1);
+                    
 				}
 				
 				//get rid of LPM from current line in sample program
@@ -199,8 +234,51 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 	
 				//put LPM into the other arraylist
 				CCToken lpmToken = new CCToken(lpmData.getType().name(),value);
-                listOfTokens.add(lpmToken);	
+                listOfTokens.add(lpmToken);
+                	
 				//lineNumber++;
+				if (lpmData.getType().name == "T_EOP") {
+ //               if (listOfTokens.toString()=="EOP") {     
+                //if (lpmData.getType().toString() == "EOP") {
+
+
+                    CCTree cst = new CCTree(); //create instance of CST class
+
+                        //Begin Parsing Process
+                    CCParser parser = new CCParser();
+                    
+                    boolean parseStatus = parser.parseOutcome(listOfTokens);
+                    if (parseStatus == true) {
+                        System.out.println("-----------------------------------------------------------");
+                        System.out.print("INFO  Parser - Classy Compiler Parser Outcome: SUCCESS\n");
+                        System.out.println("-----------------------------------------------------------");
+                        parser.createCST(listOfTokens); //call CST because parse passed
+                        System.out.println("-----------------------------------------------------------");
+                        System.out.print("INFO  Parser - Classy Compiler Has Finished Building CST\n");
+                        System.out.println("-----------------------------------------------------------");
+                        
+                    }
+                    else {
+                        System.out.println("-----------------------------------------------------------");
+                        System.out.print("INFO  Parser - Classy Compiler Parser Outcome: FAILED\n");
+                        System.out.println("-----------------------------------------------------------");
+			            System.out.print("INFO  Parser - Classy Compiler has skipped CST due to parse failure.\n");
+                        
+                
+                    } 
+                    //System.out.println(listOfTokens.get(listOfTokens.size()-1).getValueOfToken());
+                        //if (listOfTokens.get(listOfTokens.size()-1).getValueOfToken().equals("$")){
+                      //      System.out.println("working on it");
+                            //listOfTokens.clear();
+                            //System.out.println(listOfTokens.get(0).getValueOfToken());
+                        //} 
+                                    
+                    listOfTokens.clear();
+
+            
+                    }
+                
+                
 			}
 
 			else {
@@ -223,12 +301,19 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
             System.out.println("-----------------------------------------------------------");
 			System.out.print("INFO  Lexer - Classy Compiler has failed lexical analysis due to " + numberOfErrors + " error(s).\n");
             System.out.println("-----------------------------------------------------------");
+			System.out.print("INFO  Parser - Classy Compiler has skipped Parse (and CST) due to " + numberOfErrors + " lexer error(s).\n");
+            System.out.println("-----------------------------------------------------------");
+
             numberOfErrors = numberOfErrors + 1;
+            
 		}
-    
+                            
+                            
         lineScanner.close();
         readFileContents.close();
 	}
+    
+    
 	
     public static void main(String[] args) throws IOException{
         System.out.println("-----------------------------------------------------------");
@@ -238,6 +323,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
         matchTokens(args[0]);
         //call match tokens, args[0] represents the sample program file
         //when running java ClassyCompilerMain sampleProgram.txt
+        
 
     }
     

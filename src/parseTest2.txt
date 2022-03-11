@@ -1,0 +1,16 @@
+/*CST is incorrect for this test, but it passes parse */
+{
+/* Int Declaration */
+int a
+int b
+a = 0
+b=0
+/* While Loop */
+while (a != 3) {
+
+while (b != 3) {
+print(7)
+}
+}
+}
+$

@@ -1,0 +1,6 @@
+/*Ok, so. In my CST tree class, for assignment statement the only char that gets recognized as an ID is z.
+I did this because if I include all the letters, it messes up my CST when the other instances of those letters get used.
+This will be fixed, but not before I submit Project 2 unfortunately. 
+On the bright side, the CST is correct for this program. Yay...(im  */
+
+{int a z = 3 print(a)}$
