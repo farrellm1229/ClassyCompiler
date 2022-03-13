@@ -1,1 +1,1 @@
-{int a string bint z}$
+{int a int b int c int d int e}$
