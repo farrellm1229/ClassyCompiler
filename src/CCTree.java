@@ -148,7 +148,7 @@ public class CCTree {
                 //checking for ID in assignment statement
                 //if I uncomment this it messes EVERYTHING up, so
                 //they will remain commented out until I find an alternative solution
-                /*
+                
                 case "a":
                 case "b":
                 case "c":
@@ -175,23 +175,22 @@ public class CCTree {
                 case "x":
                 case "y":
                 case "z":
-*/
-                case "z":
 
+                if(tokens.get(i+1).getTypeOfToken().equals("ASSIGNMENT")){
                     //tree.add(getTree(25, "<StatementList>", 4));
                     tree.add(getTree(26, "<Statement>", 4));
 
                     tree.add(getTree(27, "<AssignmentStatement>", 26));
                     tree.add(getTree(28, "<ID>", 27));
                     tree.add(getTree(29, "[ " +tokens.get(i).getValueOfToken() + " ]", 28));
-                    tree.add(getTree(30, "[ " +tokens.get(i+1).getValueOfToken() + " ]", 27));
+                    tree.add(getTree(30, "[ " + tokens.get(i+1).getValueOfToken() + " ]", 27));
                     
                     tree.add(getTree(31, "<Expr>", 27));
                     tree.add(getTree(32, "[ " +tokens.get(i+2).getValueOfToken() + " ]",31));
+                }
                     break;
-
-
                 
+                                
 
                 case "print":
                     //System.out.println("case");
@@ -249,9 +248,16 @@ public class CCTree {
 
                     }
                     break;
+                    
             }
+            //boolean test = (tokens.get(i+1).getTypeOfToken().equals("ASSIGNMENT"));
+            
+        
+        
 
         }
+        
+        
         printTree(tree.get(0), 0); //print tree yay!
     }
 }
