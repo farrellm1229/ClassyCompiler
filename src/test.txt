@@ -1,1 +1,1 @@
-{print(8)print(9)print(z)print(a)}$
+{{{}}}${while(a==true){print(9)}}$
