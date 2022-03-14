@@ -211,8 +211,16 @@ else{
 
    
     public void blockEndTree(String letter, int i){
+        //enough cases for {{{}}}$
+        //I can add more but this is good for now
         if(i==1) {
             tree.add(getTree(777, "[ " +tokens.get(i).getValueOfToken() + " ]", 2));
+           
+        }
+        if(i==2) {
+            tree.add(getTree(777, "[ " +tokens.get(i).getValueOfToken() + " ]", 5));
+            tree.add(getTree(778, "<StatementList>", 7));
+
            
         }
         if(i==3) {
