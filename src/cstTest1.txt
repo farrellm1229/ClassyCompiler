@@ -1,2 +1,1 @@
-/* Professor, this is to demonstrate the CST is correct for this test case */
-{}$
+{}${{{}}}$
