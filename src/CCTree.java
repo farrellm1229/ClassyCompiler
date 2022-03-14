@@ -138,7 +138,7 @@ public class CCTree {
                     fifteen=fifteen+5;
                     sixteen=sixteen+5;
     }
-    public void booleanTree1(String letter, int i){
+    public void booleanTree(String letter, int i){
         if(tokens.get(i+1).getValueOfToken().equals(letter)) {
                     tree.add(getTree(eleven, "<Statement>", four));
                     tree.add(getTree(twelve, "<VarDecl>", eleven));
@@ -155,18 +155,18 @@ public class CCTree {
                     sixteen=sixteen+5;
     }
 
-    public void assignmentTree(String assignment, int i){
-        if(tokens.get(i+1).getTypeOfToken().equals(assignment)){
+    public void assignmentTree(String letter, int i){
+        if(tokens.get(i-1).getValueOfToken().equals(letter)){
             //tree.add(getTree(25, "<StatementList>", 4));
             tree.add(getTree(twentysix, "<Statement>", four));
 
             tree.add(getTree(twentyseven, "<AssignmentStatement>", twentysix));
             tree.add(getTree(twentyeight, "<ID>", twentyseven));
-            tree.add(getTree(twentynine, "[ " +tokens.get(i).getValueOfToken() + " ]", twentyeight));
-            tree.add(getTree(thirty, "[ " + tokens.get(i+1).getValueOfToken() + " ]", twentyseven));
+            tree.add(getTree(twentynine, "[ " +tokens.get(i-1).getValueOfToken() + " ]", twentyeight));
+            tree.add(getTree(thirty, "[ " + tokens.get(i).getValueOfToken() + " ]", twentyseven));
             
             tree.add(getTree(thirtyone, "<Expr>", twentyseven));
-            tree.add(getTree(thirtytwo, "[ " +tokens.get(i+2).getValueOfToken() + " ]",thirtyone));
+            tree.add(getTree(thirtytwo, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtyone));
         }
         twentysix=twentysix+6;
         twentyseven=twentyseven+6;
@@ -221,13 +221,13 @@ public class CCTree {
 
                 //case "int":
                 case "boolean": //having them all together caused issues :(
-                    booleanTree1("a", i); booleanTree1("b", i); booleanTree1("c", i); booleanTree1("d", i);
-                    booleanTree1("e", i); booleanTree1("f", i); booleanTree1("g", i); booleanTree1("h", i);
-                    booleanTree1("i", i); booleanTree1("j", i); booleanTree1("k", i); booleanTree1("l", i);
-                    booleanTree1("m", i); booleanTree1("n", i); booleanTree1("o", i); booleanTree1("p", i);
-                    booleanTree1("q", i); booleanTree1("r", i); booleanTree1("s", i); booleanTree1("t", i);
-                    booleanTree1("u", i); booleanTree1("v", i); booleanTree1("w", i); booleanTree1("x", i);
-                    booleanTree1("y", i); booleanTree1("z", i);
+                    booleanTree("a", i); booleanTree("b", i); booleanTree("c", i); booleanTree("d", i);
+                    booleanTree("e", i); booleanTree("f", i); booleanTree("g", i); booleanTree("h", i);
+                    booleanTree("i", i); booleanTree("j", i); booleanTree("k", i); booleanTree("l", i);
+                    booleanTree("m", i); booleanTree("n", i); booleanTree("o", i); booleanTree("p", i);
+                    booleanTree("q", i); booleanTree("r", i); booleanTree("s", i); booleanTree("t", i);
+                    booleanTree("u", i); booleanTree("v", i); booleanTree("w", i); booleanTree("x", i);
+                    booleanTree("y", i); booleanTree("z", i);
 
                     break;
 
@@ -293,34 +293,18 @@ public class CCTree {
                 //if I uncomment this it messes EVERYTHING up, so
                 //they will remain commented out until I find an alternative solution
                 
-                case "a":
-                case "b":
-                case "c":
-                case "d":
-                case "e":
-                case "f":
-                case "g":
-                case "h":
-                case "i":
-                case "j":
-                case "k":
-                case "l":
-                case "m":
-                case "n":
-                case "o":
-                case "p":
-                case "q":
-                case "r":
-                case "s":
-                case "t":
-                case "u":
-                case "v":
-                case "w":
-                case "x":
-                case "y":
-                case "z":
-                    assignmentTree("ASSIGNMENT", i);
+              
+                case "=":
+                    assignmentTree("a", i); assignmentTree("b", i); assignmentTree("c", i); assignmentTree("d", i);
+                    assignmentTree("e", i); assignmentTree("f", i); assignmentTree("g", i); assignmentTree("h", i);
+                    assignmentTree("i", i); assignmentTree("j", i); assignmentTree("k", i); assignmentTree("l", i);
+                    assignmentTree("m", i); assignmentTree("n", i); assignmentTree("o", i); assignmentTree("p", i);
+                    assignmentTree("q", i); assignmentTree("r", i); assignmentTree("s", i); assignmentTree("t", i);
+                    assignmentTree("u", i); assignmentTree("v", i); assignmentTree("w", i); assignmentTree("x", i);
+                    assignmentTree("y", i); assignmentTree("z", i);
+
                     break;
+                
                 
                                 
 
