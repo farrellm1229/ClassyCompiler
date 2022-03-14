@@ -301,69 +301,70 @@ else{
     public void priTree(String letter, int i){
         if(tokens.get(i+2).getValueOfToken().equals(letter)){
 
-                    tree.add(getTree(thirtythree, "<Statement>", 4));
-                    tree.add(getTree(thirtyfour, "<PrintStatement>", thirtythree));
+                    tree.add(getTree(33, "<Statement>", 4));
+                    tree.add(getTree(34, "<PrintStatement>", 33));
 
-                    tree.add(getTree(thirtyfive, "[ " +tokens.get(i).getValueOfToken() + " ]", thirtyfour));
-                    tree.add(getTree(thirtysix, "[ " +tokens.get(i+1).getValueOfToken() + " ]", thirtyfour));
-                    tree.add(getTree(thirtyseven, "<Expr>", thirtysix));
-                    tree.add(getTree(thirtyeight, "[ " +tokens.get(i+2).getValueOfToken() + " ]", thirtyseven));
-                    tree.add(getTree(thirtynine, "[ " +tokens.get(i+3).getValueOfToken() + " ]", thirtyfour));
+                    tree.add(getTree(35, "[ " +tokens.get(i).getValueOfToken() + " ]", 34));
+                    tree.add(getTree(36, "[ " +tokens.get(i+1).getValueOfToken() + " ]", 34));
+                    tree.add(getTree(37, "<Expr>", 36));
+                    tree.add(getTree(38, "[ " +tokens.get(i+2).getValueOfToken() + " ]", 37));
+                    tree.add(getTree(39, "[ " +tokens.get(i+3).getValueOfToken() + " ]", 34));
         }
-        
-        thirtythree=thirtythree+6;
-        thirtyfour=thirtyfour+6;
-        thirtyfive=thirtyfive+6;
-        thirtysix=thirtysix+6;
-        thirtyseven=thirtyseven+6;
-        thirtyeight=thirtyeight+6;
-        thirtynine=thirtynine+6;
+        /*else if(tokens.get(i+3).getTypeOfToken().equals(letter)){
 
+                    tree.add(getTree(33, "<Statement>", 4));
+                    tree.add(getTree(34, "<PrintStatement>", 33));
 
+                    tree.add(getTree(35, "[ " +tokens.get(i).getValueOfToken() + " ]", 34));
+                    tree.add(getTree(36, "[ " +tokens.get(i+1).getValueOfToken() + " ]", 34));
+                    tree.add(getTree(37, "<Expr>", 36));
+                    tree.add(getTree(39, "[ " +tokens.get(i+2).getValueOfToken() + " ]", 37));
+                    tree.add(getTree(40, "[ " +tokens.get(i+3).getValueOfToken() + " ]", 37));
+                    tree.add(getTree(41, "[ " +tokens.get(i+4).getValueOfToken() + " ]", 37));
 
-
-
+                    tree.add(getTree(42, "[ " +tokens.get(i+5).getValueOfToken() + " ]", 34));
+        }*/
     }
     public void whileTree(String letter, int i){
-        int a = 40;
-            int b = 41;
-            int c = 42;
-            int d = 43;
-            int e = 44;
-            int f = 45;
-            int g = 46;
-            int h = 47;
-            int ii = 48;
-            int j = 49;
-            int k = 50;
-            int l = 51;
-            int m = 52;
-            int n = 53;
+        
         if(tokens.get(i+2).getValueOfToken().equals(letter)){
-            //System.out.println("whileee");
-            
-
-
-            tree.add(getTree(a, "<Statement>", 4));
-            tree.add(getTree(b, "<WhileStatement>", a));
-
-            tree.add(getTree(c, "[ " +tokens.get(i).getValueOfToken() + " ]", b));
-            tree.add(getTree(d, "<BooleanExpr>", b));
-            tree.add(getTree(e, "[ " +tokens.get(i+1).getValueOfToken() + " ]", d));
-            tree.add(getTree(f, "<Expr>", d));
-
-            tree.add(getTree(g, "[ " +tokens.get(i+2).getValueOfToken() + " ]", f));
-            tree.add(getTree(h, "<BoolOp>", d));
-            tree.add(getTree(ii, "[ " +tokens.get(i+3).getValueOfToken() + " ]", h));
-            tree.add(getTree(j, "<Expr>", 43));
-            tree.add(getTree(k, "[ " +tokens.get(i+4).getValueOfToken() + " ]", j));
-            tree.add(getTree(l, "[ " +tokens.get(i+5).getValueOfToken() + " ]", d));
-            tree.add(getTree(m, "<Block>", b));
-            tree.add(getTree(n, "[ " +tokens.get(i+6).getValueOfToken() + " ]", m));
+            tree.add(getTree(40, "<Statement>", 4));
+            tree.add(getTree(41, "<WhileStatement>", a));
+            tree.add(getTree(42, "[ " +tokens.get(i).getValueOfToken() + " ]", 41));
+            tree.add(getTree(43, "<BooleanExpr>", 41));
+            tree.add(getTree(44, "[ " +tokens.get(i+1).getValueOfToken() + " ]", 43));
+            tree.add(getTree(45, "<Expr>", 43));
+            tree.add(getTree(46, "[ " +tokens.get(i+2).getValueOfToken() + " ]", 45));
+            tree.add(getTree(47, "<BoolOp>", 43));
+            tree.add(getTree(48, "[ " +tokens.get(i+3).getValueOfToken() + " ]", 47));
+            tree.add(getTree(49, "<Expr>", 43));
+            tree.add(getTree(50, "[ " +tokens.get(i+4).getValueOfToken() + " ]", 49));
+            tree.add(getTree(51, "[ " +tokens.get(i+5).getValueOfToken() + " ]", 43));
+            tree.add(getTree(52, "<Block>", 41));
+            tree.add(getTree(53, "[ " +tokens.get(i+6).getValueOfToken() + " ]", 52));
         }
-        a=a+12; b=b+12; c=c+12; d=d+12; e=e+12; f=f+12; g=g+12; h=h+12;
-        ii=ii+12; j=j+12; k=k+12; l=l+12; m=m+12;
+        
     }
+    public void ifTree(String letter, int i){
+        
+        if(tokens.get(i+2).getValueOfToken().equals(letter)){
+            tree.add(getTree(60, "<Statement>", 4));
+            tree.add(getTree(61, "<WhileStatement>", 60));
+            tree.add(getTree(62, "[ " +tokens.get(i).getValueOfToken() + " ]", 61));
+            tree.add(getTree(63, "<BooleanExpr>", 61));
+            tree.add(getTree(64, "[ " +tokens.get(i+1).getValueOfToken() + " ]", 63));
+            tree.add(getTree(65, "<Expr>", 63));
+            tree.add(getTree(66, "[ " +tokens.get(i+2).getValueOfToken() + " ]", 65));
+            tree.add(getTree(67, "<BoolOp>", 63));
+            tree.add(getTree(68, "[ " +tokens.get(i+3).getValueOfToken() + " ]", 67));
+            tree.add(getTree(69, "<Expr>", 63));
+            tree.add(getTree(70, "[ " +tokens.get(i+4).getValueOfToken() + " ]", 69));
+            tree.add(getTree(71, "[ " +tokens.get(i+5).getValueOfToken() + " ]", 63));
+            tree.add(getTree(72, "<Block>", 61));
+            tree.add(getTree(73, "[ " +tokens.get(i+6).getValueOfToken() + " ]", 72));
+        }
+    }
+
 
 
     public static List<CCToken> tokens = new ArrayList<CCToken>();
@@ -511,6 +512,7 @@ else{
                     priTree("e", i);priTree("k", i);priTree("q", i);priTree("w", i);
                     priTree("f", i);priTree("l", i);priTree("r", i);priTree("x", i);
                     priTree("y", i);priTree("z", i);
+                    priTree("PLUS", i);
                     break;
                 case "while":
                     whileTree("a", i);whileTree("g", i);whileTree("m", i);whileTree("s", i);                    
@@ -520,6 +522,15 @@ else{
                     whileTree("e", i);whileTree("k", i);whileTree("q", i);whileTree("w", i);
                     whileTree("f", i);whileTree("l", i);whileTree("r", i);whileTree("x", i);
                     whileTree("y", i);whileTree("z", i);
+                break;
+                case "if":
+                    ifTree("a", i);ifTree("g", i);ifTree("m", i);ifTree("s", i);                    
+                    ifTree("b", i);ifTree("h", i);ifTree("n", i);ifTree("t", i);     
+                    ifTree("c", i);ifTree("i", i);ifTree("o", i);ifTree("u", i);
+                    ifTree("d", i);ifTree("j", i);ifTree("p", i);ifTree("v", i);     
+                    ifTree("e", i);ifTree("k", i);ifTree("q", i);ifTree("w", i);
+                    ifTree("f", i);ifTree("l", i);ifTree("r", i);ifTree("x", i);
+                    ifTree("y", i);ifTree("z", i);
                 break;
 
                 //case "$":
