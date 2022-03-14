@@ -4,7 +4,7 @@ import java.util.List;
 public class CCTree {
     private int nodeID;
     private String nodeValue;
-    private int parentId;       
+    private int parentId;     
     public CCTree() {
     }
 
@@ -78,7 +78,106 @@ public class CCTree {
         
     }
 
+        //for int tree
+        int eleven = 11;
+        int four = 4; //original statementlist node
+        int twelve = 12;
+        int thirteen = 13;
+        int fourteen = 14;
+        int fifteen = 15;
+        int sixteen = 16;
+
+        //for StringTree
+        int seventeen = 17;
+        int eighteen = 18;
+        int nineteen = 19;
+        int twenty = 20;
+        int twentyone = 21;
+        int twentytwo = 22;
+
+        
+        int twentysix = 26;
+        int twentyseven = 27;
+        int twentyeight = 28;
+        int twentynine = 29;
+        int thirty = 30;
+        int thirtyone = 31;
+        int thirtytwo = 32;
+
+
     //public static ArrayList<Tree> tree = new ArrayList<Tree>();
+    public void intTree(String letter, int i){
+        if(tokens.get(i+1).getValueOfToken().equals(letter)) {
+                    tree.add(getTree(eleven, "<Statement>", four));
+                    tree.add(getTree(twelve, "<VarDecl>", eleven));
+                    tree.add(getTree(thirteen, "<Type>", twelve));
+                    tree.add(getTree(fourteen, "[ " +tokens.get(i).getValueOfToken() + " ]", thirteen));
+                    tree.add(getTree(fifteen, "<ID>", twelve));
+                    tree.add(getTree(sixteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", fifteen));    
+        }
+                    eleven=eleven+5;
+                    twelve=twelve+5;
+                    thirteen=thirteen+5;
+                    fourteen=fourteen+5;
+                    fifteen=fifteen+5;
+                    sixteen=sixteen+5;
+    }
+    public void stringTree(String letter, int i){
+        if(tokens.get(i+1).getValueOfToken().equals(letter)) {
+                    tree.add(getTree(eleven, "<Statement>", four));
+                    tree.add(getTree(twelve, "<VarDecl>", eleven));
+                    tree.add(getTree(thirteen, "<Type>", twelve));
+                    tree.add(getTree(fourteen, "[ " +tokens.get(i).getValueOfToken() + " ]", thirteen));
+                    tree.add(getTree(fifteen, "<ID>", twelve));
+                    tree.add(getTree(sixteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", fifteen));    
+        }
+                    eleven=eleven+5;
+                    twelve=twelve+5;
+                    thirteen=thirteen+5;
+                    fourteen=fourteen+5;
+                    fifteen=fifteen+5;
+                    sixteen=sixteen+5;
+    }
+    public void booleanTree1(String letter, int i){
+        if(tokens.get(i+1).getValueOfToken().equals(letter)) {
+                    tree.add(getTree(eleven, "<Statement>", four));
+                    tree.add(getTree(twelve, "<VarDecl>", eleven));
+                    tree.add(getTree(thirteen, "<Type>", twelve));
+                    tree.add(getTree(fourteen, "[ " +tokens.get(i).getValueOfToken() + " ]", thirteen));
+                    tree.add(getTree(fifteen, "<ID>", twelve));
+                    tree.add(getTree(sixteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", fifteen));    
+        }
+                    eleven=eleven+5;
+                    twelve=twelve+5;
+                    thirteen=thirteen+5;
+                    fourteen=fourteen+5;
+                    fifteen=fifteen+5;
+                    sixteen=sixteen+5;
+    }
+
+    public void assignmentTree(String assignment, int i){
+        if(tokens.get(i+1).getTypeOfToken().equals(assignment)){
+            //tree.add(getTree(25, "<StatementList>", 4));
+            tree.add(getTree(twentysix, "<Statement>", four));
+
+            tree.add(getTree(twentyseven, "<AssignmentStatement>", twentysix));
+            tree.add(getTree(twentyeight, "<ID>", twentyseven));
+            tree.add(getTree(twentynine, "[ " +tokens.get(i).getValueOfToken() + " ]", twentyeight));
+            tree.add(getTree(thirty, "[ " + tokens.get(i+1).getValueOfToken() + " ]", twentyseven));
+            
+            tree.add(getTree(thirtyone, "<Expr>", twentyseven));
+            tree.add(getTree(thirtytwo, "[ " +tokens.get(i+2).getValueOfToken() + " ]",thirtyone));
+        }
+        twentysix=twentysix+6;
+        twentyseven=twentyseven+6;
+        twentyeight=twentyeight+6;
+        twentynine=twentynine+6;
+        thirty=thirty+6;
+        thirtyone=thirtyone+6;
+        thirtytwo=thirtytwo+6;
+
+
+    }
 
     public static List<CCToken> tokens = new ArrayList<CCToken>();
 
@@ -89,11 +188,14 @@ public class CCTree {
         tokens = tokenStream; //getting tokens from stream in Main file
         
         int size = tokens.size();
+        int j =0;
 
         for (int i=0; i<size; i++) {
 
             String element = tokens.get(i).getValueOfToken();
             tree.add(getTree(1, "<Program>", 0));
+            String[] alpha = {"a", "b", "c", "d", "e", "f"};
+                 
 
             switch (element) {
                 
@@ -119,116 +221,72 @@ public class CCTree {
 
                 //case "int":
                 case "boolean": //having them all together caused issues :(
-                //case "string":
+                    booleanTree1("a", i); booleanTree1("b", i); booleanTree1("c", i); booleanTree1("d", i);
+                    booleanTree1("e", i); booleanTree1("f", i); booleanTree1("g", i); booleanTree1("h", i);
+                    booleanTree1("i", i); booleanTree1("j", i); booleanTree1("k", i); booleanTree1("l", i);
+                    booleanTree1("m", i); booleanTree1("n", i); booleanTree1("o", i); booleanTree1("p", i);
+                    booleanTree1("q", i); booleanTree1("r", i); booleanTree1("s", i); booleanTree1("t", i);
+                    booleanTree1("u", i); booleanTree1("v", i); booleanTree1("w", i); booleanTree1("x", i);
+                    booleanTree1("y", i); booleanTree1("z", i);
 
-                    tree.add(getTree(5, "<Statement>", 4));
-                    tree.add(getTree(6, "<VarDecl>", 5));
-                    tree.add(getTree(7, "<Type>", 6));
-                    tree.add(getTree(8, "[ " +tokens.get(i).getValueOfToken() + " ]", 7));
-                    tree.add(getTree(9, "<ID>", 6));
-                    tree.add(getTree(10, "[ " +tokens.get(i+1).getValueOfToken() + " ]", 9));
-                    
                     break;
 
                 case "int":
-                if((tokens.get(i+1).getValueOfToken().equals("a"))){ //&& (!tokens.get(i+2).getValueOfToken().equals("int"))){
-                    int eleven = 11;
-                    int four = 4;
-                    int twelve = 12;
-                    int thirteen = 13;
-                    int fourteen = 14;
-                    int fifteen = 15;
-                    int sixteen = 16;
-                    
-
-                    tree.add(getTree(eleven, "<Statement>", four));
-                    tree.add(getTree(twelve, "<VarDecl>", eleven));
-                    tree.add(getTree(thirteen, "<Type>", twelve));
-                    tree.add(getTree(fourteen, "[ " +tokens.get(i).getValueOfToken() + " ]", thirteen));
-                    tree.add(getTree(fifteen, "<ID>", twelve));
-                    tree.add(getTree(sixteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", fifteen));
-                    /*four++;
-                    eleven++;
-                    twelve++;
-                    thirteen++;
-                    fourteen++;
-                    fifteen++;
-                    sixteen++;*/
-
-                    
-                }
-                if(tokens.get(i+1).getValueOfToken().equals("b")) {
-                    int eleven = 17;
-                    int four = 4;
-                    int twelve = 18;
-                    int thirteen = 19;
-                    int fourteen = 20;
-                    int fifteen = 21;
-                    int sixteen = 22; //this is just easier to manipulate for me, ignore inconsistent names
-                
-                    tree.add(getTree(eleven, "<Statement>", four));
-                    tree.add(getTree(twelve, "<VarDecl>", eleven));
-                    tree.add(getTree(thirteen, "<Type>", twelve));
-                    tree.add(getTree(fourteen, "[ " +tokens.get(i).getValueOfToken() + " ]", thirteen));
-                    tree.add(getTree(fifteen, "<ID>", twelve));
-                    tree.add(getTree(sixteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", fifteen));
-                }
-                if(tokens.get(i+1).getValueOfToken().equals("c")) {
-                    int eleven = 23;
-                    int four = 4;
-                    int twelve = 24;
-                    int thirteen = 25;
-                    int fourteen = 26;
-                    int fifteen = 27;
-                    int sixteen = 28; //this is just easier to manipulate for me, ignore inconsistent names
-                
-                    tree.add(getTree(eleven, "<Statement>", four));
-                    tree.add(getTree(twelve, "<VarDecl>", eleven));
-                    tree.add(getTree(thirteen, "<Type>", twelve));
-                    tree.add(getTree(fourteen, "[ " +tokens.get(i).getValueOfToken() + " ]", thirteen));
-                    tree.add(getTree(fifteen, "<ID>", twelve));
-                    tree.add(getTree(sixteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", fifteen));
-                }
-                if(tokens.get(i+1).getValueOfToken().equals("d")) {
-                    int eleven = 29;
-                    int four = 4;
-                    int twelve = 30;
-                    int thirteen = 31;
-                    int fourteen = 32;
-                    int fifteen = 33;
-                    int sixteen = 34; //this is just easier to manipulate for me, ignore inconsistent names
-                
-                    tree.add(getTree(eleven, "<Statement>", four));
-                    tree.add(getTree(twelve, "<VarDecl>", eleven));
-                    tree.add(getTree(thirteen, "<Type>", twelve));
-                    tree.add(getTree(fourteen, "[ " +tokens.get(i).getValueOfToken() + " ]", thirteen));
-                    tree.add(getTree(fifteen, "<ID>", twelve));
-                    tree.add(getTree(sixteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", fifteen));
-                }
-                if(tokens.get(i+1).getValueOfToken().equals("e")) {
-                    int eleven = 41;
-                    int four = 4;
-                    int twelve = 42;
-                    int thirteen = 43;
-                    int fourteen = 44;
-                    int fifteen = 45;
-                    int sixteen = 46; //this is just easier to manipulate for me, ignore inconsistent names
-                
-                    tree.add(getTree(eleven, "<Statement>", four));
-                    tree.add(getTree(twelve, "<VarDecl>", eleven));
-                    tree.add(getTree(thirteen, "<Type>", twelve));
-                    tree.add(getTree(fourteen, "[ " +tokens.get(i).getValueOfToken() + " ]", thirteen));
-                    tree.add(getTree(fifteen, "<ID>", twelve));
-                    tree.add(getTree(sixteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", fifteen));
-                }
+                    intTree("a", i);
+                    intTree("b", i);
+                    intTree("c", i);
+                    intTree("d", i);
+                    intTree("e", i);
+                    intTree("f", i);
+                    intTree("g", i);
+                    intTree("h", i);
+                    intTree("i", i);
+                    intTree("j", i);
+                    intTree("k", i);
+                    intTree("l", i);
+                    intTree("m", i);
+                    intTree("n", i);
+                    intTree("o", i);
+                    intTree("p", i);
+                    intTree("q", i);
+                    intTree("r", i);
+                    intTree("s", i);
+                    intTree("t", i);
+                    intTree("u", i);
+                    intTree("v", i);
+                    intTree("w", i);
+                    intTree("x", i);
+                    intTree("y", i);
+                    intTree("z", i);
                     break;
                 case "string":
-                    tree.add(getTree(17, "<Statement>", 4));
-                    tree.add(getTree(18, "<VarDecl>", 17));
-                    tree.add(getTree(19, "<Type>", 18));
-                    tree.add(getTree(20, "[ " +tokens.get(i).getValueOfToken() + " ]", 19));
-                    tree.add(getTree(21, "<ID>", 18));
-                    tree.add(getTree(22, "[ " +tokens.get(i+1).getValueOfToken() + " ]", 21));
+                    stringTree("a", i);
+                    stringTree("b", i);
+                    stringTree("c", i);
+                    stringTree("d", i);
+                    stringTree("e", i);
+                    stringTree("f", i);
+                    stringTree("g", i);
+                    stringTree("h", i);
+                    stringTree("i", i);
+                    stringTree("j", i);
+                    stringTree("k", i);
+                    stringTree("l", i);
+                    stringTree("m", i);
+                    stringTree("n", i);
+                    stringTree("o", i);
+                    stringTree("p", i);
+                    stringTree("q", i);
+                    stringTree("r", i);
+                    stringTree("s", i);
+                    stringTree("t", i);
+                    stringTree("u", i);
+                    stringTree("v", i);
+                    stringTree("w", i);
+                    stringTree("x", i);
+                    stringTree("y", i);
+                    stringTree("z", i);
+
                     break;
                 
                 //checking for ID in assignment statement
@@ -261,19 +319,7 @@ public class CCTree {
                 case "x":
                 case "y":
                 case "z":
-
-                if(tokens.get(i+1).getTypeOfToken().equals("ASSIGNMENT")){
-                    //tree.add(getTree(25, "<StatementList>", 4));
-                    tree.add(getTree(26, "<Statement>", 4));
-
-                    tree.add(getTree(27, "<AssignmentStatement>", 26));
-                    tree.add(getTree(28, "<ID>", 27));
-                    tree.add(getTree(29, "[ " +tokens.get(i).getValueOfToken() + " ]", 28));
-                    tree.add(getTree(30, "[ " + tokens.get(i+1).getValueOfToken() + " ]", 27));
-                    
-                    tree.add(getTree(31, "<Expr>", 27));
-                    tree.add(getTree(32, "[ " +tokens.get(i+2).getValueOfToken() + " ]",31));
-                }
+                    assignmentTree("ASSIGNMENT", i);
                     break;
                 
                                 
@@ -334,14 +380,17 @@ public class CCTree {
 
                     }
                     break;
+            
+                    
                     
             }
             //boolean test = (tokens.get(i+1).getTypeOfToken().equals("ASSIGNMENT"));
-            
+           
+            //j++;
         
         
-
         }
+        
         
         
         printTree(tree.get(0), 0); //print tree yay!

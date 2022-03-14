@@ -1,1 +1,5 @@
-{int a int b int c int d int e}$
+{int a int b string x string c int d string g boolean s boolean w
+
+w=true
+b=3
+x="s"}$
