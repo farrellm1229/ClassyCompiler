@@ -1,9 +1,1 @@
-{int a int b
-string c string d boolean e boolean f
-
-a = 1
-b=2c="onelongtoken"
-e=true
-}$
-
-{}$
+{print(8)print(9)print(z)print(a)}$
