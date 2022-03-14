@@ -249,7 +249,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                     
                     boolean parseStatus = parser.parseOutcome(listOfTokens);
                     if (parseStatus == true) {
-                        System.out.println("-----------------------------------------------------------");
+                        //System.out.println("-----------------------------------------------------------");
                         System.out.print("INFO  Parser - Classy Compiler Parser Outcome: SUCCESS\n");
                         System.out.println("-----------------------------------------------------------");
                         parser.createCST(listOfTokens); //call CST because parse passed
@@ -259,10 +259,11 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                         
                     }
                     else {
-                        System.out.println("-----------------------------------------------------------");
+                        //System.out.println("-----------------------------------------------------------");
                         System.out.print("INFO  Parser - Classy Compiler Parser Outcome: FAILED\n");
                         System.out.println("-----------------------------------------------------------");
 			            System.out.print("INFO  Parser - Classy Compiler has skipped CST due to parse failure.\n");
+                        System.out.println("-----------------------------------------------------------");
                         
                 
                     } 

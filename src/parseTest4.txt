@@ -1,2 +1,0 @@
-{while(a==true){while(b==true){print(9)}}}$
-{if(a==true){if(b==true){print(9)}}}$ /*I didn't add if statements to the cst because there's no point since while doesn't work correctly*/

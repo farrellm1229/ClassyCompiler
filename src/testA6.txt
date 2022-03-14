@@ -1,4 +1,4 @@
-/*CST is incorrect for this test, but it passes parse */
+
 {
 /* Int Declaration */
 int a

@@ -1,1 +1,15 @@
-{{{}}}${}${{}}$
+/* Long Test Case */
+{
+/* Int Declaration */
+int a
+int b
+a = 0
+b = 0
+/* While Loop */
+while (a != 3) {print(a)while (b != 3) {
+print(b)
+b = 1
+if (b == 2) {
+/* Print Statement */
+print("there is no spoon")}}b = 0a =1}
+}$
