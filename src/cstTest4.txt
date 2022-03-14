@@ -1,6 +1,0 @@
-
-{boolean a
-string b
-int c
-z=5
-print(8)}$

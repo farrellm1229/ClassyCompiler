@@ -1,2 +1,0 @@
-{{}}$ /*incorrect CST*/
-print(print(8))$ /*same story*/

@@ -1,3 +1,0 @@
-/*This showcases what I was talking about in cstTest2.txt
-This is what happens. Once again, this will be fixed but not before I submit */
-{int z z = 3 print(z)}$

@@ -1,0 +1,9 @@
+{int a int b
+string c string d boolean e boolean f
+
+a = 1
+b=2c="onelongtoken"
+e=true
+}$ /*not perfect, but still pretty*/
+
+{}$ /*seen this before, still looking good*/

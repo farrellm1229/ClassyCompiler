@@ -1,0 +1,6 @@
+{boolean a boolean b int c while(a==true){while(b==true){while(c==4){print(c)}}}}$
+
+{boolean f boolean e int f if(d!=true){if(e==false){if(g!==7){print(1+g)}}}}$ /*parse failure because of !==*/
+
+
+{boolean f boolean e int f if(d!=true){if(e==false){if(g!=7){print(1+g)}}}}$
