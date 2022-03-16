@@ -42,11 +42,15 @@ public class CCParser {
 
     public boolean createCST(List<CCToken> tokenStream) {
         CCTree cst = new CCTree(); //create instance of class for CST
+        CCAst ast = new CCAst(); //create instance of CST class
+
         
         tokens = tokenStream; //create instance of tokenStream
         result = true; //unnecessary but haven't changed it yet
     
         cst.create(tokenStream); //create CST
+        ast.create(tokenStream); //create CST
+
         return result;
 
     }

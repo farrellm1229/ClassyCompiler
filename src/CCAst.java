@@ -136,7 +136,7 @@ public class CCAst {
             parseMessage("parseStatement();");
             parseMessage("parseVarDec();");
                     //tree.add(getTree(eleven, "<Statement>", four));
-                    tree.add(getTree(twelve, "<VarDecl>", four));
+                    tree.add(getTree(twelve, "<VarDecl>", two));
                     //tree.add(getTree(thirteen, "<Type>", twelve));
                     tree.add(getTree(thirteen, "[ " +tokens.get(i).getValueOfToken() + " ]", twelve));
                     //tree.add(getTree(fourteen, "<ID>", twelve));
@@ -153,12 +153,12 @@ public class CCAst {
         if(tokens.get(i+1).getValueOfToken().equals(letter)) {
             parseMessage("parseStatement();");
             parseMessage("parseVarDec();");
-                    tree.add(getTree(eleven, "<Statement>", four));
-                    tree.add(getTree(twelve, "<VarDecl>", eleven));
-                    tree.add(getTree(thirteen, "<Type>", twelve));
-                    tree.add(getTree(fourteen, "[ " +tokens.get(i).getValueOfToken() + " ]", thirteen));
-                    tree.add(getTree(fifteen, "<ID>", twelve));
-                    tree.add(getTree(sixteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", fifteen));    
+            //tree.add(getTree(eleven, "<Statement>", four));
+            tree.add(getTree(twelve, "<VarDecl>", two));
+            //tree.add(getTree(thirteen, "<Type>", twelve));
+            tree.add(getTree(thirteen, "[ " +tokens.get(i).getValueOfToken() + " ]", twelve));
+            //tree.add(getTree(fourteen, "<ID>", twelve));
+            tree.add(getTree(fourteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", twelve));    
         }
                     eleven=eleven+100;
                     twelve=twelve+100;
@@ -171,12 +171,13 @@ public class CCAst {
         if(tokens.get(i+1).getValueOfToken().equals(letter)) {
             parseMessage("parseStatement();");
             parseMessage("parseVarDec();");
-                    tree.add(getTree(eleven, "<Statement>", four));
-                    tree.add(getTree(twelve, "<VarDecl>", eleven));
-                    tree.add(getTree(thirteen, "<Type>", twelve));
-                    tree.add(getTree(fourteen, "[ " +tokens.get(i).getValueOfToken() + " ]", thirteen));
-                    tree.add(getTree(fifteen, "<ID>", twelve));
-                    tree.add(getTree(sixteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", fifteen));    
+                   
+                    //tree.add(getTree(eleven, "<Statement>", four));
+                    tree.add(getTree(twelve, "<VarDecl>", two));
+                    //tree.add(getTree(thirteen, "<Type>", twelve));
+                    tree.add(getTree(thirteen, "[ " +tokens.get(i).getValueOfToken() + " ]", twelve));
+                    //tree.add(getTree(fourteen, "<ID>", twelve));
+                    tree.add(getTree(fourteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", twelve));    
         }
                     eleven=eleven+29;
                     twelve=twelve+29;
@@ -319,15 +320,15 @@ else{
             //System.out.print(i);
 
                     //tree.add(getTree(33, "<Statement>", 4));
-                    tree.add(getTree(34, "<PrintStatement>", 2));
+                    tree.add(getTree(thirtyfour, "<PrintStatement>", 2));
 
                    // tree.add(getTree(35, "[ " +tokens.get(i).getValueOfToken() + " ]", 34)); //[print]
                     //tree.add(getTree(36, "[ " +tokens.get(i+1).getValueOfToken() + " ]", 34));//[(]
                    // tree.add(getTree(37, "<Expr>", 36));//
-                    tree.add(getTree(38, "[ " +tokens.get(i+2).getValueOfToken() + " ]", 34));// [ x ]
+                    tree.add(getTree(thirtyeight, "[ " +tokens.get(i+2).getValueOfToken() + " ]", thirtyfour));// [ x ]
                     if(tokens.get(i+3).getTypeOfToken().equals("PLUS")){ //case for int expr within print statement
-                        tree.add(getTree(39, "[ " +tokens.get(i+3).getValueOfToken() + " ]", 34));// [ + ]
-                        tree.add(getTree(390, "[ " +tokens.get(i+4).getValueOfToken() + " ]", 34));// [ x ]
+                        tree.add(getTree(thirtynine, "[ " +tokens.get(i+3).getValueOfToken() + " ]", thirtyfour));// [ + ]
+                        tree.add(getTree(thirtynine+62, "[ " +tokens.get(i+4).getValueOfToken() + " ]", thirtyfour));// [ x ]
                         //tree.add(getTree(3900, "[ " +tokens.get(i+5).getValueOfToken() + " ]", 34));// [ ) ]
 
                     }
@@ -335,6 +336,10 @@ else{
                         //tree.add(getTree(39, "[ " +tokens.get(i+3).getValueOfToken() + " ]", 34)); // [ ) ] for case print(x)
                     }
         }
+        thirtyfour+=13;
+        thirtyeight+=13;
+        thirtynine+=13;
+
         /*else if(tokens.get(i+3).getTypeOfToken().equals(letter)){
 
                     tree.add(getTree(33, "<Statement>", 4));
@@ -512,7 +517,7 @@ else{
                     
 
                 case "}" :
-                    blockEndTree("}",i);    
+                    //blockEndTree("}",i);    
                 //tree.add(getTree(300, "[ " +tokens.get(i).getValueOfToken() + " ]", 2));
 
 

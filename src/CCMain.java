@@ -243,6 +243,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 
 
                     CCTree cst = new CCTree(); //create instance of CST class
+                    CCAst ast = new CCAst(); //create instance of CST class
 
                         //Begin Parsing Process
                     CCParser parser = new CCParser();
