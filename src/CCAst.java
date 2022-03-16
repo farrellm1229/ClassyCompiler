@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class CCTree {
+public class CCAst {
     private int nodeID;
     private String nodeValue;
     private int parentId;     
-    public CCTree() {
+    public CCAst() {
     }
 
-    public CCTree(int nodeID, String nodeValue, int parentId) {
+    public CCAst(int nodeID, String nodeValue, int parentId) {
         this.nodeID = nodeID;
         this.nodeValue = nodeValue;
         this.parentId = parentId;
@@ -39,12 +39,12 @@ public class CCTree {
     }
 
 
-    private static List<CCTree> tree; //defining array for tree
+    private static List<CCAst> tree; //defining array for tree
                                     //from tokens from token stream
 
 
-    public static CCTree getTree(int nodeID, String nodeValue, int parentID) {
-        CCTree cst = new CCTree();
+    public static CCAst getTree(int nodeID, String nodeValue, int parentID) {
+        CCAst cst = new CCAst();
         cst.setID(nodeID);
         cst.setNodeValue(nodeValue);
         cst.setParentId(parentID);
@@ -52,9 +52,9 @@ public class CCTree {
         return cst;
     }
 
-    public static List<CCTree> selectChildren(int parentId) {
-        List<CCTree> result = new ArrayList<CCTree>();
-        for (CCTree t : tree) {
+    public static List<CCAst> selectChildren(int parentId) {
+        List<CCAst> result = new ArrayList<CCAst>();
+        for (CCAst t : tree) {
             if (t.getParentId() == parentId) {
                 result.add(t);
             }
@@ -62,8 +62,8 @@ public class CCTree {
         return result;
     }
 
-    public static void printTree(CCTree cst, int level) {
-        List<CCTree> children = selectChildren(cst.getID());
+    public static void printTree(CCAst cst, int level) {
+        List<CCAst> children = selectChildren(cst.getID());
         String indent = ""; //creating incrementing "-" for cst
         for (int i = 0; i < level; i++) {
             indent = indent + "-";
@@ -72,7 +72,7 @@ public class CCTree {
         if(children.size() > 0){
             level++;
         }
-        for (CCTree obj : children) {
+        for (CCAst obj : children) {
             printTree(obj, level);
         }
         
@@ -135,12 +135,12 @@ public class CCTree {
         if(tokens.get(i+1).getValueOfToken().equals(letter)) {
             parseMessage("parseStatement();");
             parseMessage("parseVarDec();");
-                    tree.add(getTree(eleven, "<Statement>", four));
-                    tree.add(getTree(twelve, "<VarDecl>", eleven));
-                    tree.add(getTree(thirteen, "<Type>", twelve));
-                    tree.add(getTree(fourteen, "[ " +tokens.get(i).getValueOfToken() + " ]", thirteen));
-                    tree.add(getTree(fifteen, "<ID>", twelve));
-                    tree.add(getTree(sixteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", fifteen));    
+                    //tree.add(getTree(eleven, "<Statement>", four));
+                    tree.add(getTree(twelve, "<VarDecl>", four));
+                    //tree.add(getTree(thirteen, "<Type>", twelve));
+                    tree.add(getTree(thirteen, "[ " +tokens.get(i).getValueOfToken() + " ]", twelve));
+                    //tree.add(getTree(fourteen, "<ID>", twelve));
+                    tree.add(getTree(fourteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", twelve));    
         }
                     eleven=eleven+10;
                     twelve=twelve+10;
@@ -195,26 +195,26 @@ public class CCTree {
         
 
             tree.add(getTree(2, "<Block>", 1));
-            tree.add(getTree(3, "[ " +tokens.get(i).getValueOfToken() + " ]", 2));
-            tree.add(getTree(4, "<StatementList>", 2));
+            //tree.add(getTree(3, "[ " +tokens.get(i).getValueOfToken() + " ]", 2));
+            //tree.add(getTree(4, "<StatementList>", 2));
             //tree.add(getTree(5, "<Statement>", 4));
 
             //System.out.println(two);
 
 }
 else if (i==1){//((tokens.get(i-1).getValueOfToken().equals(letter)) && (tokens.get(i+1).getValueOfToken().equals(letter)) && (tokens.get(i+2).getValueOfToken().equals("}"))){
-    tree.add(getTree(5, "<Block>", 4));
-    tree.add(getTree(6, "[ " +tokens.get(i).getValueOfToken() + " ]", 5));
-    tree.add(getTree(7, "<StatementList>", 5));
-    tree.add(getTree(8, "<Statement>", 7));
+    tree.add(getTree(5, "<Block>", 2));
+    //tree.add(getTree(6, "[ " +tokens.get(i).getValueOfToken() + " ]", 5));
+    //tree.add(getTree(7, "<StatementList>", 5));
+    //tree.add(getTree(8, "<Statement>", 7));
 
    
 }
 
 else if(i==2){//((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+1).getValueOfToken().equals(letter))){
-            tree.add(getTree(9, "<Block>", 8));
-            tree.add(getTree(10, "[ " +tokens.get(i).getValueOfToken() + " ]", 9));
-            tree.add(getTree(11, "<StatementList>", 9));
+            tree.add(getTree(9, "<Block>", 5));
+            //tree.add(getTree(10, "[ " +tokens.get(i).getValueOfToken() + " ]", 9));
+            //tree.add(getTree(11, "<StatementList>", 9));
             
             
 
@@ -279,27 +279,26 @@ else{
             parseMessage("parseStatement();");
             parseMessage("parseAssignmentStatement();");
             //tree.add(getTree(25, "<StatementList>", 4));
-            tree.add(getTree(twentysix, "<Statement>", four));
+            //tree.add(getTree(twentysix, "<Statement>", four));
 
-            tree.add(getTree(twentyseven, "<AssignmentStatement>", twentysix));
-            tree.add(getTree(twentyeight, "<ID>", twentyseven));
-            tree.add(getTree(twentynine, "[ " +tokens.get(i-1).getValueOfToken() + " ]", twentyeight));
-            tree.add(getTree(thirty, "[ " + tokens.get(i).getValueOfToken() + " ]", twentyseven));
+            tree.add(getTree(twentyseven, "<AssignmentStatement>", two));
+            //tree.add(getTree(twentyeight, "<ID>", twentyseven));
+            tree.add(getTree(twentynine, "[ " +tokens.get(i-1).getValueOfToken() + " ]", twentyseven));
+            //tree.add(getTree(thirty, "[ " + tokens.get(i).getValueOfToken() + " ]", twentyseven));
             
-            tree.add(getTree(thirtyone, "<Expr>", twentyseven));
-            tree.add(getTree(thirtytwo, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtyone));
+            //tree.add(getTree(thirtyone, "<Expr>", twentyseven));
+            tree.add(getTree(thirtytwo, "[ " +tokens.get(i+1).getValueOfToken() + " ]",twentyseven));
         }
         if(tokens.get(i+1).getValueOfToken().equals(letter)){
             //tree.add(getTree(25, "<StatementList>", 4));
-            tree.add(getTree(twentysix, "<Statement>", four));
-
-            tree.add(getTree(twentyseven, "<AssignmentStatement>", twentysix));
-            tree.add(getTree(twentyeight, "<ID>", twentyseven));
-            tree.add(getTree(twentynine, "[ " +tokens.get(i-1).getValueOfToken() + " ]", twentyeight));
-            tree.add(getTree(thirty, "[ " + tokens.get(i).getValueOfToken() + " ]", twentyseven));
             
-            tree.add(getTree(thirtyone, "<Expr>", twentyseven));
-            tree.add(getTree(thirtytwo, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtyone));
+            tree.add(getTree(twentyseven, "<AssignmentStatement>", two));
+            //tree.add(getTree(twentyeight, "<ID>", twentyseven));
+            tree.add(getTree(twentynine, "[ " +tokens.get(i-1).getValueOfToken() + " ]", twentyseven));
+            //tree.add(getTree(thirty, "[ " + tokens.get(i).getValueOfToken() + " ]", twentyseven));
+            
+            //tree.add(getTree(thirtyone, "<Expr>", twentyseven));
+            tree.add(getTree(thirtytwo, "[ " +tokens.get(i+1).getValueOfToken() + " ]",twentyseven));
         }
         twentysix=twentysix+6;
         twentyseven=twentyseven+6;
@@ -313,41 +312,29 @@ else{
     }
     
 
-    
     public void priTree(String letter, int i){
-        
         if(tokens.get(i+2).getValueOfToken().equals(letter)){
-            
             parseMessage("parseStatement();");
             parseMessage("parsePrintStatement();");
             //System.out.print(i);
 
-                    tree.add(getTree(thirtythree, "<Statement>", 4));
-                    tree.add(getTree(thirtyfour, "<PrintStatement>", thirtythree));
+                    //tree.add(getTree(33, "<Statement>", 4));
+                    tree.add(getTree(34, "<PrintStatement>", 2));
 
-                    tree.add(getTree(thirtyfive, "[ " +tokens.get(i).getValueOfToken() + " ]", thirtyfour)); //[print]
-                    tree.add(getTree(thirtysix, "[ " +tokens.get(i+1).getValueOfToken() + " ]", thirtyfour));//[(]
-                    tree.add(getTree(thirtyseven, "<Expr>", thirtysix));//
-                    tree.add(getTree(thirtyeight, "[ " +tokens.get(i+2).getValueOfToken() + " ]", thirtyseven));// [ x ]
+                   // tree.add(getTree(35, "[ " +tokens.get(i).getValueOfToken() + " ]", 34)); //[print]
+                    //tree.add(getTree(36, "[ " +tokens.get(i+1).getValueOfToken() + " ]", 34));//[(]
+                   // tree.add(getTree(37, "<Expr>", 36));//
+                    tree.add(getTree(38, "[ " +tokens.get(i+2).getValueOfToken() + " ]", 34));// [ x ]
                     if(tokens.get(i+3).getTypeOfToken().equals("PLUS")){ //case for int expr within print statement
-                        tree.add(getTree(thirtynine, "[ " +tokens.get(i+3).getValueOfToken() + " ]", thirtyseven));// [ + ]
-                        tree.add(getTree(thirtynine+62, "[ " +tokens.get(i+4).getValueOfToken() + " ]", thirtyseven));// [ x ]
-                        tree.add(getTree(thirtynine+63, "[ " +tokens.get(i+5).getValueOfToken() + " ]", thirtyfour));// [ ) ]
+                        tree.add(getTree(39, "[ " +tokens.get(i+3).getValueOfToken() + " ]", 34));// [ + ]
+                        tree.add(getTree(390, "[ " +tokens.get(i+4).getValueOfToken() + " ]", 34));// [ x ]
+                        //tree.add(getTree(3900, "[ " +tokens.get(i+5).getValueOfToken() + " ]", 34));// [ ) ]
 
                     }
                     else{
-                        tree.add(getTree(thirtynine, "[ " +tokens.get(i+3).getValueOfToken() + " ]", thirtyfour)); // [ ) ] for case print(x)
+                        //tree.add(getTree(39, "[ " +tokens.get(i+3).getValueOfToken() + " ]", 34)); // [ ) ] for case print(x)
                     }
         }
-        thirtythree+=13;
-        thirtyfour+=13;
-        thirtyfive+=13;
-        thirtysix+=13;
-        thirtyseven+=13;
-        thirtyeight+=13;
-        thirtynine+=13;
-
-
         /*else if(tokens.get(i+3).getTypeOfToken().equals(letter)){
 
                     tree.add(getTree(33, "<Statement>", 4));
@@ -369,8 +356,8 @@ else{
             parseMessage("parseStatement();");
             parseMessage("parseWhileStatement();");
             //System.out.print(i);
-            tree.add(getTree(40, "<Statement>", 4));
-            tree.add(getTree(41, "<WhileStatement>", 40));
+            //tree.add(getTree(40, "<Statement>", 4));
+            tree.add(getTree(41, "<WhileStatement>", 2));
             tree.add(getTree(42, "[ " +tokens.get(i).getValueOfToken() + " ]", 41));
             tree.add(getTree(43, "<BooleanExpr>", 41));
             tree.add(getTree(44, "[ " +tokens.get(i+1).getValueOfToken() + " ]", 43));
@@ -492,7 +479,7 @@ else{
 
     public void create(List<CCToken> tokenStream) {
             
-        tree = new ArrayList<CCTree>();
+        tree = new ArrayList<CCAst>();
 
         tokens = tokenStream; //getting tokens from stream in Main file
         
