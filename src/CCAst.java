@@ -121,6 +121,12 @@ public class CCAst {
         int fortyone = 41;
         int fortytwo = 42;
 
+    private static ArrayList<String> symTabName = new ArrayList<String>();
+    private static ArrayList<String> symTabType = new ArrayList<String>();
+    
+
+
+
 
     //public static ArrayList<Tree> tree = new ArrayList<Tree>();
     public void intTree(String letter, int i){
@@ -131,9 +137,12 @@ public class CCAst {
                     tree.add(getTree(twelve, "<Variable Declaration>", two));
                     //tree.add(getTree(thirteen, "<Type>", twelve));
                     tree.add(getTree(thirteen, "[ " +tokens.get(i).getValueOfToken() + " ]", twelve));
+                    symTabType.add(tokens.get(i).getValueOfToken());
                     //tree.add(getTree(fourteen, "<ID>", twelve));
                     tree.add(getTree(fourteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", twelve));    
-        }
+                    symTabName.add(tokens.get(i+1).getValueOfToken());
+
+                }
                     eleven=eleven+10;
                     twelve=twelve+10;
                     thirteen=thirteen+10;
@@ -148,9 +157,12 @@ public class CCAst {
             tree.add(getTree(twelve, "<Variable Declaration>", two));
             //tree.add(getTree(thirteen, "<Type>", twelve));
             tree.add(getTree(thirteen, "[ " +tokens.get(i).getValueOfToken() + " ]", twelve));
+            
+            symTabType.add(tokens.get(i).getValueOfToken());
             //tree.add(getTree(fourteen, "<ID>", twelve));
             tree.add(getTree(fourteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", twelve));    
-        }
+            symTabName.add(tokens.get(i+1).getValueOfToken());
+}
                     eleven=eleven+100;
                     twelve=twelve+100;
                     thirteen=thirteen+100;
@@ -166,9 +178,11 @@ public class CCAst {
                     tree.add(getTree(twelve, "<Variable Declaration>", two));
                     //tree.add(getTree(thirteen, "<Type>", twelve));
                     tree.add(getTree(thirteen, "[ " +tokens.get(i).getValueOfToken() + " ]", twelve));
+                    symTabType.add(tokens.get(i).getValueOfToken());
                     //tree.add(getTree(fourteen, "<ID>", twelve));
                     tree.add(getTree(fourteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", twelve));    
-        }
+                    symTabName.add(tokens.get(i+1).getValueOfToken());
+}
                     eleven=eleven+29;
                     twelve=twelve+29;
                     thirteen=thirteen+29;
@@ -176,21 +190,29 @@ public class CCAst {
                     fifteen=fifteen+29;
                     sixteen=sixteen+29;
     }
+    int scope;
     public void blockStartTree2(String letter, int i){
+
         
         if(i==0) {
+            scope = 0;
 
             tree.add(getTree(two, "<BLOCK>", one));
         //two++;
         //one++;
         }
         else{
+            scope++;
             two++;
             one++;
             tree.add(getTree(two, "<BLOCK>", one));
 
 
         }
+    }
+    public void blockEndTree(String letter, int i){
+        scope--;
+        
     }
 
     public void assignmentTree(String letter, int i){
@@ -424,7 +446,7 @@ public class CCAst {
                     
 
                 case "}" :
-                    //blockEndTree("}",i);    
+                    blockEndTree("}",i);    
                 //tree.add(getTree(300, "[ " +tokens.get(i).getValueOfToken() + " ]", 2));
 
 
@@ -582,5 +604,14 @@ public class CCAst {
         
         
         printTree(tree.get(0), 0); //print tree yay!
+    }
+
+    public void symbolTable(){
+        System.out.println("Name Type Scope");
+        System.out.println(symTabName.toString());
+        
+        
+
+            
     }
 }
