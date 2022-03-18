@@ -122,21 +122,13 @@ public class CCAst {
         int fortytwo = 42;
 
 
-    public static void parseMessage(String message) {
-            System.out.println("INFO  Parser - " + message);
-            System.out.println("-----------------------------------------------------------");
-
-
-            
-    }
     //public static ArrayList<Tree> tree = new ArrayList<Tree>();
     public void intTree(String letter, int i){
         
         if(tokens.get(i+1).getValueOfToken().equals(letter)) {
-            parseMessage("parseStatement();");
-            parseMessage("parseVarDec();");
+            
                     //tree.add(getTree(eleven, "<Statement>", four));
-                    tree.add(getTree(twelve, "<VarDecl>", two));
+                    tree.add(getTree(twelve, "<Variable Declaration>", two));
                     //tree.add(getTree(thirteen, "<Type>", twelve));
                     tree.add(getTree(thirteen, "[ " +tokens.get(i).getValueOfToken() + " ]", twelve));
                     //tree.add(getTree(fourteen, "<ID>", twelve));
@@ -151,10 +143,9 @@ public class CCAst {
     }
     public void stringTree(String letter, int i){
         if(tokens.get(i+1).getValueOfToken().equals(letter)) {
-            parseMessage("parseStatement();");
-            parseMessage("parseVarDec();");
+            
             //tree.add(getTree(eleven, "<Statement>", four));
-            tree.add(getTree(twelve, "<VarDecl>", two));
+            tree.add(getTree(twelve, "<Variable Declaration>", two));
             //tree.add(getTree(thirteen, "<Type>", twelve));
             tree.add(getTree(thirteen, "[ " +tokens.get(i).getValueOfToken() + " ]", twelve));
             //tree.add(getTree(fourteen, "<ID>", twelve));
@@ -169,11 +160,10 @@ public class CCAst {
     }
     public void booleanTree(String letter, int i){
         if(tokens.get(i+1).getValueOfToken().equals(letter)) {
-            parseMessage("parseStatement();");
-            parseMessage("parseVarDec();");
+            
                    
                     //tree.add(getTree(eleven, "<Statement>", four));
-                    tree.add(getTree(twelve, "<VarDecl>", two));
+                    tree.add(getTree(twelve, "<Variable Declaration>", two));
                     //tree.add(getTree(thirteen, "<Type>", twelve));
                     tree.add(getTree(thirteen, "[ " +tokens.get(i).getValueOfToken() + " ]", twelve));
                     //tree.add(getTree(fourteen, "<ID>", twelve));
@@ -187,102 +177,29 @@ public class CCAst {
                     sixteen=sixteen+29;
     }
     public void blockStartTree2(String letter, int i){
-        parseMessage("parseBlock();");
-        parseMessage("parseStatementList();");
-        parseMessage("parseStatement();");
-
-
-        if(i==0) {
         
+        if(i==0) {
 
-            tree.add(getTree(2, "<Block>", 1));
-            //tree.add(getTree(3, "[ " +tokens.get(i).getValueOfToken() + " ]", 2));
-            //tree.add(getTree(4, "<StatementList>", 2));
-            //tree.add(getTree(5, "<Statement>", 4));
-
-            //System.out.println(two);
-
-}
-else if (i==1){//((tokens.get(i-1).getValueOfToken().equals(letter)) && (tokens.get(i+1).getValueOfToken().equals(letter)) && (tokens.get(i+2).getValueOfToken().equals("}"))){
-    tree.add(getTree(5, "<Block>", 2));
-    //tree.add(getTree(6, "[ " +tokens.get(i).getValueOfToken() + " ]", 5));
-    //tree.add(getTree(7, "<StatementList>", 5));
-    //tree.add(getTree(8, "<Statement>", 7));
-
-   
-}
-
-else if(i==2){//((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+1).getValueOfToken().equals(letter))){
-            tree.add(getTree(9, "<Block>", 5));
-            //tree.add(getTree(10, "[ " +tokens.get(i).getValueOfToken() + " ]", 9));
-            //tree.add(getTree(11, "<StatementList>", 9));
-            
-            
-
-}
-
-else{
-
-}
-
-             
-                     
-    }
-
-   
-    public void blockEndTree(String letter, int i){
-        //System.out.println(i);
-        //enough cases for {{{}}}$
-        //I can add more but this is good for now
-        if(i==1) {
-            tree.add(getTree(77, "[ " +tokens.get(i).getValueOfToken() + " ]", 2));
-           
-        }
-        else if(i==2) {
-            tree.add(getTree(770, "[ " +tokens.get(i).getValueOfToken() + " ]", 5));
-            tree.add(getTree(771, "<StatementList>", 7));
-
-           
-        }
-        else if(i==3) {
-            tree.add(getTree(790, "[ " +tokens.get(i).getValueOfToken() + " ]", 2));
-            tree.add(getTree(791, "<StatementList>", 4));
-
-        }
-        else if(i==4) {
-            tree.add(getTree(792, "[ " +tokens.get(i).getValueOfToken() + " ]", 5));
-            tree.add(getTree(793, "<StatementList>", 7));
-
-        }
-        else if(i==5) {
-            tree.add(getTree(781, "[ " +tokens.get(i).getValueOfToken() + " ]", 9));
-        }
-        else if(i==34) {
-            tree.add(getTree(124, "[ " +tokens.get(i).getValueOfToken() + " ]", 36));
-        }
-        else if(i==35) {
-            tree.add(getTree(125, "[ " +tokens.get(i).getValueOfToken() + " ]", 36));
-        }
-        else if(i==36) {
-            tree.add(getTree(126, "[ " +tokens.get(i).getValueOfToken() + " ]", 36));
-        }
-        else if(i==37) {
-            tree.add(getTree(127, "[ " +tokens.get(i).getValueOfToken() + " ]", 2));
+            tree.add(getTree(two, "<BLOCK>", one));
+        //two++;
+        //one++;
         }
         else{
-            tree.add(getTree(128, "[ " +tokens.get(i).getValueOfToken() + " ]", 2));
+            two++;
+            one++;
+            tree.add(getTree(two, "<BLOCK>", one));
+
 
         }
     }
 
     public void assignmentTree(String letter, int i){
         if(tokens.get(i-1).getValueOfToken().equals(letter)){
-            parseMessage("parseStatement();");
-            parseMessage("parseAssignmentStatement();");
+            
             //tree.add(getTree(25, "<StatementList>", 4));
             //tree.add(getTree(twentysix, "<Statement>", four));
 
-            tree.add(getTree(twentyseven, "<AssignmentStatement>", two));
+            tree.add(getTree(twentyseven, "<Assignment Statement>", two));
             //tree.add(getTree(twentyeight, "<ID>", twentyseven));
             tree.add(getTree(twentynine, "[ " +tokens.get(i-1).getValueOfToken() + " ]", twentyseven));
             //tree.add(getTree(thirty, "[ " + tokens.get(i).getValueOfToken() + " ]", twentyseven));
@@ -293,7 +210,7 @@ else{
         if(tokens.get(i+1).getValueOfToken().equals(letter)){
             //tree.add(getTree(25, "<StatementList>", 4));
             
-            tree.add(getTree(twentyseven, "<AssignmentStatement>", two));
+            tree.add(getTree(twentyseven, "<Assignment Statement>", two));
             //tree.add(getTree(twentyeight, "<ID>", twentyseven));
             tree.add(getTree(twentynine, "[ " +tokens.get(i-1).getValueOfToken() + " ]", twentyseven));
             //tree.add(getTree(thirty, "[ " + tokens.get(i).getValueOfToken() + " ]", twentyseven));
@@ -315,12 +232,10 @@ else{
 
     public void priTree(String letter, int i){
         if(tokens.get(i+2).getValueOfToken().equals(letter)){
-            parseMessage("parseStatement();");
-            parseMessage("parsePrintStatement();");
-            //System.out.print(i);
+            
 
                     //tree.add(getTree(33, "<Statement>", 4));
-                    tree.add(getTree(thirtyfour, "<PrintStatement>", 2));
+                    tree.add(getTree(thirtyfour, "<Print Statement>", 2));
 
                    // tree.add(getTree(35, "[ " +tokens.get(i).getValueOfToken() + " ]", 34)); //[print]
                     //tree.add(getTree(36, "[ " +tokens.get(i+1).getValueOfToken() + " ]", 34));//[(]
@@ -358,11 +273,9 @@ else{
     public void whileTree(String letter, int i){
         
         if((tokens.get(i+2).getValueOfToken().equals(letter)) && (((i==1)) || (i==7))){ //7 is case for parseTest1.txt
-            parseMessage("parseStatement();");
-            parseMessage("parseWhileStatement();");
-            //System.out.print(i);
+            
             //tree.add(getTree(40, "<Statement>", 4));
-            tree.add(getTree(41, "<WhileStatement>", 2));
+            tree.add(getTree(41, "<While Statement>", 2));
             tree.add(getTree(42, "[ " +tokens.get(i).getValueOfToken() + " ]", 41));
             tree.add(getTree(43, "<BooleanExpr>", 41));
             tree.add(getTree(44, "[ " +tokens.get(i+1).getValueOfToken() + " ]", 43));
@@ -378,9 +291,7 @@ else{
         }
         //i is 8 in the double while test case
         if((tokens.get(i+2).getValueOfToken().equals(letter)) && (i!=1) && (i < 14)){ //implying double while statement test case
-                                                                                    //{while(a==true){while(b==true){print(c)}}}$
-            parseMessage("parseStatement();");
-            parseMessage("parseWhileStatement();");
+                    
             tree.add(getTree(400, "<Statement>", 4));
             tree.add(getTree(410, "<WhileStatement>", 400));
             tree.add(getTree(420, "[ " +tokens.get(i).getValueOfToken() + " ]", 410));
@@ -399,8 +310,7 @@ else{
 
         if((tokens.get(i+2).getValueOfToken().equals(letter)) && (i!=1) && (i > 14)){ //implying triple while statement test case
                         //{while(a==true){while(b==true){print(c)}}}$
-            parseMessage("parseStatement();");
-            parseMessage("parseWhileStatement();");
+            
             //System.out.print(i);
             tree.add(getTree(4000, "<Statement>", 4));
             tree.add(getTree(4100, "<WhileStatement>", 4000));
@@ -422,8 +332,7 @@ else{
     public void ifTree(String letter, int i){
 
         if((tokens.get(i+2).getValueOfToken().equals(letter)) && (((i==1)) || (i==7))){ //7 is case for parseTest1.txt
-            parseMessage("parseStatement();");
-            parseMessage("parseIfStatement();");
+            
             tree.add(getTree(60, "<Statement>", 4));
             tree.add(getTree(61, "<WhileStatement>", 60));
             tree.add(getTree(62, "[ " +tokens.get(i).getValueOfToken() + " ]", 61));
@@ -441,8 +350,7 @@ else{
         }
 
         if((tokens.get(i+2).getValueOfToken().equals(letter)) && (i!=1) && (i < 14)){ //implying double if statement test case
-            parseMessage("parseStatement();");
-            parseMessage("parseIfStatement();");
+            
             tree.add(getTree(600, "<Statement>", 4));
             tree.add(getTree(610, "<WhileStatement>", 600));
             tree.add(getTree(620, "[ " +tokens.get(i).getValueOfToken() + " ]", 610));
@@ -459,8 +367,7 @@ else{
             tree.add(getTree(730, "[ " +tokens.get(i+6).getValueOfToken() + " ]", 720));
         }
         if((tokens.get(i+2).getValueOfToken().equals(letter)) && (i!=1) && (i > 14)){ //implying triple if statement test case
-            parseMessage("parseStatement();");
-            parseMessage("parseIfStatement();");
+            
             tree.add(getTree(6000, "<Statement>", 4));
             tree.add(getTree(6100, "<WhileStatement>", 6000));
             tree.add(getTree(6200, "[ " +tokens.get(i).getValueOfToken() + " ]", 6100));
@@ -494,7 +401,7 @@ else{
             
 
             String element = tokens.get(i).getValueOfToken();
-            tree.add(getTree(1, "<Program>", 0));
+            //tree.add(getTree(1, "<Program>", 0));
 
             switch (element) {
                 

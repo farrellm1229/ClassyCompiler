@@ -255,9 +255,15 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                         System.out.println("-----------------------------------------------------------");
                         parser.createCST(listOfTokens); //call CST because parse passed
                         System.out.println("-----------------------------------------------------------");
-                        System.out.print("INFO  Parser - Classy Compiler Has Finished Building CST\n");
+                        System.out.print("INFO  Parser - Classy Compiler Has Finished Building CST Of Program #" + programNumber + "\n");
+                        System.out.println("-----------------------------------------------------------");
+                        System.out.print("Classy Compiler Is Now Building An Abstract Syntax Tree Of Program #" + programNumber + "\n");
                         System.out.println("-----------------------------------------------------------");
                         
+                        parser.createAST(listOfTokens);
+                        System.out.println("-----------------------------------------------------------");
+                        System.out.print("Classy Compiler Has Finished Building AST Of Program #" + programNumber + "\n");
+                        System.out.println("-----------------------------------------------------------");
                     }
                     else {
                         //System.out.println("-----------------------------------------------------------");
