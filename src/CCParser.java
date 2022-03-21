@@ -96,8 +96,9 @@ public class CCParser {
         if (match("LEFT_BRACKET")) {
             indexOfToken++;
             if (statementList() == false) {
-                //System.out.println("ERROR Parser - INVALID <StatementList>");
-                //System.out.println("-----------------------------------------------------------");
+                //parseErrorMsg("RIGHT_BRACKET", "}", tokens.get(indexOfToken).getValueOfToken());
+                System.out.println("ERROR Parser - INVALID <StatementList>");
+                System.out.println("-----------------------------------------------------------");
 
                 result = false; //no Statement list found, therefore false
             }
