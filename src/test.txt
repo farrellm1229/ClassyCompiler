@@ -1,1 +1,6 @@
-{boolean 3}$
+{int a int b
+string c string d boolean e boolean f
+a=1 b=2
+c="onelong"e=true
+
+}$ /*not perfect, but still pretty*/

@@ -647,6 +647,7 @@ public class CCParser {
             result = true;
         } 
         else if ((match("DIGIT")) || match(("BOOL_VAL")) || match(("STRING")) == true) {
+            result = true;
             
             indexOfToken++;
                 if ((match("RIGHT_PARENTHESIS")) == true) {
