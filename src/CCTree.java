@@ -120,6 +120,11 @@ public class CCTree {
         int forty = 40;
         int fortyone = 41;
         int fortytwo = 42;
+        int fortythree = 43;
+        int fortyfour = 44;
+        int fortyfive = 45;
+        int fortysix = 46;
+
 
 
     public static void parseMessage(String message) {
@@ -288,9 +293,40 @@ else{
             tree.add(getTree(thirty, "[ " + tokens.get(i).getValueOfToken() + " ]", twentyseven));
             
             tree.add(getTree(thirtyone, "<Expr>", twentyseven));
-            tree.add(getTree(thirtytwo, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtyone));
+            if(tokens.get(i+1).getTypeOfToken().equals("DIGIT")){
+                tree.add(getTree(thirtytwo, "<IntExpr>", thirtyone));//
+                tree.add(getTree(thirtytwo+1, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtytwo));
+                if(tokens.get(i+2).getTypeOfToken().equals("PLUS")){
+                    tree.add(getTree(thirtytwo+2, "[ " +tokens.get(i+2).getValueOfToken() + " ]",thirtytwo));
+                    tree.add(getTree(thirtytwo+3, "<Expr>", thirtytwo));//
+                    if(tokens.get(i+3).getTypeOfToken().equals("CHAR")){
+                        tree.add(getTree(thirtytwo+4, "<ID>", thirtytwo+3));//
+                        tree.add(getTree(thirtytwo+5, "[ " + tokens.get(i+3).getValueOfToken() + " ]", thirtytwo+4));//
+                    }
+                    else{
+                    tree.add(getTree(thirtytwo+4, "<IntExpr>", thirtytwo+3));//
+                    tree.add(getTree(thirtytwo+5, "[ " + tokens.get(i+3).getValueOfToken() + " ]", thirtytwo+4));//
+                    }
+                }
+                else{
+                    //no plus found after first expr
+                }
+
+            }
+            else if(tokens.get(i+1).getTypeOfToken().equals("STRING")){
+                tree.add(getTree(thirtytwo, "<StringExpr>", thirtyone));//
+                tree.add(getTree(thirtytwo+1, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtytwo));
+            }
+            else if(tokens.get(i+1).getTypeOfToken().equals("BOOL_VAL")){
+                tree.add(getTree(thirtytwo, "<BooleanExpr>", thirtyone));//
+                tree.add(getTree(thirtytwo+1, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtytwo));
+            }
+            else{
+                tree.add(getTree(thirtytwo, "<ID>", thirtyone));//
+                tree.add(getTree(thirtytwo+1, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtytwo));
+            }
         }
-        if(tokens.get(i+1).getValueOfToken().equals(letter)){
+       /* if(tokens.get(i+1).getValueOfToken().equals(letter)){
             //tree.add(getTree(25, "<StatementList>", 4));
             tree.add(getTree(twentysix, "<Statement>", four));
 
@@ -301,7 +337,7 @@ else{
             
             tree.add(getTree(thirtyone, "<Expr>", twentyseven));
             tree.add(getTree(thirtytwo, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtyone));
-        }
+        } */
         twentysix=twentysix+6;
         twentyseven=twentyseven+6;
         twentyeight=twentyeight+6;
@@ -317,7 +353,7 @@ else{
     
     public void priTree(String letter, int i){
         
-        if(tokens.get(i+2).getValueOfToken().equals(letter)){
+        if((tokens.get(i+2).getValueOfToken().equals(letter)) || (tokens.get(i+2).getTypeOfToken().equals(letter))){
             
             parseMessage("parseStatement();");
             parseMessage("parsePrintStatement();");
@@ -329,16 +365,51 @@ else{
                     tree.add(getTree(thirtyfive, "[ " +tokens.get(i).getValueOfToken() + " ]", thirtyfour)); //[print]
                     tree.add(getTree(thirtysix, "[ " +tokens.get(i+1).getValueOfToken() + " ]", thirtyfour));//[(]
                     tree.add(getTree(thirtyseven, "<Expr>", thirtysix));//
-                    tree.add(getTree(thirtyeight, "[ " +tokens.get(i+2).getValueOfToken() + " ]", thirtyseven));// [ x ]
-                    if(tokens.get(i+3).getTypeOfToken().equals("PLUS")){ //case for int expr within print statement
-                        tree.add(getTree(thirtynine, "[ " +tokens.get(i+3).getValueOfToken() + " ]", thirtyseven));// [ + ]
-                        tree.add(getTree(thirtynine+62, "[ " +tokens.get(i+4).getValueOfToken() + " ]", thirtyseven));// [ x ]
-                        tree.add(getTree(thirtynine+63, "[ " +tokens.get(i+5).getValueOfToken() + " ]", thirtyfour));// [ ) ]
+                    if(tokens.get(i+2).getTypeOfToken().equals("CHAR")){
+                        tree.add(getTree(thirtyeight, "<ID>", thirtyseven));//
+                        tree.add(getTree(thirtynine, "[ " +tokens.get(i+2).getValueOfToken() + " ]", thirtyeight));// [ x ]
+                        tree.add(getTree(thirtynine+1, "[ " +tokens.get(i+3).getValueOfToken() + " ]", thirtyfour)); // [ ) ] for case print(x)
+                        
+                    }
+                    if(tokens.get(i+2).getTypeOfToken().equals("BOOL_VAL")){
+                        tree.add(getTree(thirtyeight, "<BooleanExpr>", thirtyseven));//
+                        tree.add(getTree(thirtynine, "[ " +tokens.get(i+2).getValueOfToken() + " ]", thirtyeight));// [ x ]
+                        tree.add(getTree(thirtynine+1, "[ " +tokens.get(i+3).getValueOfToken() + " ]", thirtyfour)); // [ ) ] for case print(x)
+                        
+                    }
+                    if(tokens.get(i+2).getTypeOfToken().equals("STRING")){
+                        tree.add(getTree(thirtyeight, "<StringExpr>", thirtyseven));//
+                        tree.add(getTree(thirtynine, "[ " +tokens.get(i+2).getValueOfToken() + " ]", thirtyeight));// [ x ]
+                        tree.add(getTree(thirtynine+1, "[ " +tokens.get(i+3).getValueOfToken() + " ]", thirtyfour)); // [ ) ] for case print(x)
+                    
+                    }
+                    if((tokens.get(i+2).getTypeOfToken().equals("DIGIT")) && (!tokens.get(i+3).getTypeOfToken().equals("PLUS"))){
 
+                        tree.add(getTree(thirtyeight, "<IntExpr>", thirtyseven));//
+                        tree.add(getTree(thirtynine, "[ " +tokens.get(i+2).getValueOfToken() + " ]", thirtyeight));// [ x ]
+                        tree.add(getTree(thirtynine+1, "[ " +tokens.get(i+3).getValueOfToken() + " ]", thirtyfour)); // [ ) ] for case print(x)
+                    
                     }
-                    else{
-                        tree.add(getTree(thirtynine, "[ " +tokens.get(i+3).getValueOfToken() + " ]", thirtyfour)); // [ ) ] for case print(x)
+                    if((tokens.get(i+2).getTypeOfToken().equals("DIGIT")) && (tokens.get(i+3).getTypeOfToken().equals("PLUS"))){
+                        tree.add(getTree(thirtyeight, "<IntExpr>", thirtyseven));//
+                        tree.add(getTree(thirtynine, "[ " +tokens.get(i+2).getValueOfToken() + " ]", thirtyeight));// [ x ]
+                        tree.add(getTree(thirtynine+1, "[ " +tokens.get(i+3).getValueOfToken() + " ]", thirtyeight));// [ + ]
+                        tree.add(getTree(thirtynine+2, "[ " +tokens.get(i+4).getValueOfToken() + " ]", thirtyeight));// [ x ]
+                        tree.add(getTree(thirtynine+3, "[ " +tokens.get(i+5).getValueOfToken() + " ]", thirtyfour));// [ ) ]
+                        /*if(tokens.get(i+3).getTypeOfToken().equals("PLUS")){ //case for int expr within print statement
+                            tree.add(getTree(thirtynine+1, "[ " +tokens.get(i+3).getValueOfToken() + " ]", thirtyeight));// [ + ]
+                            tree.add(getTree(thirtynine+2, "[ " +tokens.get(i+4).getValueOfToken() + " ]", thirtyeight));// [ x ]
+                            tree.add(getTree(thirtynine+3, "[ " +tokens.get(i+5).getValueOfToken() + " ]", thirtyfour));// [ ) ]
+                            System.out.println("ok");
+    
+                        }
+                        else{
+                            tree.add(getTree(thirtynine+1, "[ " +tokens.get(i+3).getValueOfToken() + " ]", thirtyfour)); // [ ) ] for case print(x)
+                        }*/
                     }
+                    
+                    
+                    
         }
         thirtythree+=13;
         thirtyfour+=13;
@@ -365,6 +436,34 @@ else{
         }*/
     }
     public void whileTree(String letter, int i){
+        if((tokens.get(i+1).getValueOfToken().equals(letter))){ //7 is case for parseTest1.txt
+            //if(i<5){
+            parseMessage("parseStatement();");
+            parseMessage("parseWhileStatement();");
+            tree.add(getTree(forty, "<Statement>", 4));
+            tree.add(getTree(fortyone, "<WhileStatement>", forty));
+            tree.add(getTree(fortytwo, "[ " +tokens.get(i).getValueOfToken() + " ]", fortyone));
+            tree.add(getTree(fortythree, "<BooleanExpr>", fortyone));
+            tree.add(getTree(fortyfour, "[ " +tokens.get(i+1).getValueOfToken() + " ]", fortythree));
+            
+            tree.add(getTree(fortyfive, "<Block>", fortyone));
+            tree.add(getTree(fortysix, "[ " +tokens.get(i+2).getValueOfToken() + " ]", fortyfive));
+            
+        //    }
+            
+        
+        }
+        
+
+        
+        forty+=10;
+        fortytwo+=10;
+        fortythree+=10;
+        fortyfour+=10;
+        fortyfive+=10;
+        fortysix+=10;
+        
+        
         
         if((tokens.get(i+2).getValueOfToken().equals(letter)) && (((i==1)) || (i==7))){ //7 is case for parseTest1.txt
             parseMessage("parseStatement();");
@@ -426,6 +525,7 @@ else{
             tree.add(getTree(5200, "<Block>", 4100));
             tree.add(getTree(5300, "[ " +tokens.get(i+6).getValueOfToken() + " ]", 5200));
             }
+            
         
     }
     public void ifTree(String letter, int i){
@@ -632,7 +732,7 @@ else{
                     priTree("d", i);priTree("j", i);priTree("p", i);priTree("v", i);     
                     priTree("e", i);priTree("k", i);priTree("q", i);priTree("w", i);
                     priTree("f", i);priTree("l", i);priTree("r", i);priTree("x", i);
-                    priTree("y", i);priTree("z", i);
+                    priTree("y", i);priTree("z", i);priTree("true", i);priTree("false", i);priTree("STRING", i);
                     priTree("PLUS", i);
                     break;
                 case "while":
@@ -643,6 +743,8 @@ else{
                     whileTree("e", i);whileTree("k", i);whileTree("q", i);whileTree("w", i);
                     whileTree("f", i);whileTree("l", i);whileTree("r", i);whileTree("x", i);
                     whileTree("y", i);whileTree("z", i);
+                    whileTree("true", i);//whileTree("false", i);
+
                 break;
                 case "if":
                     ifTree("a", i);ifTree("g", i);ifTree("m", i);ifTree("s", i);                    

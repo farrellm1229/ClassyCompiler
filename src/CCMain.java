@@ -20,7 +20,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
         System.out.println("ERROR Lexer - Unrecognized Token [ " + value + " ] found at line: " + (lineNum-1));
     }
 	public static void warningMessage(int lineNum) {
-        System.out.println("    WARNING - Unterminated Comment! found at line: " + lineNum);
+        System.out.println("WARNING - Unterminated Comment! found at line: " + lineNum);
 
     }
 
@@ -255,16 +255,16 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                         System.out.println("-----------------------------------------------------------");
                         parser.createCST(listOfTokens); //call CST because parse passed
                         System.out.println("-----------------------------------------------------------");
-                        System.out.print("INFO  Parser - Classy Compiler Has Finished Building CST Of Program #" + programNumber + "\n");
+                        System.out.print("INFO  Parser - Classy Compiler Has Finished Building CST Of Program #" + (programNumber-1) + "\n");
                         System.out.println("-----------------------------------------------------------");
-                        System.out.print("Classy Compiler Is Now Building An Abstract Syntax Tree Of Program #" + programNumber + "\n");
-                        System.out.println("-----------------------------------------------------------");
+                        //System.out.print("Classy Compiler Is Now Building An Abstract Syntax Tree Of Program #" + programNumber + "\n");
+                        //System.out.println("-----------------------------------------------------------");
                         
-                        parser.createAST(listOfTokens);
-                        System.out.println("-----------------------------------------------------------");
-                        System.out.print("Classy Compiler Has Finished Building AST Of Program #" + programNumber + "\n");
-                        System.out.println("-----------------------------------------------------------");
-                        ast.symbolTable();
+                        //parser.createAST(listOfTokens);
+                        //System.out.println("-----------------------------------------------------------");
+                        //System.out.print("Classy Compiler Has Finished Building AST Of Program #" + programNumber + "\n");
+                        //System.out.println("-----------------------------------------------------------");
+                        //ast.symbolTable();
                     }
                     else {
                         //System.out.println("-----------------------------------------------------------");
@@ -306,7 +306,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 		if(unrecognizedSymbol.length() > 0) {//check if we have any unrecognized tokens
             //if we do, that means we have at least one error
 			int numberOfErrors = 1;
-			errorMessage(unrecognizedSymbol, lineNumber - 1);
+			errorMessage(unrecognizedSymbol.substring(0, 1), lineNumber);
             System.out.println("-----------------------------------------------------------");
 			System.out.print("INFO  Lexer - Classy Compiler has failed lexical analysis due to " + numberOfErrors + " error(s).\n");
             System.out.println("-----------------------------------------------------------");
