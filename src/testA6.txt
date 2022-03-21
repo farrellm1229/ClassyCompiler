@@ -9,7 +9,7 @@ b=0
 while (a != 3) {
 
 while (b != 3) {
-print(7)
+print(4)
 }
 }
 }
