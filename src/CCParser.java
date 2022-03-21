@@ -40,13 +40,40 @@ public class CCParser {
         return result;
     }
 
+    public void parseErrorMsg(String typeExpected, String valueExpected, String valueReceived){
+        System.out.println("ERROR Parser - " + typeExpected + " [ " + valueExpected + " ] expected but found [ "+ 
+                                        valueReceived + " ]");
+        System.out.println("-----------------------------------------------------------");
+
+
+    }
+
     public boolean createCST(List<CCToken> tokenStream) {
         CCTree cst = new CCTree(); //create instance of class for CST
+        //CCAst ast = new CCAst(); //create instance of CST class
+
         
         tokens = tokenStream; //create instance of tokenStream
         result = true; //unnecessary but haven't changed it yet
     
         cst.create(tokenStream); //create CST
+        
+        return result;
+
+    }
+
+    
+    public boolean createAST(List<CCToken> tokenStream) {
+        //CCTree cst = new CCTree(); //create instance of class for CST
+        CCAst ast = new CCAst(); //create instance of CST class
+
+        
+        tokens = tokenStream; //create instance of tokenStream
+        result = true; //unnecessary but haven't changed it yet
+    
+        
+        ast.create(tokenStream); //create AST
+
         return result;
 
     }
@@ -59,7 +86,8 @@ public class CCParser {
             result = true;
         }
         else{
-            System.out.println("No EOP"); //program end not found
+            parseErrorMsg("EOP", "$", tokens.get(indexOfToken+1).getValueOfToken());
+            //program end not found
             result = false;
         }
         return result;
@@ -68,6 +96,9 @@ public class CCParser {
         if (match("LEFT_BRACKET")) {
             indexOfToken++;
             if (statementList() == false) {
+                //System.out.println("ERROR Parser - INVALID <StatementList>");
+                //System.out.println("-----------------------------------------------------------");
+
                 result = false; //no Statement list found, therefore false
             }
 
@@ -86,7 +117,10 @@ public class CCParser {
                         }
                     }
                     else {
+                        //parseErrorMsg("EOP", "$", tokens.get(indexOfToken+1).getV);
                         System.out.println("ERROR Parser - EOP [ $ ] Expected but found: [ " + tokens.get(indexOfToken+1).getValueOfToken() + " ]");
+                        System.out.println("-----------------------------------------------------------");
+                        
                         result = false;
                     }
                 }
@@ -103,7 +137,7 @@ public class CCParser {
 
         }
         else {
-            System.out.println("ERROR Parser - Not A Valid Program Start");     
+            parseErrorMsg("LEFT_BRACKET", "{", tokens.get(indexOfToken).getValueOfToken());   
         }
         
         return result;
@@ -114,7 +148,7 @@ public class CCParser {
             result = true;
         }
         else {
-            System.out.println("ERROR Parser - Was Expecting [ { ] but found " + tokens.get(indexOfToken).getValueOfToken());
+            parseErrorMsg("LEFT_BRACKET", "{", tokens.get(indexOfToken).getValueOfToken());
             result = false;  
         }
         
@@ -126,6 +160,8 @@ public class CCParser {
             result = true;
         }
         else {
+            //parseErrorMsg("RIGHT_BRACKET", "}", tokens.get(indexOfToken).getValueOfToken());
+
             //System.out.println("ERROR Parser - Was Expecting [ } ] but found " + tokens.get(indexOfToken).getValueOfToken());
             result = false;
         }
@@ -198,6 +234,8 @@ public class CCParser {
                 result = true;
             }
             else{
+                
+
                 result = false;
             }
 
@@ -235,21 +273,27 @@ public class CCParser {
                         else {
                             result = statementList(); //check for statement list
                         }                        
-                        result = true;
+                        //result = true;
                     }
                     else {
-                        indexOfToken++;
+                        //indexOfToken++;
+                        parseErrorMsg("RIGHT_PARENTHESIS", ")", tokens.get(indexOfToken).getValueOfToken());
+
+                        
                         //System.out.println("ERROR Parser - Was Expecting [ ) ] but found " + tokens.get(indexOfToken).getValueOfToken());
                         result = false;
                     }
                 }
                 else{
-                    indexOfToken++;
-                    //System.out.println("Was expecting expression in Print Statement");
+                    //indexOfToken++;
+                    parseErrorMsg("EXPRESSION", "<Expr>", tokens.get(indexOfToken).getValueOfToken());
+                    
                     result = false;
                 }
                 }
                 else{
+                    parseErrorMsg("LEFT_PARENTHESIS", "(", tokens.get(indexOfToken).getValueOfToken());
+
                     //System.out.println("Imvalid Print Statement");
                     result = false;
                 }
@@ -263,9 +307,19 @@ public class CCParser {
 
         if ((match("CHAR")) == true) { //ID 
             indexOfToken++;
-            if ((match("ASSIGNMENT")) == true) { // =
+            if ((match("ASSIGNMENT")) == true){ // =
                 
                 indexOfToken++;
+                if(tokens.get(indexOfToken+1).getTypeOfToken().equals("DIGIT")){
+                    System.out.println("ERROR Parser - DIGIT [ " + tokens.get(indexOfToken).getValueOfToken() + " ] cannot be followed by [ " +
+                    tokens.get(indexOfToken+1).getValueOfToken() + " ] in an <AssignmentStatement>");
+                    System.out.println("-----------------------------------------------------------");
+
+                    //parseErrorMsg("INVALID -", "<StatementList>", tokens.get(indexOfToken).getValueOfToken());
+                    result = false;
+
+                }
+                
                 if (expression() == true) { // EXPR
  
                     //blockEnd();
@@ -280,11 +334,21 @@ public class CCParser {
                     result = true;
             }
             else {
+                //parseErrorMsg("INVALID -", "<Expr>", tokens.get(indexOfToken).getValueOfToken());
+                
                 //System.out.println("Was expecting expression after assignment;");
                 result = false;
             }
         
-                result = true;
+                
+            }
+            else{
+                result = false;
+                parseErrorMsg("ASSIGNMENT", "=", tokens.get(indexOfToken).getValueOfToken());
+                //System.out.println("ERROR Parser - ASSIGNMENT [ = ] expected but found [ "+ 
+                  //                      tokens.get(indexOfToken).getValueOfToken() + " ]");
+            
+                
             }
             return result;
         }
@@ -298,6 +362,17 @@ public class CCParser {
             if ((match("CHAR")) == true) {//ID
                 indexOfToken++;
                 result = true;
+
+                if((tokens.get(indexOfToken).getTypeOfToken().equals("ASSIGNMENT")) || (tokens.get(indexOfToken).getTypeOfToken().equals("PLUS"))){
+                    System.out.println("ERROR Parser - ID [ " + tokens.get(indexOfToken-1).getValueOfToken() + " ] cannot be followed by [ " +
+                    tokens.get(indexOfToken).getValueOfToken() + " ] in a <VarDecl>");
+                    System.out.println("-----------------------------------------------------------");
+
+                    //parseErrorMsg("INVALID -", "<StatementList>", tokens.get(indexOfToken).getValueOfToken());
+                    result = false;
+
+                }
+                
             
                 if (blockEnd() == true){
                     result = true;
@@ -310,6 +385,8 @@ public class CCParser {
                 result = true;
         }
         else{
+            parseErrorMsg("ID", "CHAR", tokens.get(indexOfToken).getValueOfToken());
+
             result = false;
         }
         return result;
@@ -322,6 +399,7 @@ public class CCParser {
 
             if ((match("WHILE")) == true) { //While (BooleanExpr Block)
                 indexOfToken++;
+                if(!tokens.get(indexOfToken).getTypeOfToken().equals("BOOL_VAL")){
                 if ((match("LEFT_PARENTHESIS")) == true) {
                     indexOfToken++; //look for booleanexpr
                     if (expression() == true){ //expr
@@ -351,11 +429,13 @@ public class CCParser {
                                     else {
                                         result = false;
                                         //System.out.println(tokens.get(indexOfToken).getValueOfToken());
-                                        System.out.println("ERROR Parser - Was Expecting [ { ] but found [ "+ 
-                                        tokens.get(indexOfToken).getValueOfToken() + " ]");
+                                        parseErrorMsg("LEFT_BRACKET", "{", tokens.get(indexOfToken).getValueOfToken());
+
                                     }
                                 }
                                 else{
+                                    parseErrorMsg("RIGHT_PARENTHESIS", ")", tokens.get(indexOfToken).getValueOfToken());
+
                                     result=false;
                                     //System.exit(0); //this is if the if statement doesnt have 
                                     //a right parenthesis: if() <----
@@ -368,6 +448,8 @@ public class CCParser {
     
                         }
                         else{
+                            parseErrorMsg("BOOL_OP", "== || !=", tokens.get(indexOfToken).getValueOfToken());
+
 
                         }
     
@@ -379,8 +461,39 @@ public class CCParser {
                     }
             }
             else{
+                parseErrorMsg("LEFT_PARENTHESIS", "(", tokens.get(indexOfToken).getValueOfToken());
 
             }
+        }
+        else if(tokens.get(indexOfToken).getTypeOfToken().equals("BOOL_VAL")) {
+            indexOfToken++; //look for booleanexpr
+            if (match("LEFT_BRACKET")) { //block start
+                                indexOfToken++;
+                                
+                                if (statementList() == true){ //statement in block
+                                    indexOfToken++;
+
+                                
+                                    
+
+                                    if (blockEnd() == true) {
+                                        result = true;
+                                    }
+                                }     
+                                result = blockEnd();
+                            }
+                            else {
+                                result = false;
+                                //System.out.println(tokens.get(indexOfToken).getValueOfToken());
+                                parseErrorMsg("LEFT_BRACKET", "{", tokens.get(indexOfToken).getValueOfToken());
+
+                            }
+    }
+
+            else{
+
+            }
+            
             //result = true;
             return result;
                 
@@ -392,74 +505,116 @@ public class CCParser {
 
             if ((match("IF")) == true) {
                 indexOfToken++;
-                if ((match("LEFT_PARENTHESIS")) == true) {
-                    indexOfToken++; 
-                    if (expression() == true){
-                      //so far so good
-                        if (match("BOOL_OP")) {
-                            indexOfToken++;
-                            if (expression() == true){
-                                
-                                if (match("RIGHT_PARENTHESIS")) {
-                                    indexOfToken++;
-                                    if (match("LEFT_BRACKET")) {
+                if(!tokens.get(indexOfToken).getTypeOfToken().equals("BOOL_VAL")){
+                    if ((match("LEFT_PARENTHESIS")) == true) {
+                        indexOfToken++; //look for booleanexpr
+                        if (expression() == true){ //expr
+                            if (match("BOOL_OP")) { //so far so good
+                                indexOfToken++;
+                           
+                                if (expression() == true){ //expr
+                                    
+                                    if (match("RIGHT_PARENTHESIS")) {
                                         indexOfToken++;
-                                        if (statementList() == true){
-                                            indexOfToken++;
-                                        
-                                            if (blockEnd() == true) {
-                                                result = true;
         
-                                            }
+                                        if (match("LEFT_BRACKET")) { //block start
+                                            indexOfToken++;
+                                            
+                                            if (statementList() == true){ //statement in block
+                                                indexOfToken++;
+    
+                                            
+                                                
+    
+                                                if (blockEnd() == true) {
+                                                    result = true;
+                                                }
+                                            }     
+                                            result = blockEnd();
                                         }
-                                        result = blockEnd();
+                                        else {
+                                            result = false;
+                                            //System.out.println(tokens.get(indexOfToken).getValueOfToken());
+                                            parseErrorMsg("LEFT_BRACKET", "{", tokens.get(indexOfToken).getValueOfToken());
+    
+                                        }
+                                    }
+                                    else{
+                                        parseErrorMsg("RIGHT_PARENTHESIS", ")", tokens.get(indexOfToken).getValueOfToken());
+
+                                        result=false;
+                                        //System.exit(0); //this is if the if statement doesnt have 
+                                        //a right parenthesis: if() <----
                                     }
                                     
-                                    else {
-                                        result = false;
-                                        //System.out.println(tokens.get(indexOfToken).getValueOfToken());
-                                        System.out.println("ERROR Parser - Was Expecting [ { ] but found [ "+ 
-                                        tokens.get(indexOfToken).getValueOfToken() + " ]");
-                                    }
-
                                 }
                                 else{
-                                    result=false;
-                                    //System.exit(0); //this is if the if statement doesnt have 
-                                    //a right parenthesis: if() <----
+                                    
                                 }
-                                
+        
                             }
                             else{
+                                parseErrorMsg("BOOL_OP", "== || !=", tokens.get(indexOfToken).getValueOfToken());
 
-                            }
-                        }
-                        else{
-
-                        }
     
-                        //result = true;
-                    }
-                    else {
-                        //indexOfToken++;
-                        result = statementList();
-                    }
+                            }
+        
+                            //result = true;
+                        }
+                        else {
+                            //indexOfToken++;
+                            result = statementList();
+                        }
                 }
-            //result = true;
-            return result;
-                
+                else{
+                    parseErrorMsg("LEFT_PARENTHESIS", "(", tokens.get(indexOfToken).getValueOfToken());
+
+                }
+            }
+            else if(tokens.get(indexOfToken).getTypeOfToken().equals("BOOL_VAL")) {
+                indexOfToken++; //look for booleanexpr
+                if (match("LEFT_BRACKET")) { //block start
+                                    indexOfToken++;
+                                    
+                                    if (statementList() == true){ //statement in block
+                                        indexOfToken++;
+    
+                                    
+                                        
+    
+                                        if (blockEnd() == true) {
+                                            result = true;
+                                        }
+                                    }     
+                                    result = blockEnd();
+                                }
+                                else {
+                                    result = false;
+                                    //System.out.println(tokens.get(indexOfToken).getValueOfToken());
+                                    parseErrorMsg("LEFT_BRACKET", "{", tokens.get(indexOfToken).getValueOfToken());
+    
+                                }
         }
-        else{
-            
-        }   
-        return result;
-    } 
+    
+                else{
+    
+                }
+                
+                //result = true;
+                return result;
+            }
+            return result;
+    }//end of statements 
             
            
     
     public boolean intExpr() {
-        if (match("DIGIT")) { //plus around found, so check for digit
+        if ((match("DIGIT")) || (match("CHAR"))) { //plus around found, so check for digit
             result = expression(); //then look for another digit or int expr
+
+        }
+        else{
+            parseErrorMsg("DIGIT", "0-9", tokens.get(indexOfToken).getValueOfToken());
 
         }
         return result;
@@ -472,21 +627,35 @@ public class CCParser {
             result = expression();
 
         }
+        else{
+            parseErrorMsg("STRING", "''", tokens.get(indexOfToken).getValueOfToken());
+
+        }
         return result;
         
     }
 
     public boolean expression() {
-        if ((match("DIGIT")) || match(("BOOL_VAL")) || match(("CHAR")) || match(("STRING")) == true) {
+        if(match("CHAR")){
+            indexOfToken++;
+            if(match("PLUS")){
+                System.out.println("ERROR Parser - ID [ " + tokens.get(indexOfToken-1).getValueOfToken() + " ] cannot be followed by [ " +
+                tokens.get(indexOfToken).getValueOfToken() + " ] in an <IntExpr>");
+                System.out.println("-----------------------------------------------------------");
+
+            }
+            result = true;
+        } 
+        else if ((match("DIGIT")) || match(("BOOL_VAL")) || match(("STRING")) == true) {
             
             indexOfToken++;
                 if ((match("RIGHT_PARENTHESIS")) == true) {
                     result = true;
                     
                 }
-                else{
-                    result = true;
-                }
+                //else{
+                  //  result = true;
+               // }
                 if (match("PLUS")) {
                     indexOfToken++; //move to next
                     result = intExpr();
@@ -495,6 +664,9 @@ public class CCParser {
                     //result = false;
                 }
                 return result;//result = true;
+            }
+            else {
+                result = false;
             }
         
         return result;
