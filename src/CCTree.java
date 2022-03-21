@@ -743,7 +743,7 @@ else{
                     whileTree("e", i);whileTree("k", i);whileTree("q", i);whileTree("w", i);
                     whileTree("f", i);whileTree("l", i);whileTree("r", i);whileTree("x", i);
                     whileTree("y", i);whileTree("z", i);
-                    whileTree("true", i);//whileTree("false", i);
+                    whileTree("true", i);whileTree("false", i);
 
                 break;
                 case "if":
