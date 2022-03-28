@@ -1,1 +1,17 @@
-{a=1+2+3+4}$
+{
+ int a
+ boolean b
+ {
+ string c
+{
+int e
+ a = 5
+ b = true /* no comment */
+ c = "inta"
+ print(c)
+}
+int f
+ }
+ print(b)
+ print(a)
+}$

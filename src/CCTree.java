@@ -412,6 +412,77 @@ else{
     }
 */
     public void assignmentTree(String letter, int i){
+        /*
+        if(tokens.get(i-1).getValueOfToken().equals(letter)){
+            parseMessage("parseStatement();");
+            parseMessage("parseAssignmentStatement();");
+            //tree.add(getTree(25, "<StatementList>", 4));
+            tree.add(getTree(twentysix, "<Statement>", four));
+
+            tree.add(getTree(twentyseven, "<AssignmentStatement>", twentysix));
+            tree.add(getTree(twentyeight, "<ID>", twentyseven));
+            tree.add(getTree(twentynine, "[ " +tokens.get(i-1).getValueOfToken() + " ]", twentyeight));
+            tree.add(getTree(thirty, "[ " + tokens.get(i).getValueOfToken() + " ]", twentyseven));
+            
+            tree.add(getTree(thirtyone, "<Expr>", twentyseven));
+            if(tokens.get(i+1).getTypeOfToken().equals("DIGIT")){
+                tree.add(getTree(thirtytwo, "<IntExpr>", thirtyone));//
+                tree.add(getTree(thirtytwo+1, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtytwo));
+                if(tokens.get(i+2).getTypeOfToken().equals("PLUS")){
+                    tree.add(getTree(thirtytwo+2, "[ " +tokens.get(i+2).getValueOfToken() + " ]",thirtytwo));
+                    tree.add(getTree(thirtytwo+3, "<Expr>", thirtytwo));//
+                    if(tokens.get(i+3).getTypeOfToken().equals("CHAR")){
+                        tree.add(getTree(thirtytwo+4, "<ID>", thirtytwo+3));//
+                        tree.add(getTree(thirtytwo+5, "[ " + tokens.get(i+3).getValueOfToken() + " ]", thirtytwo+4));//
+                    }
+                    else{
+                    tree.add(getTree(thirtytwo+4, "<IntExpr>", thirtytwo+3));//
+                    tree.add(getTree(thirtytwo+5, "[ " + tokens.get(i+3).getValueOfToken() + " ]", thirtytwo+4));//
+                    }
+                }
+                else{
+                    //no plus found after first expr
+                }
+
+            }
+            else if(tokens.get(i+1).getTypeOfToken().equals("STRING")){
+                tree.add(getTree(thirtytwo, "<StringExpr>", thirtyone));//
+                tree.add(getTree(thirtytwo+1, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtytwo));
+            }
+            else if(tokens.get(i+1).getTypeOfToken().equals("BOOL_VAL")){
+                tree.add(getTree(thirtytwo, "<BooleanExpr>", thirtyone));//
+                tree.add(getTree(thirtytwo+1, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtytwo));
+            }
+            else{
+                tree.add(getTree(thirtytwo, "<ID>", thirtyone));//
+                tree.add(getTree(thirtytwo+1, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtytwo));
+            }
+        }
+       /* if(tokens.get(i+1).getValueOfToken().equals(letter)){
+            //tree.add(getTree(25, "<StatementList>", 4));
+            tree.add(getTree(twentysix, "<Statement>", four));
+            tree.add(getTree(twentyseven, "<AssignmentStatement>", twentysix));
+            tree.add(getTree(twentyeight, "<ID>", twentyseven));
+            tree.add(getTree(twentynine, "[ " +tokens.get(i-1).getValueOfToken() + " ]", twentyeight));
+            tree.add(getTree(thirty, "[ " + tokens.get(i).getValueOfToken() + " ]", twentyseven));
+            
+            tree.add(getTree(thirtyone, "<Expr>", twentyseven));
+            tree.add(getTree(thirtytwo, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtyone));
+        } */
+     /*   twentysix=twentysix+6;
+        twentyseven=twentyseven+6;
+        twentyeight=twentyeight+6;
+        twentynine=twentynine+6;
+        thirty=thirty+6;
+        thirtyone=thirtyone+6;
+        thirtytwo=thirtytwo+6;
+
+
+    }
+    
+        */
+        //if(i>(tokens.size()/2)){
+        if((tokens.get(i+2).getTypeOfToken().equals("PLUS")) && (tokens.get(i+4).getTypeOfToken().equals("PLUS"))){
         if(tokens.size()>10){
         if(tokens.get(i-1).getValueOfToken().equals(letter)){
             parseMessage("parseStatement();");
@@ -549,6 +620,8 @@ else{
             tree.add(getTree(thirtyone, "<Expr>", twentyseven));
             tree.add(getTree(thirtytwo, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtyone));
         } */
+
+        
         twentysix=twentysix+6;
         twentyseven=twentyseven+6;
         twentyeight=twentyeight+6;
@@ -657,6 +730,78 @@ else{
             }
         }
     }
+}
+else{
+    if(tokens.get(i-1).getValueOfToken().equals(letter)){
+        parseMessage("parseStatement();");
+        parseMessage("parseAssignmentStatement();");
+        //tree.add(getTree(25, "<StatementList>", 4));
+        tree.add(getTree(twentysix, "<Statement>", four));
+
+        tree.add(getTree(twentyseven, "<AssignmentStatement>", twentysix));
+        tree.add(getTree(twentyeight, "<ID>", twentyseven));
+        tree.add(getTree(twentynine, "[ " +tokens.get(i-1).getValueOfToken() + " ]", twentyeight));
+        tree.add(getTree(thirty, "[ " + tokens.get(i).getValueOfToken() + " ]", twentyseven));
+        
+        tree.add(getTree(thirtyone, "<Expr>", twentyseven));
+        if(tokens.get(i+1).getTypeOfToken().equals("DIGIT")){
+            tree.add(getTree(thirtytwo, "<IntExpr>", thirtyone));//
+            tree.add(getTree(thirtytwo+1, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtytwo));
+            if(tokens.get(i+2).getTypeOfToken().equals("PLUS")){
+                tree.add(getTree(thirtytwo+2, "[ " +tokens.get(i+2).getValueOfToken() + " ]",thirtytwo));
+                tree.add(getTree(thirtytwo+3, "<Expr>", thirtytwo));//
+                if(tokens.get(i+3).getTypeOfToken().equals("CHAR")){
+                    tree.add(getTree(thirtytwo+4, "<ID>", thirtytwo+3));//
+                    tree.add(getTree(thirtytwo+5, "[ " + tokens.get(i+3).getValueOfToken() + " ]", thirtytwo+4));//
+                }
+                else{
+                tree.add(getTree(thirtytwo+4, "<IntExpr>", thirtytwo+3));//
+                tree.add(getTree(thirtytwo+5, "[ " + tokens.get(i+3).getValueOfToken() + " ]", thirtytwo+4));//
+                }
+            }
+            else{
+                //no plus found after first expr
+            }
+
+        }
+        else if(tokens.get(i+1).getTypeOfToken().equals("STRING")){
+            tree.add(getTree(thirtytwo, "<StringExpr>", thirtyone));//
+            tree.add(getTree(thirtytwo+1, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtytwo));
+        }
+        else if(tokens.get(i+1).getTypeOfToken().equals("BOOL_VAL")){
+            tree.add(getTree(thirtytwo, "<BooleanExpr>", thirtyone));//
+            tree.add(getTree(thirtytwo+1, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtytwo));
+        }
+        else{
+            tree.add(getTree(thirtytwo, "<ID>", thirtyone));//
+            tree.add(getTree(thirtytwo+1, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtytwo));
+        }
+    }
+   /* if(tokens.get(i+1).getValueOfToken().equals(letter)){
+        //tree.add(getTree(25, "<StatementList>", 4));
+        tree.add(getTree(twentysix, "<Statement>", four));
+        tree.add(getTree(twentyseven, "<AssignmentStatement>", twentysix));
+        tree.add(getTree(twentyeight, "<ID>", twentyseven));
+        tree.add(getTree(twentynine, "[ " +tokens.get(i-1).getValueOfToken() + " ]", twentyeight));
+        tree.add(getTree(thirty, "[ " + tokens.get(i).getValueOfToken() + " ]", twentyseven));
+        
+        tree.add(getTree(thirtyone, "<Expr>", twentyseven));
+        tree.add(getTree(thirtytwo, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtyone));
+    } */
+    twentysix=twentysix+6;
+    twentyseven=twentyseven+6;
+    twentyeight=twentyeight+6;
+    twentynine=twentynine+6;
+    thirty=thirty+6;
+    thirtyone=thirtyone+6;
+    thirtytwo=thirtytwo+6;
+
+
+
+
+    
+
+}
 }
     
 

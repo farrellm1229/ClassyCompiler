@@ -1,5 +1,8 @@
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CCAst {
     private int nodeID;
@@ -122,7 +125,11 @@ public class CCAst {
         int fortytwo = 42;
 
     private static ArrayList<String> symTabName = new ArrayList<String>();
-    private static ArrayList<String> symTabType = new ArrayList<String>();
+    private static ArrayList<Integer> symTabScopeLine = new ArrayList<Integer>();
+    public static LinkedHashMap<String,String> symbolTable = new LinkedHashMap<String,String>();
+    // static Hashtable<Integer,Integer> symTabScopeLine = new Hashtable<Integer,Integer>();  
+    
+
     
 
 
@@ -132,15 +139,20 @@ public class CCAst {
     public void intTree(String letter, int i){
         
         if(tokens.get(i+1).getValueOfToken().equals(letter)) {
+            System.out.println(scope + "inint");
+
             
                     //tree.add(getTree(eleven, "<Statement>", four));
                     tree.add(getTree(twelve, "<Variable Declaration>", two));
                     //tree.add(getTree(thirteen, "<Type>", twelve));
                     tree.add(getTree(thirteen, "[ " +tokens.get(i).getValueOfToken() + " ]", twelve));
-                    symTabType.add(tokens.get(i).getValueOfToken());
+                    //symTabType.add(tokens.get(i).getValueOfToken());
+                    symbolTable.put(tokens.get(i+1).getValueOfToken(), tokens.get(i).getValueOfToken());
+                    symTabScopeLine.add(scope);
+
                     //tree.add(getTree(fourteen, "<ID>", twelve));
                     tree.add(getTree(fourteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", twelve));    
-                    symTabName.add(tokens.get(i+1).getValueOfToken());
+                    //symTabName.add(tokens.get(i+1).getValueOfToken());
 
                 }
                     eleven=eleven+10;
@@ -152,16 +164,22 @@ public class CCAst {
     }
     public void stringTree(String letter, int i){
         if(tokens.get(i+1).getValueOfToken().equals(letter)) {
+            System.out.println(scope);
+            scope=scope+0;
             
             //tree.add(getTree(eleven, "<Statement>", four));
             tree.add(getTree(twelve, "<Variable Declaration>", two));
             //tree.add(getTree(thirteen, "<Type>", twelve));
             tree.add(getTree(thirteen, "[ " +tokens.get(i).getValueOfToken() + " ]", twelve));
             
-            symTabType.add(tokens.get(i).getValueOfToken());
+            //symTabType.add(tokens.get(i).getValueOfToken());
             //tree.add(getTree(fourteen, "<ID>", twelve));
             tree.add(getTree(fourteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", twelve));    
-            symTabName.add(tokens.get(i+1).getValueOfToken());
+            //symTabName.add(tokens.get(i+1).getValueOfToken());
+            symbolTable.put(tokens.get(i+1).getValueOfToken(), tokens.get(i).getValueOfToken());
+            symTabScopeLine.add(scope);
+
+
 }
                     eleven=eleven+100;
                     twelve=twelve+100;
@@ -178,11 +196,16 @@ public class CCAst {
                     tree.add(getTree(twelve, "<Variable Declaration>", two));
                     //tree.add(getTree(thirteen, "<Type>", twelve));
                     tree.add(getTree(thirteen, "[ " +tokens.get(i).getValueOfToken() + " ]", twelve));
-                    symTabType.add(tokens.get(i).getValueOfToken());
+                    //symTabType.add(tokens.get(i).getValueOfToken());
                     //tree.add(getTree(fourteen, "<ID>", twelve));
                     tree.add(getTree(fourteen, "[ " +tokens.get(i+1).getValueOfToken() + " ]", twelve));    
-                    symTabName.add(tokens.get(i+1).getValueOfToken());
+                    //symTabName.add(tokens.get(i+1).getValueOfToken());
+                    symbolTable.put(tokens.get(i+1).getValueOfToken(), tokens.get(i).getValueOfToken());
+                    symTabScopeLine.add(scope);
+
+
 }
+
                     eleven=eleven+29;
                     twelve=twelve+29;
                     thirteen=thirteen+29;
@@ -607,9 +630,25 @@ public class CCAst {
     }
 
     public void symbolTable(){
-        System.out.println("Name Type Scope");
-        System.out.println(symTabName.toString());
+        System.out.println("Name    Type    Scope");
+        System.out.println("---------------------");
+        int test=0;
+        System.out.println(symbolTable.toString());
+
+
+        for (Map.Entry<String, String> entry : symbolTable.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
         
+            System.out.println(key+"       "+value +"       " + symTabScopeLine.get(test));
+            //System.out.println(test);
+
+            test++;
+              
+
+           }  
+           
+        //System.out.println(symbolTable.toString());
         
 
             
