@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CCAst {
+
     private int nodeID;
     private String nodeValue;
     private int parentId;     
@@ -252,7 +253,7 @@ public class CCAst {
             //tree.add(getTree(thirtyone, "<Expr>", twentyseven));
             tree.add(getTree(thirtytwo, "[ " +tokens.get(i+1).getValueOfToken() + " ]",twentyseven));
         }
-        if(tokens.get(i+1).getValueOfToken().equals(letter)){
+        /*if((tokens.get(i+1).getValueOfToken().equals(letter)) && (!tokens.get(i+1).getValueOfToken().equals(letter))){
             //tree.add(getTree(25, "<StatementList>", 4));
             
             tree.add(getTree(twentyseven, "<Assignment Statement>", two));
@@ -262,7 +263,7 @@ public class CCAst {
             
             //tree.add(getTree(thirtyone, "<Expr>", twentyseven));
             tree.add(getTree(thirtytwo, "[ " +tokens.get(i+1).getValueOfToken() + " ]",twentyseven));
-        }
+        }*/
         twentysix=twentysix+6;
         twentyseven=twentyseven+6;
         twentyeight=twentyeight+6;
@@ -280,7 +281,7 @@ public class CCAst {
             
 
                     //tree.add(getTree(33, "<Statement>", 4));
-                    tree.add(getTree(thirtyfour, "<Print Statement>", 2));
+                    tree.add(getTree(thirtyfour, "<Print Statement>", two));
 
                    // tree.add(getTree(35, "[ " +tokens.get(i).getValueOfToken() + " ]", 34)); //[print]
                     //tree.add(getTree(36, "[ " +tokens.get(i+1).getValueOfToken() + " ]", 34));//[(]
@@ -375,7 +376,38 @@ public class CCAst {
         
     }
     public void ifTree(String letter, int i){
+        if((tokens.get(i+2).getValueOfToken().equals(letter)) && (tokens.get(i+3).getValueOfToken().equals("=="))){
 
+            tree.add(getTree(twelve, "<If Statement>", two));
+            tree.add(getTree(thirteen, "<Equality>", twelve));
+            tree.add(getTree(fourteen, "[ " + tokens.get(i+2).getValueOfToken() + " ]" , thirteen));
+            tree.add(getTree(fourteen, "[ " + tokens.get(i+4).getValueOfToken() + " ]", thirteen));
+            //symbolTable.put(tokens.get(i+2).getValueOfToken(), tokens.get(i+4).getValueOfToken());
+            //symTabScopeLine.add(scope);
+
+
+}
+        else if((tokens.get(i+2).getValueOfToken().equals(letter)) && (tokens.get(i+3).getValueOfToken().equals("!="))){
+
+            tree.add(getTree(twelve+7, "<If Statement>", two));
+            tree.add(getTree(thirteen+7, "<Inequality>", twelve+7));
+            tree.add(getTree(fourteen+7, "[ " + tokens.get(i+2).getValueOfToken() + " ]" , thirteen+7));
+            tree.add(getTree(fourteen+7, "[ " + tokens.get(i+4).getValueOfToken() + " ]", thirteen+7));
+            //symbolTable.put(tokens.get(i+2).getValueOfToken(), tokens.get(i+4).getValueOfToken());
+            //symTabScopeLine.add(scope);
+
+
+}
+
+
+            //eleven=eleven+113;
+            twelve=twelve+113;
+            thirteen=thirteen+113;
+            fourteen=fourteen+113;
+           // fifteen=fifteen+113;
+            //sixteen=sixteen+113;
+       
+/*
         if((tokens.get(i+2).getValueOfToken().equals(letter)) && (((i==1)) || (i==7))){ //7 is case for parseTest1.txt
             
             tree.add(getTree(60, "<Statement>", 4));
@@ -427,7 +459,7 @@ public class CCAst {
             tree.add(getTree(7100, "[ " +tokens.get(i+5).getValueOfToken() + " ]", 6300));
             tree.add(getTree(7200, "<Block>", 6100));
             tree.add(getTree(7300, "[ " +tokens.get(i+6).getValueOfToken() + " ]", 7200));
-        }
+        }*/
     }
 
 
@@ -555,7 +587,7 @@ public class CCAst {
                     assignmentTree("m", i); assignmentTree("n", i); assignmentTree("o", i); assignmentTree("p", i);
                     assignmentTree("q", i); assignmentTree("r", i); assignmentTree("s", i); assignmentTree("t", i);
                     assignmentTree("u", i); assignmentTree("v", i); assignmentTree("w", i); assignmentTree("x", i);
-                    assignmentTree("y", i); assignmentTree("z", i); assignmentTree("STRING", i);
+                    assignmentTree("y", i); assignmentTree("z", i); //assignmentTree("STRING", i);
 
                     break;
                 
@@ -642,7 +674,7 @@ public class CCAst {
         
             System.out.println(key+"       "+value +"       " + symTabScopeLine.get(test));
             //System.out.println(test);
-
+            //printf("'%-5d'"
             test++;
               
 
