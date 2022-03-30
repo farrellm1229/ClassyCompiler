@@ -247,6 +247,8 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 
                         //Begin Parsing Process
                     CCParser parser = new CCParser();
+                    CCAnalysis analysis = new CCAnalysis(); //create instance of CST class
+
                     
                     boolean parseStatus = parser.parseOutcome(listOfTokens);
                     if (parseStatus == true) {
@@ -257,8 +259,17 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                         System.out.println("-----------------------------------------------------------");
                         System.out.print("INFO  Parser - Classy Compiler Has Finished Building CST Of Program #" + (programNumber-1) + "\n");
                         System.out.println("-----------------------------------------------------------");
+
+                        System.out.print("INFO  Analyze - Classy Compiler Is Beginning Semantic Analysis Of Program #" + (programNumber-1) + "\n");
+                        System.out.println("-----------------------------------------------------------");
+                        analysis.analyze(listOfTokens);
+
+
                         System.out.print("Classy Compiler Is Now Building An Abstract Syntax Tree Of Program #" + (programNumber-1) + "\n");
                         System.out.println("-----------------------------------------------------------");
+                        
+
+                        
                         
                         parser.createAST(listOfTokens);
                         System.out.println("-----------------------------------------------------------");

@@ -1,6 +1,6 @@
 {
  int a
- a = 1
+int b
  {
  string b
  b = a

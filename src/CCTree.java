@@ -987,8 +987,12 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
         }*/
     }
     public void whileTree(String letter, int i){
-        if((tokens.get(i+1).getValueOfToken().equals(letter))){ //7 is case for parseTest1.txt
+        
+        
+        if((tokens.get(i+1).getTypeOfToken().equals("BOOL_VAL")) && (!tokens.get(i+2).getTypeOfToken().equals(letter))){ //7 is case for parseTest1.txt
             //if(i<5){
+        System.out.println("h19091081");
+                
             parseMessage("parseStatement();");
             parseMessage("parseWhileStatement();");
             tree.add(getTree(forty, "<Statement>", four));
@@ -1001,19 +1005,55 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
             tree.add(getTree(fortysix, "[ " +tokens.get(i+2).getValueOfToken() + " ]", blockffive));
             
         //    }
+        
             
         
         }
         
 
         
-        forty+=10;
-        fortytwo+=10;
-        fortythree+=10;
-        fortyfour+=10;
-        fortyfive+=10;
-        fortysix+=10;
         
+
+        if((tokens.get(i+2).getValueOfToken().equals(letter))){ //7 is case for parseTest1.txt
+            //if(i<5){
+               
+            parseMessage("parseStatement();");
+            parseMessage("parseWhileStatement();");
+            tree.add(getTree(forty, "<Statement>", four));
+            tree.add(getTree(fortyone, "<WhileStatement>", forty));
+            tree.add(getTree(fortytwo, "[ " +tokens.get(i).getValueOfToken() + " ]", fortyone));
+            tree.add(getTree(fortythree, "<BooleanExpr>", fortyone));
+            tree.add(getTree(fortyfour, "[ " +tokens.get(i+1).getValueOfToken() + " ]", fortythree));
+            
+            tree.add(getTree(blockffive, "<Expr>", fortythree));
+            tree.add(getTree(fortysix, "[ " +tokens.get(i+2).getValueOfToken() + " ]", blockffive));
+            tree.add(getTree(fortysix+1, "<BoolOp>", fortythree));
+            tree.add(getTree(fortysix+2, "[ " +tokens.get(i+3).getValueOfToken() + " ]", fortysix+1));
+
+            tree.add(getTree(fortysix+4, "<Expr>", fortythree));
+            tree.add(getTree(fortysix+5, "[ " +tokens.get(i+4).getValueOfToken() + " ]", fortysix+4));
+            tree.add(getTree(fortysix+6, "[ " +tokens.get(i+5).getValueOfToken() + " ]", fortythree));
+
+            
+
+
+            
+        //    }
+            
+        
+        }
+        forty+=100;
+        fortyone+=100;
+        
+    fortytwo+=100;
+    fortythree+=100;
+    fortyfour+=100;
+    fortyfive+=100;
+    fortysix+=100;
+    blockffive+=100;
+        
+        
+        /*
         
         
         if((tokens.get(i+2).getValueOfToken().equals(letter)) && (((i==1)) || (i==7))){ //7 is case for parseTest1.txt
@@ -1077,9 +1117,35 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
             tree.add(getTree(5300, "[ " +tokens.get(i+6).getValueOfToken() + " ]", 5200));
             }
             
-        
+        */
     }
     public void ifTree(String letter, int i){
+        if((tokens.get(i+1).getValueOfToken().equals(letter))){ //7 is case for parseTest1.txt
+            forty+=100;
+            fortyone+=100;
+            
+        fortytwo+=100;
+        fortythree+=100;
+        fortyfour+=100;
+        fortyfive+=100;
+        fortysix+=100;
+        blockffive+=100;
+            //if(i<5){
+            parseMessage("parseStatement();");
+            parseMessage("parseWhileStatement();");
+            tree.add(getTree(forty, "<Statement>", four));
+            tree.add(getTree(fortyone, "<IfStatement>", forty));
+            tree.add(getTree(fortytwo, "[ " +tokens.get(i).getValueOfToken() + " ]", fortyone));
+            tree.add(getTree(fortythree, "<BooleanExpr>", fortyone));
+            tree.add(getTree(fortyfour, "[ " +tokens.get(i+1).getValueOfToken() + " ]", fortythree));
+            
+            tree.add(getTree(blockffive, "<Block>", fortyone));
+            tree.add(getTree(fortysix, "[ " +tokens.get(i+2).getValueOfToken() + " ]", blockffive));
+            
+        //    }
+            
+        
+        }
 
         if((tokens.get(i+2).getValueOfToken().equals(letter)) && (((i==1)) || (i==7))){ //7 is case for parseTest1.txt
             parseMessage("parseStatement();");
@@ -1305,6 +1371,7 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
                     ifTree("e", i);ifTree("k", i);ifTree("q", i);ifTree("w", i);
                     ifTree("f", i);ifTree("l", i);ifTree("r", i);ifTree("x", i);
                     ifTree("y", i);ifTree("z", i);
+                    ifTree("true", i);ifTree("false", i);
                 break;
 
                 //case "$":
