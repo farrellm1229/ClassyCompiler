@@ -3,6 +3,11 @@ import java.util.List;
 
 public class CCAnalysis { //good name? maybe, maybe not...but maybe?
 
+    public static void scopeMessage(){//, int lineNum) {
+        System.out.println("DEBUG Analyze - Creating new scope in Symbol Table");
+        
+    }
+
     public static void displayMessage(String type, String value){//, int lineNum) {
         System.out.println("DEBUG Analyze - PASSED! Variable [ " + value + " ] with type [ " + type + " ] found");
         
@@ -17,8 +22,25 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
     }
 
 
+    public void newScope(String letter, int i){
+        if(tokens.get(i).getValueOfToken().equals(letter)) {
+            scopeMessage();
+        }
+
+
+
+    }
+
     public void VarDecl(String letter, int i){
         if(tokens.get(i+1).getValueOfToken().equals(letter)) {
+            displayMessage(tokens.get(i).getValueOfToken(), letter);
+
+        }
+
+    }
+
+    public void AssignStmnt(String letter, int i){
+        if(tokens.get(i-1).getValueOfToken().equals(letter)) {
             displayMessage(tokens.get(i).getValueOfToken(), letter);
 
         }
@@ -42,7 +64,12 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
            
 
             switch (element) {
-                
+                //SCOPE
+                case "{":
+                    newScope("{", i);
+                break;
+
+                //VARDECL
                 case "int":
                     VarDecl("a", i);VarDecl("g", i);VarDecl("m", i);VarDecl("s", i);                    
                     VarDecl("b", i);VarDecl("h", i);VarDecl("n", i);VarDecl("t", i);     
@@ -51,8 +78,8 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
                     VarDecl("e", i);VarDecl("k", i);VarDecl("q", i);VarDecl("w", i);
                     VarDecl("f", i);VarDecl("l", i);VarDecl("r", i);VarDecl("x", i);
                     VarDecl("y", i);VarDecl("z", i);
-                    
                 break;
+
                 case "string":
                     VarDecl("a", i);VarDecl("g", i);VarDecl("m", i);VarDecl("s", i);                    
                     VarDecl("b", i);VarDecl("h", i);VarDecl("n", i);VarDecl("t", i);     
@@ -61,7 +88,16 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
                     VarDecl("e", i);VarDecl("k", i);VarDecl("q", i);VarDecl("w", i);
                     VarDecl("f", i);VarDecl("l", i);VarDecl("r", i);VarDecl("x", i);
                     VarDecl("y", i);VarDecl("z", i);
-                    
+                break;
+
+                case "boolean":
+                    VarDecl("a", i);VarDecl("g", i);VarDecl("m", i);VarDecl("s", i);                    
+                    VarDecl("b", i);VarDecl("h", i);VarDecl("n", i);VarDecl("t", i);     
+                    VarDecl("c", i);VarDecl("i", i);VarDecl("o", i);VarDecl("u", i);
+                    VarDecl("d", i);VarDecl("j", i);VarDecl("p", i);VarDecl("v", i);     
+                    VarDecl("e", i);VarDecl("k", i);VarDecl("q", i);VarDecl("w", i);
+                    VarDecl("f", i);VarDecl("l", i);VarDecl("r", i);VarDecl("x", i);
+                    VarDecl("y", i);VarDecl("z", i); 
                 break;
             
                     
