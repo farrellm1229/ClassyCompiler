@@ -26,13 +26,13 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
 
     public static void scopeMessage(){//, int lineNum) {
         
-        System.out.println("DEBUG Analyze - Creating new scope in Symbol Table");
+        System.out.println("INFO  Analyze - Creating new scope in Symbol Table");
         System.out.println("-----------------------------------------------------------");
         
     }
 
     public static void displayMessage(String type, String value){//, int lineNum) {
-        System.out.println("DEBUG Analyze - PASSED! Variable [ " + value + " ] with type [ " + type + " ] found");
+        System.out.println("INFO  Analyze - PASSED! Variable [ " + value + " ] with type [ " + type + " ] found");
         System.out.println("-----------------------------------------------------------");
         
     }
@@ -80,10 +80,24 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
     int errorCounter=0;
     public void AssignStmnt(String letter, int i){
         if(tokens.get(i-1).getValueOfToken().equals(letter)) {
+            Object idBeforeEquals = valueAndScope.getForward(tokens.get(i-1).getValueOfToken()); //looking up b in b=a, which is paired with its scope
            
+            int scopeOfID=(int) idBeforeEquals;
+            if(scopeOfID<= scope){ //if scope of id before = sign is less than or equal to current scope, pass
+                System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is being used within its correct scope");
+                System.out.println("-----------------------------------------------------------");
+
+            }
+            else{
+                System.out.println(scope);
+                System.out.println("ERROR  Analyze - FAILED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is being used outside its assigned scope");
+                System.out.println("-----------------------------------------------------------");
+                errorCounter++;
+
+            }
             //displayMessage(tokens.get(i).getValueOfToken(), letter);
             if(tokens.get(i+1).getTypeOfToken().equals("CHAR")){
-                System.out.println("DEBUG Analyze - Checking if [ " + tokens.get(i-1).getValueOfToken() + " ] and [ " + tokens.get(i+1).getValueOfToken() + " ] are in the symbol table with the same scope");
+                System.out.println("INFO  Analyze - Checking if [ " + tokens.get(i-1).getValueOfToken() + " ] and [ " + tokens.get(i+1).getValueOfToken() + " ] are in the symbol table with the same scope");
                 System.out.println("-----------------------------------------------------------");
                 Object id = valueAndScope.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
                 Object id2 = valueAndType.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
@@ -96,15 +110,15 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
                     System.exit(0);
                 }
                 if(id.equals(scope)){                
-                    System.out.println("DEBUG Analyze - PASSED! [ " + tokens.get(i-1).getValueOfToken() + "," + scope + " ] and [ " + tokens.get(i+1).getValueOfToken() +  "," + scope + " ] have the same SCOPE");
+                    System.out.println("INFO  Analyze - PASSED! [ " + tokens.get(i-1).getValueOfToken() + "," + scope + " ] and [ " + tokens.get(i+1).getValueOfToken() +  "," + scope + " ] have the same SCOPE");
                     System.out.println("-----------------------------------------------------------");
-                    System.out.println("DEBUG Analyze - Checking if [ " + tokens.get(i-1).getValueOfToken() + " ] and [ " + tokens.get(i+1).getValueOfToken() + " ] have the same TYPE");
+                    System.out.println("INFO  Analyze - Checking if [ " + tokens.get(i-1).getValueOfToken() + " ] and [ " + tokens.get(i+1).getValueOfToken() + " ] have the same TYPE");
                     System.out.println("-----------------------------------------------------------");
                 
                     if(id2.equals(id3)){
-                        System.out.println("DEBUG Analyze - PASSED! [ " + tokens.get(i-1).getValueOfToken() + "," + id3 + " ] and [ " + tokens.get(i+1).getValueOfToken() +  "," + id2 + " ] have the same TYPE");
+                        System.out.println("INFO  Analyze - PASSED! [ " + tokens.get(i-1).getValueOfToken() + "," + id3 + " ] and [ " + tokens.get(i+1).getValueOfToken() +  "," + id2 + " ] have the same TYPE");
                         System.out.println("-----------------------------------------------------------");
-                        System.out.println("DEBUG Analyze - PASSED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] has been assigned to [ " + tokens.get(i+1).getValueOfToken() + " ]");
+                        System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] has been assigned to [ " + tokens.get(i+1).getValueOfToken() + " ]");
                         System.out.println("-----------------------------------------------------------");
                     
     

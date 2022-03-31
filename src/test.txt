@@ -1,13 +1,12 @@
 {
-{
- string c
+ int c
  c = 1
- 
+ {
  string b
- b = c
- print(a)
+ b = "oh my"
+ print(b)
  }
- string b
+ string c
  b = "b"
  if (a == 1) {
  print(b)
