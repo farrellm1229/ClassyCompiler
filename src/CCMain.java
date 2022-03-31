@@ -263,6 +263,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                         System.out.print("INFO  Analyze - Classy Compiler Is Beginning Semantic Analysis Of Program #" + (programNumber-1) + "\n");
                         System.out.println("-----------------------------------------------------------");
                         analysis.analyze(listOfTokens);
+                        analysis.symValScope();
 
 
                         System.out.print("Classy Compiler Is Now Building An Abstract Syntax Tree Of Program #" + (programNumber-1) + "\n");

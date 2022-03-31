@@ -140,7 +140,7 @@ public class CCAst {
     public void intTree(String letter, int i){
         
         if(tokens.get(i+1).getValueOfToken().equals(letter)) {
-            System.out.println(scope + "inint");
+            //System.out.println(scope + "inint");
 
             
                     //tree.add(getTree(eleven, "<Statement>", four));

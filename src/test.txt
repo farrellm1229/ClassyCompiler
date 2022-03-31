@@ -1,7 +1,14 @@
 {
  int a
- {
+ a = 1
+ 
  string b
+ b = a
+ print(a)
+ 
+ string b
+ b = "baa"
+ if (a == 1) {
+ print(b)
  }
- string b
 }$
