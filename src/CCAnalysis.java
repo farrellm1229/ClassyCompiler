@@ -14,7 +14,10 @@ import javax.swing.Action;
 
 
 public class CCAnalysis { //good name? maybe, maybe not...but maybe?
-    CCHashMap syms = new CCHashMap<String, Integer>();
+    CCHashMap valueAndScope = new CCHashMap<String, Integer>();
+    CCHashMap valueAndType = new CCHashMap<String, Integer>();
+
+
 
 
     //public static Map<String,Integer> symValueAndScope = new LinkedHashMap<String,Integer>();
@@ -22,12 +25,15 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
 
 
     public static void scopeMessage(){//, int lineNum) {
+        
         System.out.println("DEBUG Analyze - Creating new scope in Symbol Table");
+        System.out.println("-----------------------------------------------------------");
         
     }
 
     public static void displayMessage(String type, String value){//, int lineNum) {
         System.out.println("DEBUG Analyze - PASSED! Variable [ " + value + " ] with type [ " + type + " ] found");
+        System.out.println("-----------------------------------------------------------");
         
     }
 
@@ -61,7 +67,9 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
     public void VarDecl(String letter, int i){
         if(tokens.get(i+1).getValueOfToken().equals(letter)) {
             //symValueAndScope.put(scope, new ArrayList<>(Arrays.asList(tokens.get(i+1).getValueOfToken())));
-            syms.add(tokens.get(i+1).getValueOfToken(), scope);
+            valueAndScope.add(tokens.get(i+1).getValueOfToken(), scope);
+            valueAndType.add(tokens.get(i+1).getValueOfToken(), tokens.get(i).getValueOfToken());
+
             counterValue++;
 
             displayMessage(tokens.get(i).getValueOfToken(), letter);
@@ -76,15 +84,42 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
             //displayMessage(tokens.get(i).getValueOfToken(), letter);
             if(tokens.get(i+1).getTypeOfToken().equals("CHAR")){
                 System.out.println("DEBUG Analyze - Checking if [ " + tokens.get(i-1).getValueOfToken() + " ] and [ " + tokens.get(i+1).getValueOfToken() + " ] are in the symbol table with the same scope");
-                Object id = syms.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
+                System.out.println("-----------------------------------------------------------");
+                Object id = valueAndScope.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
+                Object id2 = valueAndType.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
+                Object id3 = valueAndType.getForward(tokens.get(i-1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
 
+                //System.out.println(id);
+                if(id==null){
+                    System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+1).getValueOfToken() + " ] is not in the symbol table");
+
+                    System.exit(0);
+                }
                 if(id.equals(scope)){                
-                    System.out.println("DEBUG Analyze - PASSED! [ " + tokens.get(i-1).getValueOfToken() + "," + scope + " ] has an equal scope to [ " + tokens.get(i+1).getValueOfToken() +  "," + scope + " ]");
+                    System.out.println("DEBUG Analyze - PASSED! [ " + tokens.get(i-1).getValueOfToken() + "," + scope + " ] and [ " + tokens.get(i+1).getValueOfToken() +  "," + scope + " ] have the same SCOPE");
+                    System.out.println("-----------------------------------------------------------");
+                    System.out.println("DEBUG Analyze - Checking if [ " + tokens.get(i-1).getValueOfToken() + " ] and [ " + tokens.get(i+1).getValueOfToken() + " ] have the same TYPE");
+                    System.out.println("-----------------------------------------------------------");
+                
+                    if(id2.equals(id3)){
+                        System.out.println("DEBUG Analyze - PASSED! [ " + tokens.get(i-1).getValueOfToken() + "," + id3 + " ] and [ " + tokens.get(i+1).getValueOfToken() +  "," + id2 + " ] have the same TYPE");
+                        System.out.println("-----------------------------------------------------------");
+                        System.out.println("DEBUG Analyze - PASSED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] has been assigned to [ " + tokens.get(i+1).getValueOfToken() + " ]");
+                        System.out.println("-----------------------------------------------------------");
                     
-                    System.out.println("DEBUG Analyze - PASSED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] has been assigned to [ " + tokens.get(i+1).getValueOfToken() + " ]");
+    
+                    }
+                    else{
+                        System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] has a different TYPE than [ " + tokens.get(i+1).getValueOfToken() + " ]");
+    
+                        System.out.println("-----------------------------------------------------------");
+    
+                        errorCounter++;
+                    }
                 }
                 else{
-                    System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] has a different scope than [ " + tokens.get(i+1).getValueOfToken() + " ]");
+                    System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] has a different SCOPE than [ " + tokens.get(i+1).getValueOfToken() + " ]");
+                    System.out.println("-----------------------------------------------------------");
 
                     errorCounter++;
                 }    

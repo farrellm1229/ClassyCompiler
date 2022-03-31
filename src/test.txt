@@ -1,13 +1,14 @@
 {
- int a
- a = 1
+{
+ string c
+ c = 1
  
  string b
- b = a
+ b = c
  print(a)
- 
+ }
  string b
- b = "baa"
+ b = "b"
  if (a == 1) {
  print(b)
  }
