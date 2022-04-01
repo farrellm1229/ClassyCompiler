@@ -66,13 +66,40 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
     int counterValue=0;
     public void VarDecl(String letter, int i){
         if(tokens.get(i+1).getValueOfToken().equals(letter)) {
+            Object idInVarDec = valueAndType.getForward(tokens.get(i+1).getValueOfToken()); //looking up scope of b in int b, which is paired with its scope
+
+            Object scopeInVarDec = valueAndScope.getForward(tokens.get(i+1).getValueOfToken()); //looking up scope of b in int b, which is paired with its scope
+
+            String typeOfVarDecID=(String) idInVarDec;
+            Integer scopeOfVarDecID=(Integer) scopeInVarDec;
+
+            if(scopeOfVarDecID!=null){
+            if(scopeOfVarDecID.equals(scope)){
+                System.out.println("ERROR  Analyze - FAILED! Variable [ " + tokens.get(i+1).getValueOfToken() + " ] is being redefined within the same scope");
+
+            }
+            else{
+                System.out.println(scope);
+                displayMessage(tokens.get(i).getValueOfToken(), letter);
+
+            }
+            
+        }
+        else{
+            displayMessage(tokens.get(i).getValueOfToken(), letter);
+
+
+            }
+            System.out.println(scopeOfVarDecID);
+            System.out.println(typeOfVarDecID);
+            
+
             //symValueAndScope.put(scope, new ArrayList<>(Arrays.asList(tokens.get(i+1).getValueOfToken())));
             valueAndScope.add(tokens.get(i+1).getValueOfToken(), scope);
             valueAndType.add(tokens.get(i+1).getValueOfToken(), tokens.get(i).getValueOfToken());
 
             counterValue++;
 
-            displayMessage(tokens.get(i).getValueOfToken(), letter);
             
         }
     }
@@ -80,7 +107,7 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
     int errorCounter=0;
     public void AssignStmnt(String letter, int i){
         if(tokens.get(i-1).getValueOfToken().equals(letter)) {
-            Object idBeforeEquals = valueAndScope.getForward(tokens.get(i-1).getValueOfToken()); //looking up b in b=a, which is paired with its scope
+            Object idBeforeEquals = valueAndScope.getForward(tokens.get(i-1).getValueOfToken()); //looking up scope of b in b=a, which is paired with its scope
            
             int scopeOfID=(int) idBeforeEquals;
             if(scopeOfID<= scope){ //if scope of id before = sign is less than or equal to current scope, pass
@@ -90,6 +117,8 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
             }
             else{
                 System.out.println(scope);
+                
+
                 System.out.println("ERROR  Analyze - FAILED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is being used outside its assigned scope");
                 System.out.println("-----------------------------------------------------------");
                 errorCounter++;
