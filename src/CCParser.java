@@ -22,9 +22,10 @@ public class CCParser {
         }
         return foundMatch;
     }
-
+    int keepTrackOfBrackets = 0;
     //Overall result of parse
     public boolean parseOutcome(List<CCToken> tokenStream) {
+       
 
         tokens = tokenStream;
         proStart(); //check if program is valid
@@ -37,9 +38,49 @@ public class CCParser {
             indexOfToken = 0;
             result = false;
         }
+
+        int size = tokens.size();
+        
+        for (int i=0; i<size; i++) {
+            
+
+            String element = tokens.get(i).getValueOfToken();
+            
+
+            switch (element) {
+                
+                case "{":
+                    keepTrackOfBrackets++;
+                break;
+                case "}":
+                    keepTrackOfBrackets--;
+                break;
+                case "$":
+
+                    if(keepTrackOfBrackets!=0){
+                        System.out.println("ERROR Parser - Number of brackets are uneven");
+                        System.out.println("-----------------------------------------------------------");
+
+
+                        result = false;
+                    }
+                    else{
+                        //result = true;
+                    }
+                 break;
+       
+            }
+        
+        }
         return result;
+
+          
+
+
+        
     }
 
+    
     public void parseErrorMsg(String typeExpected, String valueExpected, String valueReceived){
         System.out.println("ERROR Parser - " + typeExpected + " [ " + valueExpected + " ] expected but found [ "+ 
                                         valueReceived + " ]");
@@ -83,6 +124,7 @@ public class CCParser {
         //I get an out of bounds error, not sure why this
         //works and the other doesn't
         if (tokens.get(indexOfToken+1).getTypeOfToken().equals("EOP")) {
+            
             result = true;
         }
         else{
@@ -143,8 +185,10 @@ public class CCParser {
         
         return result;
     }
+    
     //look for start of block token
     public boolean blockStart() {
+
         if (match("LEFT_BRACKET")) {
             result = true;
         }
@@ -674,5 +718,7 @@ public class CCParser {
         return result;
     
     }
+
+    
 
 }

@@ -108,8 +108,15 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
     public void AssignStmnt(String letter, int i){
         if(tokens.get(i-1).getValueOfToken().equals(letter)) {
             Object idBeforeEquals = valueAndScope.getForward(tokens.get(i-1).getValueOfToken()); //looking up scope of b in b=a, which is paired with its scope
-           
+            Object idBeforeEqualsType = valueAndType.getForward(tokens.get(i-1).getValueOfToken()); //looking up scope of b in b=a, which is paired with its scope
+            if(idBeforeEqualsType==null){
+                System.out.println("ERROR  Analyze - FAILED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is being used before being declared");
+                System.out.println("-----------------------------------------------------------");
+
+            }
+            else{
             int scopeOfID=(int) idBeforeEquals;
+            
             if(scopeOfID<= scope){ //if scope of id before = sign is less than or equal to current scope, pass
                 System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is being used within its correct scope");
                 System.out.println("-----------------------------------------------------------");
@@ -168,6 +175,7 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
                 }    
             
             }
+        }
         }
     }
 

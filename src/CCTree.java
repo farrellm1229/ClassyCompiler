@@ -1385,6 +1385,7 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
                     if (i == (tokens.size()-1)){ //making sure the EOP $ is at the end
                                                  //of the token stream
                         //System.out.println("found EOP");
+                        
                         tree.add(getTree(3000, "[ " +tokens.get(i).getValueOfToken() + " ]", 1));
 
                     }
