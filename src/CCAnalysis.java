@@ -45,6 +45,48 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
 
     }
 
+    boolean result;
+    public boolean checkType(String type, int i){
+        
+        Object lookUpType = valueAndType.getForward(type); //looking up type of b in b=x, which is paired with its scope
+
+        System.out.println(lookUpType.toString());
+        if (lookUpType.equals("int")){
+            if(tokens.get(i+1).getTypeOfToken().equals("DIGIT")){
+                result = true;
+            }
+            else{
+                result = false;
+            }
+        return result;
+
+        }
+
+        if (lookUpType.equals("string")){
+            if(tokens.get(i+1).getTypeOfToken().equals("STRING")){
+                result = true;
+            }
+            else{
+                result = false;
+            }
+        return result;
+
+        }
+        if (lookUpType.equals("boolean")){
+            if(tokens.get(i+1).getTypeOfToken().equals("BOOL_VAL")){
+                result = true;
+            }
+            else{
+                result = false;
+            }
+        return result;
+
+
+        }
+        return result;
+    
+        
+    }
     int scope;
 
     public void newScope(String letter, int i){
@@ -90,8 +132,8 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
 
 
             }
-            System.out.println(scopeOfVarDecID);
-            System.out.println(typeOfVarDecID);
+            //System.out.println(scopeOfVarDecID);
+            //System.out.println(typeOfVarDecID);
             
 
             //symValueAndScope.put(scope, new ArrayList<>(Arrays.asList(tokens.get(i+1).getValueOfToken())));
@@ -108,7 +150,7 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
     public void AssignStmnt(String letter, int i){
         if(tokens.get(i-1).getValueOfToken().equals(letter)) {
             Object idBeforeEquals = valueAndScope.getForward(tokens.get(i-1).getValueOfToken()); //looking up scope of b in b=a, which is paired with its scope
-            Object idBeforeEqualsType = valueAndType.getForward(tokens.get(i-1).getValueOfToken()); //looking up scope of b in b=a, which is paired with its scope
+            Object idBeforeEqualsType = valueAndType.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in b=a, which is paired with its scope
             if(idBeforeEqualsType==null){
                 System.out.println("ERROR  Analyze - FAILED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is being used before being declared");
                 System.out.println("-----------------------------------------------------------");
@@ -118,12 +160,22 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
             int scopeOfID=(int) idBeforeEquals;
             
             if(scopeOfID<= scope){ //if scope of id before = sign is less than or equal to current scope, pass
-                System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is being used within its correct scope");
+                System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is being used within its correct SCOPE");
                 System.out.println("-----------------------------------------------------------");
+
+                if(checkType(tokens.get(i-1).getValueOfToken(), i) == true){
+                    System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is being used with its correct TYPE");
+                    System.out.println("-----------------------------------------------------------");
+                }
+                else{
+                    System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is being used with its incorrect TYPE");
+                    System.out.println("-----------------------------------------------------------");
+                }
+
 
             }
             else{
-                System.out.println(scope);
+                //System.out.println(scope);
                 
 
                 System.out.println("ERROR  Analyze - FAILED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is being used outside its assigned scope");
@@ -145,8 +197,10 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
 
                     System.exit(0);
                 }
-                if(id.equals(scope)){                
-                    System.out.println("INFO  Analyze - PASSED! [ " + tokens.get(i-1).getValueOfToken() + "," + scope + " ] and [ " + tokens.get(i+1).getValueOfToken() +  "," + scope + " ] have the same SCOPE");
+                int scopeOfID2=(int) id;
+
+                if(scopeOfID2 <= scope){                
+                    System.out.println("INFO  Analyze - PASSED! [ " + tokens.get(i-1).getValueOfToken() + "," + scope + " ] and [ " + tokens.get(i+1).getValueOfToken() +  "," + scopeOfID2 + " ] are being used within the correct SCOPE");
                     System.out.println("-----------------------------------------------------------");
                     System.out.println("INFO  Analyze - Checking if [ " + tokens.get(i-1).getValueOfToken() + " ] and [ " + tokens.get(i+1).getValueOfToken() + " ] have the same TYPE");
                     System.out.println("-----------------------------------------------------------");

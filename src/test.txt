@@ -1,18 +1,2 @@
-{
- 
-
-{
- c = 1
- {
- string b
- b = "oh my"
- print(b)
- }
-string c
-} 
-
- b = "b"
- if (a == 1) {
- print(b)
- }
-}$
+{string b
+b=9}$
