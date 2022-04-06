@@ -44,13 +44,30 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
         System.out.println("WARNING - Unterminated Comment! found at line: " + lineNum);
 
     }
+int warningCounter=0;
+    public void checkForUndeclaredVars(){
+         //looking up type of b in b=x, which is paired with its scope
 
+        if(arrayOfVars.size()>=1){
+            for(int j =0; j<arrayOfVars.size(); j++){
+                Object lookUpType2 = valueAndType.getForward(arrayOfVars.get(j));
+                String type2 = (String) lookUpType2;
+                System.out.println("ERROR Analyze - WARNING! Variable [ " + arrayOfVars.get(j) + " ] with type [ " + type2 + " ] is initialized but never declared");
+                System.out.println("-----------------------------------------------------------");
+                warningCounter++;
+            }
+        }
+        else{
+
+        }
+        
+    }
     boolean result;
     public boolean checkType(String type, int i){
         
         Object lookUpType = valueAndType.getForward(type); //looking up type of b in b=x, which is paired with its scope
 
-        System.out.println(lookUpType.toString());
+        //System.out.println(lookUpType.toString());
         if (lookUpType.equals("int")){
             if(tokens.get(i+1).getTypeOfToken().equals("DIGIT")){
                 result = true;
@@ -106,8 +123,12 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
         
     }
     int counterValue=0;
+    int numberOfVariables=0;
+    List<String> arrayOfVars = new ArrayList<String>();
     public void VarDecl(String letter, int i){
         if(tokens.get(i+1).getValueOfToken().equals(letter)) {
+            arrayOfVars.add(tokens.get(i+1).getValueOfToken());
+            numberOfVariables++;
             Object idInVarDec = valueAndType.getForward(tokens.get(i+1).getValueOfToken()); //looking up scope of b in int b, which is paired with its scope
 
             Object scopeInVarDec = valueAndScope.getForward(tokens.get(i+1).getValueOfToken()); //looking up scope of b in int b, which is paired with its scope
@@ -117,7 +138,9 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
 
             if(scopeOfVarDecID!=null){
             if(scopeOfVarDecID.equals(scope)){
-                System.out.println("ERROR  Analyze - FAILED! Variable [ " + tokens.get(i+1).getValueOfToken() + " ] is being redefined within the same scope");
+                System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+1).getValueOfToken() + " ] is being redefined within the same scope");
+                System.out.println("-----------------------------------------------------------");
+                errorCounter++;
 
             }
             else{
@@ -147,14 +170,16 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
     }
 
     int errorCounter=0;
+    int numberOfAssignments=0;
     public void AssignStmnt(String letter, int i){
         if(tokens.get(i-1).getValueOfToken().equals(letter)) {
+            numberOfAssignments++;
             Object idBeforeEquals = valueAndScope.getForward(tokens.get(i-1).getValueOfToken()); //looking up scope of b in b=a, which is paired with its scope
             Object idBeforeEqualsType = valueAndType.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in b=a, which is paired with its scope
             if(idBeforeEqualsType==null){
                 System.out.println("ERROR  Analyze - FAILED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is being used before being declared");
                 System.out.println("-----------------------------------------------------------");
-
+                errorCounter++;
             }
             else{
             int scopeOfID=(int) idBeforeEquals;
@@ -170,14 +195,13 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
                 else{
                     System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is being used with its incorrect TYPE");
                     System.out.println("-----------------------------------------------------------");
+                    errorCounter++;
                 }
 
 
             }
             else{
-                //System.out.println(scope);
                 
-
                 System.out.println("ERROR  Analyze - FAILED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is being used outside its assigned scope");
                 System.out.println("-----------------------------------------------------------");
                 errorCounter++;
@@ -194,8 +218,8 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
                 //System.out.println(id);
                 if(id==null){
                     System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+1).getValueOfToken() + " ] is not in the symbol table");
-
                     System.exit(0);
+                    errorCounter++;
                 }
                 int scopeOfID2=(int) id;
 
@@ -230,6 +254,8 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
             
             }
         }
+        arrayOfVars.remove(letter);
+    
         }
     }
 
@@ -300,7 +326,17 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
                     VarDecl("y", i);VarDecl("z", i); 
                 break;
             
-                    
+            
+                case "$":
+                    checkForUndeclaredVars();
+                    if(errorCounter>0 || warningCounter>0){
+                        System.out.println("INFO Analyze - Classy Compiler has failed Semantic Analysis with [ " + errorCounter + " ] ERRORS and [ " + warningCounter + " ] WARNINGS");
+                        System.out.println("-----------------------------------------------------------");
+                    }
+                    else{
+                        
+                    }
+                break;
                     
             }
             //boolean test = (tokens.get(i+1).getTypeOfToken().equals("ASSIGNMENT"));
