@@ -47,14 +47,14 @@ public class CCAnalysis { //good name? maybe, maybe not...but maybe?
 
     }
 int warningCounter=0;
-    public void checkForUndeclaredVars(){
+    public void checkForUninitializedVars(){
          //looking up type of b in b=x, which is paired with its scope
 
         if(listOfVars.size()>=1){
             for(int j =0; j<listOfVars.size(); j++){
                 Object lookUpType2 = idAndType.getForward(listOfVars.get(j));
                 String type2 = (String) lookUpType2;
-                System.out.println("INFO  Analyze - WARNING! Variable [ " + listOfVars.get(j) + " ] with type [ " + type2 + " ] is initialized but never declared");
+                System.out.println("INFO  Analyze - WARNING! Variable [ " + listOfVars.get(j) + " ] with type [ " + type2 + " ] is declared but never initialized");
                 System.out.println("-----------------------------------------------------------");
                 warningCounter++;
             }
@@ -64,6 +64,23 @@ int warningCounter=0;
         }
         
     }
+    public void checkForUnusedVars(){
+        //looking up type of b in b=x, which is paired with its scope
+
+       if(listOfAssignments.size()>=1){
+           for(int j =0; j<listOfAssignments.size(); j++){
+               Object lookUpType3 = idAndType.getForward(listOfAssignments.get(j));
+               String type3 = (String) lookUpType3;
+               System.out.println("INFO  Analyze - WARNING! Variable [ " + listOfAssignments.get(j) + " ] with type [ " + type3 + " ] is initialized but never used");
+               System.out.println("-----------------------------------------------------------");
+               warningCounter++;
+           }
+       }
+       else{
+
+       }
+       
+   }
     boolean result;
     public boolean checkType(String type, int i){
         
@@ -325,8 +342,11 @@ int warningCounter=0;
 
     int errorCounter=0;
     int numberOfAssignments=0;
+    
+    List<String> listOfAssignments = new ArrayList<String>();
     public void AssignStmnt(String letter, int i){
         if(tokens.get(i-1).getValueOfToken().equals(letter)) {
+            
             numberOfAssignments++;
             Object idBeforeEquals = idAndScope.getForward(tokens.get(i-1).getValueOfToken()); //looking up scope of b in b=a, which is paired with its scope
             Object idBeforeEqualsType = idAndType.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in b=a, which is paired with its scope
@@ -411,6 +431,7 @@ int warningCounter=0;
         listOfVars.remove(letter);
     
         idAndValue.add(tokens.get(i-1).getValueOfToken(), tokens.get(i+1).getValueOfToken());
+        listOfAssignments.add(tokens.get(i-1).getValueOfToken());
         }
     }
 
@@ -471,6 +492,10 @@ int warningCounter=0;
                     }
                 }
             }
+            if(listOfAssignments.contains(tokens.get(i+2).getValueOfToken())){
+                listOfAssignments.remove(tokens.get(i+2).getValueOfToken());
+             }
+
         
         }
 
@@ -515,6 +540,9 @@ int warningCounter=0;
                          errorCounter++;
                      }
                  }
+             }
+             if(listOfAssignments.contains(tokens.get(i+4).getValueOfToken())){
+                listOfAssignments.remove(tokens.get(i+4).getValueOfToken());
              }
         
         }
@@ -593,7 +621,8 @@ int warningCounter=0;
                     break;
                    
                 case "$":
-                    checkForUndeclaredVars();
+                    checkForUninitializedVars();
+                    checkForUnusedVars();
                     if(errorCounter>0){
                         System.out.println("INFO  Analyze - FAILED! Classy Compiler Has Failed Semantic Analysis With [ " + errorCounter + " ] ERRORS And [ " + warningCounter + " ] WARNINGS");
                         System.out.println("-----------------------------------------------------------");
