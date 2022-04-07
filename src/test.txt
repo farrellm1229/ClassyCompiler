@@ -1,7 +1,5 @@
 /* Test Case Graciously Provided by: Alan G. Labouseur */
-{
-    int a
-a=8
-print(a)
-
+{string a
+a="ji"
+print(8+a)
 }$

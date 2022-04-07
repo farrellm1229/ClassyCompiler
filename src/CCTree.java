@@ -136,9 +136,9 @@ public class CCTree {
             
     }
     //public static ArrayList<Tree> tree = new ArrayList<Tree>();
-    public void intTree(String letter, int i){
+    public void intTree(int i){
         
-        if(tokens.get(i+1).getValueOfToken().equals(letter)) {
+        if(tokens.get(i+1).getTypeOfToken().equals("CHAR")) {
             parseMessage("parseStatement();");
             parseMessage("parseVarDec();");
                     tree.add(getTree(eleven, "<Statement>", four));
@@ -155,8 +155,8 @@ public class CCTree {
                     fifteen=fifteen+10;
                     sixteen=sixteen+10;
     }
-    public void stringTree(String letter, int i){
-        if(tokens.get(i+1).getValueOfToken().equals(letter)) {
+    public void stringTree(int i){
+        if(tokens.get(i+1).getTypeOfToken().equals("CHAR")) {
             parseMessage("parseStatement();");
             parseMessage("parseVarDec();");
                     tree.add(getTree(eleven, "<Statement>", four));
@@ -173,8 +173,8 @@ public class CCTree {
                     fifteen=fifteen+100;
                     sixteen=sixteen+100;
     }
-    public void booleanTree(String letter, int i){
-        if(tokens.get(i+1).getValueOfToken().equals(letter)) {
+    public void booleanTree(int i){
+        if(tokens.get(i+1).getTypeOfToken().equals("CHAR")) {
             parseMessage("parseStatement();");
             parseMessage("parseVarDec();");
                     tree.add(getTree(eleven, "<Statement>", four));
@@ -191,7 +191,7 @@ public class CCTree {
                     fifteen=fifteen+29;
                     sixteen=sixteen+29;
     }
-    public void blockStartTree2(String letter, int i){
+    public void blockStartTree2(int i){
         parseMessage("parseBlock();");
         parseMessage("parseStatementList();");
         parseMessage("parseStatement();");
@@ -205,7 +205,7 @@ public class CCTree {
 
             //System.out.println(two);
         }
-        else if((tokens.get(i).getValueOfToken().equals(letter)) && (!tokens.get(i-1).getValueOfToken().equals(")"))) {
+        else if((tokens.get(i).getValueOfToken().equals("{")) && (!tokens.get(i-1).getValueOfToken().equals(")"))) {
        
         tree.add(getTree(four+1, "<Block>", four));
         tree.add(getTree(four+200, "[ " +tokens.get(i).getValueOfToken() + " ]", four+1));
@@ -307,11 +307,11 @@ else{
     }
 
    */
-    public void blockEndTree(String letter, int i){
+    public void blockEndTree(int i){
         //System.out.println(i);
         //enough cases for {{{}}}$
         //I can add more but this is good for now
-        if((tokens.get(i).getValueOfToken().equals(letter)) && (tokens.get(i+1).getValueOfToken().equals("$"))) {
+        if((tokens.get(i).getValueOfToken().equals("}")) && (tokens.get(i+1).getValueOfToken().equals("$"))) {
             tree.add(getTree(777, "[ " +tokens.get(i).getValueOfToken() + " ]", 2));
         }
         else{
@@ -426,7 +426,7 @@ else{
         }
     }
 */
-    public void assignmentTree(String letter, int i){
+    public void assignmentTree(int i){
         /*
         if(tokens.get(i-1).getValueOfToken().equals(letter)){
             parseMessage("parseStatement();");
@@ -497,11 +497,11 @@ else{
     
         */
         //if(i>(tokens.size()/2)){
-        if(tokens.get(i-1).getValueOfToken().equals(letter)){
 
         if((tokens.get(i+2).getTypeOfToken().equals("PLUS")) && (tokens.get(i+4).getTypeOfToken().equals("PLUS"))){
         if(tokens.size()>10){
-        if(tokens.get(i-1).getValueOfToken().equals(letter)){
+        
+            //if(tokens.get(i-1).getValueOfToken().equals(letter)){
             parseMessage("parseStatement();");
             parseMessage("parseAssignmentStatement();");
             //tree.add(getTree(25, "<StatementList>", 4));
@@ -624,7 +624,7 @@ else{
                 tree.add(getTree(thirtytwo, "<ID>", thirtyone));//
                 tree.add(getTree(thirtytwo+1, "[ " +tokens.get(i+1).getValueOfToken() + " ]",thirtytwo));
             }
-        }
+        
        /* if(tokens.get(i+1).getValueOfToken().equals(letter)){
             //tree.add(getTree(25, "<StatementList>", 4));
             tree.add(getTree(twentysix, "<Statement>", four));
@@ -650,7 +650,9 @@ else{
 
     }
     else{
-        if(tokens.get(i-1).getValueOfToken().equals(letter)){
+        if(tokens.get(i-1).getTypeOfToken().equals("CHAR")){
+        
+        //if(tokens.get(i-1).getValueOfToken().equals(letter)){
             parseMessage("parseStatement();");
             parseMessage("parseAssignmentStatement();");
             //tree.add(getTree(25, "<StatementList>", 4));
@@ -821,8 +823,10 @@ else if((tokens.get(i+2).getTypeOfToken().equals("PLUS")) && (!tokens.get(i+4).g
     
 
 }
-else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).getTypeOfToken().equals("PLUS"))){
-    if(tokens.get(i-1).getValueOfToken().equals(letter)){
+else if((tokens.get(i-1).getTypeOfToken().equals("CHAR")) && (!tokens.get(i+2).getTypeOfToken().equals("PLUS"))){
+    if(tokens.get(i-1).getTypeOfToken().equals("CHAR")){
+    
+    //if(tokens.get(i-1).getValueOfToken().equals(letter)){
         //System.out.println("hehehehehehe");
         parseMessage("parseStatement();");
         parseMessage("parseAssignmentStatement();");
@@ -895,17 +899,17 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
     
 
 }
-}
+
     
     
 }
     
 
     
-    public void priTree(String letter, int i){
+    public void priTree(int i){
         
-        if((tokens.get(i+2).getValueOfToken().equals(letter)) || (tokens.get(i+2).getTypeOfToken().equals(letter))){
-            
+        if((tokens.get(i+2).getTypeOfToken().equals("CHAR")) || (tokens.get(i+2).getTypeOfToken().equals("BOOL_VAL"))
+        || (tokens.get(i+2).getTypeOfToken().equals("STRING"))|| (tokens.get(i+2).getTypeOfToken().equals("DIGIT"))){
             parseMessage("parseStatement();");
             parseMessage("parsePrintStatement();");
             //System.out.print(i);
@@ -959,9 +963,9 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
                         }*/
                     }
                     
+                }  
                     
-                    
-        }
+        
         thirtythree+=13;
         thirtyfour+=13;
         thirtyfive+=13;
@@ -986,12 +990,12 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
                     tree.add(getTree(42, "[ " +tokens.get(i+5).getValueOfToken() + " ]", 34));
         }*/
     }
-    public void whileTree(String letter, int i){
+    public void whileTree(int i){
         
         
-        if((tokens.get(i+1).getTypeOfToken().equals("BOOL_VAL")) && (!tokens.get(i+2).getTypeOfToken().equals(letter))){ //7 is case for parseTest1.txt
+        if((tokens.get(i+1).getTypeOfToken().equals("BOOL_VAL")) && (!tokens.get(i+2).getTypeOfToken().equals("CHAR"))){ //7 is case for parseTest1.txt
             //if(i<5){
-        System.out.println("h19091081");
+       // System.out.println("h19091081");
                 
             parseMessage("parseStatement();");
             parseMessage("parseWhileStatement();");
@@ -1014,7 +1018,7 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
         
         
 
-        if((tokens.get(i+2).getValueOfToken().equals(letter))){ //7 is case for parseTest1.txt
+        if((tokens.get(i+2).getTypeOfToken().equals("CHAR"))){ //7 is case for parseTest1.txt
             //if(i<5){
                
             parseMessage("parseStatement();");
@@ -1119,8 +1123,8 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
             
         */
     }
-    public void ifTree(String letter, int i){
-        if((tokens.get(i+1).getValueOfToken().equals(letter))){ //7 is case for parseTest1.txt
+    public void ifTree(int i){
+        if((tokens.get(i+1).getTypeOfToken().equals("BOOL_VAL"))){ //7 is case for parseTest1.txt
             forty+=100;
             fortyone+=100;
             
@@ -1147,7 +1151,7 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
         
         }
 
-        if((tokens.get(i+2).getValueOfToken().equals(letter)) && (((i==1)) || (i==7))){ //7 is case for parseTest1.txt
+        if((tokens.get(i+2).getTypeOfToken().equals("CHAR")) && (((i==1)) || (i==7))){ //7 is case for parseTest1.txt
             parseMessage("parseStatement();");
             parseMessage("parseIfStatement();");
             tree.add(getTree(60, "<Statement>", four));
@@ -1166,7 +1170,7 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
             tree.add(getTree(73, "[ " +tokens.get(i+6).getValueOfToken() + " ]", 72));
         }
 
-        if((tokens.get(i+2).getValueOfToken().equals(letter)) && (i!=1) && (i < 14)){ //implying double if statement test case
+        if((tokens.get(i+2).getTypeOfToken().equals("CHAR")) && (i!=1) && (i < 14)){ //implying double if statement test case
             parseMessage("parseStatement();");
             parseMessage("parseIfStatement();");
             tree.add(getTree(600, "<Statement>", four));
@@ -1184,7 +1188,7 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
             tree.add(getTree(720, "<Block>", 610));
             tree.add(getTree(730, "[ " +tokens.get(i+6).getValueOfToken() + " ]", 720));
         }
-        if((tokens.get(i+2).getValueOfToken().equals(letter)) && (i!=1) && (i > 14)){ //implying triple if statement test case
+        if((tokens.get(i+2).getTypeOfToken().equals("CHAR")) && (i!=1) && (i > 14)){ //implying triple if statement test case
             parseMessage("parseStatement();");
             parseMessage("parseIfStatement();");
             tree.add(getTree(6000, "<Statement>", four));
@@ -1227,12 +1231,12 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
                 
         
                 //case ")":
-                //blockStartTree("{", i);
+                //blockStartTree(i);
                 //break;
                 case "{":
                     //System.out.println("case");
                     //System.out.println(tokens.get(i).getValueOfToken());
-                    blockStartTree2("{", i);
+                    blockStartTree2(i);
                     
                     
                     //tree.add(getTree(2, "<Block>", 1));
@@ -1243,7 +1247,7 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
                     
 
                 case "}" :
-                    blockEndTree("}",i);    
+                    blockEndTree(i);    
                 //tree.add(getTree(300, "[ " +tokens.get(i).getValueOfToken() + " ]", 2));
 
 
@@ -1251,71 +1255,16 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
 
                 //case "int":
                 case "boolean": //having them all together caused issues :(
-                    booleanTree("a", i); booleanTree("b", i); booleanTree("c", i); booleanTree("d", i);
-                    booleanTree("e", i); booleanTree("f", i); booleanTree("g", i); booleanTree("h", i);
-                    booleanTree("i", i); booleanTree("j", i); booleanTree("k", i); booleanTree("l", i);
-                    booleanTree("m", i); booleanTree("n", i); booleanTree("o", i); booleanTree("p", i);
-                    booleanTree("q", i); booleanTree("r", i); booleanTree("s", i); booleanTree("t", i);
-                    booleanTree("u", i); booleanTree("v", i); booleanTree("w", i); booleanTree("x", i);
-                    booleanTree("y", i); booleanTree("z", i);
+                    booleanTree(i);
 
                     break;
 
                 case "int":
-                    intTree("a", i);
-                    intTree("b", i);
-                    intTree("c", i);
-                    intTree("d", i);
-                    intTree("e", i);
-                    intTree("f", i);
-                    intTree("g", i);
-                    intTree("h", i);
-                    intTree("i", i);
-                    intTree("j", i);
-                    intTree("k", i);
-                    intTree("l", i);
-                    intTree("m", i);
-                    intTree("n", i);
-                    intTree("o", i);
-                    intTree("p", i);
-                    intTree("q", i);
-                    intTree("r", i);
-                    intTree("s", i);
-                    intTree("t", i);
-                    intTree("u", i);
-                    intTree("v", i);
-                    intTree("w", i);
-                    intTree("x", i);
-                    intTree("y", i);
-                    intTree("z", i);
+                    intTree(i);
                     break;
                 case "string":
-                    stringTree("a", i);
-                    stringTree("b", i);
-                    stringTree("c", i);
-                    stringTree("d", i);
-                    stringTree("e", i);
-                    stringTree("f", i);
-                    stringTree("g", i);
-                    stringTree("h", i);
-                    stringTree("i", i);
-                    stringTree("j", i);
-                    stringTree("k", i);
-                    stringTree("l", i);
-                    stringTree("m", i);
-                    stringTree("n", i);
-                    stringTree("o", i);
-                    stringTree("p", i);
-                    stringTree("q", i);
-                    stringTree("r", i);
-                    stringTree("s", i);
-                    stringTree("t", i);
-                    stringTree("u", i);
-                    stringTree("v", i);
-                    stringTree("w", i);
-                    stringTree("x", i);
-                    stringTree("y", i);
-                    stringTree("z", i);
+                    stringTree(i);
+                    
 
                     break;
                 
@@ -1323,14 +1272,7 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
                 
               
                 case "=":
-                    assignmentTree("a", i); assignmentTree("b", i); assignmentTree("c", i); assignmentTree("d", i);
-                    assignmentTree("e", i); assignmentTree("f", i); assignmentTree("g", i); assignmentTree("h", i);
-                    assignmentTree("i", i); assignmentTree("j", i); assignmentTree("k", i); assignmentTree("l", i);
-                    assignmentTree("m", i); assignmentTree("n", i); assignmentTree("o", i); assignmentTree("p", i);
-                    assignmentTree("q", i); assignmentTree("r", i); assignmentTree("s", i); assignmentTree("t", i);
-                    assignmentTree("u", i); assignmentTree("v", i); assignmentTree("w", i); assignmentTree("x", i);
-                    assignmentTree("y", i); assignmentTree("z", i); assignmentTree("STRING", i);
-
+                    assignmentTree(i);
                     break;
                 
                 
@@ -1339,43 +1281,18 @@ else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).
                 case "print":
                     //System.out.println("case");
                     //System.out.println(tokens.get(i).getValueOfToken());
-                    priTree("0", i);priTree("1", i);priTree("2", i);priTree("3", i);priTree("4", i);                     
-                    priTree("5", i);priTree("6", i);priTree("7", i);                     
-                    priTree("8", i);priTree("9", i);
-                    //letter cases
-                    priTree("a", i);priTree("g", i);priTree("m", i);priTree("s", i);                    
-                    priTree("b", i);priTree("h", i);priTree("n", i);priTree("t", i);     
-                    priTree("c", i);priTree("i", i);priTree("o", i);priTree("u", i);
-                    priTree("d", i);priTree("j", i);priTree("p", i);priTree("v", i);     
-                    priTree("e", i);priTree("k", i);priTree("q", i);priTree("w", i);
-                    priTree("f", i);priTree("l", i);priTree("r", i);priTree("x", i);
-                    priTree("y", i);priTree("z", i);priTree("true", i);priTree("false", i);priTree("STRING", i);
-                    priTree("PLUS", i);
+                    priTree(i);
                     break;
                 case "while":
-                    whileTree("a", i);whileTree("g", i);whileTree("m", i);whileTree("s", i);                    
-                    whileTree("b", i);whileTree("h", i);whileTree("n", i);whileTree("t", i);     
-                    whileTree("c", i);whileTree("i", i);whileTree("o", i);whileTree("u", i);
-                    whileTree("d", i);whileTree("j", i);whileTree("p", i);whileTree("v", i);     
-                    whileTree("e", i);whileTree("k", i);whileTree("q", i);whileTree("w", i);
-                    whileTree("f", i);whileTree("l", i);whileTree("r", i);whileTree("x", i);
-                    whileTree("y", i);whileTree("z", i);
-                    whileTree("true", i);whileTree("false", i);
+                    whileTree(i);
 
                 break;
                 case "if":
-                    ifTree("a", i);ifTree("g", i);ifTree("m", i);ifTree("s", i);                    
-                    ifTree("b", i);ifTree("h", i);ifTree("n", i);ifTree("t", i);     
-                    ifTree("c", i);ifTree("i", i);ifTree("o", i);ifTree("u", i);
-                    ifTree("d", i);ifTree("j", i);ifTree("p", i);ifTree("v", i);     
-                    ifTree("e", i);ifTree("k", i);ifTree("q", i);ifTree("w", i);
-                    ifTree("f", i);ifTree("l", i);ifTree("r", i);ifTree("x", i);
-                    ifTree("y", i);ifTree("z", i);
-                    ifTree("true", i);ifTree("false", i);
+                    ifTree(i);
                 break;
 
                 //case "$":
-                //blockEndTree("}", i);
+                //blockEndTree(i);
                 //break;
 
                 case "$":

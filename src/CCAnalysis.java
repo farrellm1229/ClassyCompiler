@@ -14,13 +14,15 @@ import javax.swing.Action;
 
 
 public class CCAnalysis { //good name? maybe, maybe not...but maybe?
-    CCHashMap valueAndScope = new CCHashMap<String, Integer>();
-    CCHashMap valueAndType = new CCHashMap<String, Integer>();
+    CCHashMap idAndScope = new CCHashMap<String, Integer>();
+    CCHashMap idAndType = new CCHashMap<String, Integer>();
+    CCHashMap idAndValue = new CCHashMap<String, String>();
 
 
 
 
-    //public static Map<String,Integer> symValueAndScope = new LinkedHashMap<String,Integer>();
+
+    //public static Map<String,Integer> symidAndScope = new LinkedHashMap<String,Integer>();
     Map<Integer, LinkedHashMap<String, Integer>> actionMap = new HashMap<Integer, LinkedHashMap<String, Integer>>();
 
 
@@ -48,11 +50,11 @@ int warningCounter=0;
     public void checkForUndeclaredVars(){
          //looking up type of b in b=x, which is paired with its scope
 
-        if(arrayOfVars.size()>=1){
-            for(int j =0; j<arrayOfVars.size(); j++){
-                Object lookUpType2 = valueAndType.getForward(arrayOfVars.get(j));
+        if(listOfVars.size()>=1){
+            for(int j =0; j<listOfVars.size(); j++){
+                Object lookUpType2 = idAndType.getForward(listOfVars.get(j));
                 String type2 = (String) lookUpType2;
-                System.out.println("INFO  Analyze - WARNING! Variable [ " + arrayOfVars.get(j) + " ] with type [ " + type2 + " ] is initialized but never declared");
+                System.out.println("INFO  Analyze - WARNING! Variable [ " + listOfVars.get(j) + " ] with type [ " + type2 + " ] is initialized but never declared");
                 System.out.println("-----------------------------------------------------------");
                 warningCounter++;
             }
@@ -65,16 +67,16 @@ int warningCounter=0;
     boolean result;
     public boolean checkType(String type, int i){
         
-        Object lookUpType = valueAndType.getForward(type); //looking up type of b in b=x, which is paired with its scope
+        Object lookUpType = idAndType.getForward(type); //looking up type of b in b=x, which is paired with its scope
 
         //System.out.println(lookUpType.toString());
         if (lookUpType.equals("int")){
             if(tokens.get(i+1).getTypeOfToken().equals("CHAR")){
                 System.out.println("INFO  Analyze - Checking if [ " + tokens.get(i-1).getValueOfToken() + " ] and [ " + tokens.get(i+1).getValueOfToken() + " ] are in the symbol table with the same scope");
                 System.out.println("-----------------------------------------------------------");
-                Object id = valueAndScope.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
-                Object id2 = valueAndType.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
-                Object id3 = valueAndType.getForward(tokens.get(i-1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
+                Object id = idAndScope.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
+                Object id2 = idAndType.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
+                Object id3 = idAndType.getForward(tokens.get(i-1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
 
                 //System.out.println(id);
                 if(id==null){
@@ -113,7 +115,7 @@ int warningCounter=0;
                     errorCounter++;
                 }    
             
-                if(valueAndType.getForward(tokens.get(i+1).getValueOfToken()).equals("int")){
+                if(idAndType.getForward(tokens.get(i+1).getValueOfToken()).equals("int")){
                     result = true;
                 }
                 else{
@@ -135,9 +137,9 @@ int warningCounter=0;
             if(tokens.get(i+1).getTypeOfToken().equals("CHAR")){
                 System.out.println("INFO  Analyze - Checking if [ " + tokens.get(i-1).getValueOfToken() + " ] and [ " + tokens.get(i+1).getValueOfToken() + " ] are in the symbol table with the same scope");
                 System.out.println("-----------------------------------------------------------");
-                Object id = valueAndScope.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
-                Object id2 = valueAndType.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
-                Object id3 = valueAndType.getForward(tokens.get(i-1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
+                Object id = idAndScope.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
+                Object id2 = idAndType.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
+                Object id3 = idAndType.getForward(tokens.get(i-1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
 
                 //System.out.println(id);
                 if(id==null){
@@ -175,7 +177,7 @@ int warningCounter=0;
 
                     errorCounter++;
                 }  
-                if(valueAndType.getForward(tokens.get(i+1).getValueOfToken()).equals("string")){
+                if(idAndType.getForward(tokens.get(i+1).getValueOfToken()).equals("string")){
                     result = true;
                 }
                 else{
@@ -195,9 +197,9 @@ int warningCounter=0;
             if(tokens.get(i+1).getTypeOfToken().equals("CHAR")){
                 System.out.println("INFO  Analyze - Checking if [ " + tokens.get(i-1).getValueOfToken() + " ] and [ " + tokens.get(i+1).getValueOfToken() + " ] are in the symbol table with the same scope");
                 System.out.println("-----------------------------------------------------------");
-                Object id = valueAndScope.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
-                Object id2 = valueAndType.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
-                Object id3 = valueAndType.getForward(tokens.get(i-1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
+                Object id = idAndScope.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
+                Object id2 = idAndType.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
+                Object id3 = idAndType.getForward(tokens.get(i-1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
 
                 //System.out.println(id);
                 if(id==null){
@@ -235,7 +237,7 @@ int warningCounter=0;
 
                     errorCounter++;
                 }  
-                if(valueAndType.getForward(tokens.get(i+1).getValueOfToken()).equals("boolean")){
+                if(idAndType.getForward(tokens.get(i+1).getValueOfToken()).equals("boolean")){
                     result = true;
                 }
                 else{
@@ -276,14 +278,14 @@ int warningCounter=0;
     }
     int counterValue=0;
     int numberOfVariables=0;
-    List<String> arrayOfVars = new ArrayList<String>();
+    List<String> listOfVars = new ArrayList<String>();
     public void VarDecl(String letter, int i){
         if(tokens.get(i+1).getValueOfToken().equals(letter)) {
-            arrayOfVars.add(tokens.get(i+1).getValueOfToken());
+            listOfVars.add(tokens.get(i+1).getValueOfToken());
             numberOfVariables++;
-            Object idInVarDec = valueAndType.getForward(tokens.get(i+1).getValueOfToken()); //looking up scope of b in int b, which is paired with its scope
+            Object idInVarDec = idAndType.getForward(tokens.get(i+1).getValueOfToken()); //looking up scope of b in int b, which is paired with its scope
 
-            Object scopeInVarDec = valueAndScope.getForward(tokens.get(i+1).getValueOfToken()); //looking up scope of b in int b, which is paired with its scope
+            Object scopeInVarDec = idAndScope.getForward(tokens.get(i+1).getValueOfToken()); //looking up scope of b in int b, which is paired with its scope
 
             String typeOfVarDecID=(String) idInVarDec;
             Integer scopeOfVarDecID=(Integer) scopeInVarDec;
@@ -311,9 +313,9 @@ int warningCounter=0;
             //System.out.println(typeOfVarDecID);
             
 
-            //symValueAndScope.put(scope, new ArrayList<>(Arrays.asList(tokens.get(i+1).getValueOfToken())));
-            valueAndScope.add(tokens.get(i+1).getValueOfToken(), scope);
-            valueAndType.add(tokens.get(i+1).getValueOfToken(), tokens.get(i).getValueOfToken());
+            //symidAndScope.put(scope, new ArrayList<>(Arrays.asList(tokens.get(i+1).getValueOfToken())));
+            idAndScope.add(tokens.get(i+1).getValueOfToken(), scope);
+            idAndType.add(tokens.get(i+1).getValueOfToken(), tokens.get(i).getValueOfToken());
 
             counterValue++;
 
@@ -326,8 +328,8 @@ int warningCounter=0;
     public void AssignStmnt(String letter, int i){
         if(tokens.get(i-1).getValueOfToken().equals(letter)) {
             numberOfAssignments++;
-            Object idBeforeEquals = valueAndScope.getForward(tokens.get(i-1).getValueOfToken()); //looking up scope of b in b=a, which is paired with its scope
-            Object idBeforeEqualsType = valueAndType.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in b=a, which is paired with its scope
+            Object idBeforeEquals = idAndScope.getForward(tokens.get(i-1).getValueOfToken()); //looking up scope of b in b=a, which is paired with its scope
+            Object idBeforeEqualsType = idAndType.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in b=a, which is paired with its scope
             if(idBeforeEqualsType==null){
                 System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is being used before being declared");
                 System.out.println("-----------------------------------------------------------");
@@ -363,9 +365,9 @@ int warningCounter=0;
            /* if(tokens.get(i+1).getTypeOfToken().equals("CHAR")){
                 System.out.println("INFO  Analyze - Checking if [ " + tokens.get(i-1).getValueOfToken() + " ] and [ " + tokens.get(i+1).getValueOfToken() + " ] are in the symbol table with the same scope");
                 System.out.println("-----------------------------------------------------------");
-                Object id = valueAndScope.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
-                Object id2 = valueAndType.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
-                Object id3 = valueAndType.getForward(tokens.get(i-1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
+                Object id = idAndScope.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
+                Object id2 = idAndType.getForward(tokens.get(i+1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
+                Object id3 = idAndType.getForward(tokens.get(i-1).getValueOfToken()); //looking up a in b=a, which is paired with its scope
 
                 //System.out.println(id);
                 if(id==null){
@@ -406,13 +408,14 @@ int warningCounter=0;
             
             }
         */   }
-        arrayOfVars.remove(letter);
+        listOfVars.remove(letter);
     
+        idAndValue.add(tokens.get(i-1).getValueOfToken(), tokens.get(i+1).getValueOfToken());
         }
     }
 
     public boolean checkPrintIDScope(String expr, int i){
-        Object idInPrintScope = valueAndScope.getForward(expr); //looking up scope of b in print(b) which is paired with its scope
+        Object idInPrintScope = idAndScope.getForward(expr); //looking up scope of b in print(b) which is paired with its scope
         int exprScope=(int) idInPrintScope;
         if(exprScope<= scope){ //if scope of id before = sign is less than or equal to current scope, pass
             //System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is being used within its correct SCOPE");
@@ -426,10 +429,21 @@ int warningCounter=0;
 
 
     }
-    public void printStmnt(String letter, int i){
-        if((tokens.get(i+2).getValueOfToken().equals(letter)) && (tokens.get(i+3).getValueOfToken().equals(")"))) { //case for print(b)
-            //Object idInPrintScope = valueAndScope.getForward(tokens.get(i+2).getValueOfToken()); //looking up scope of b in print(b) which is paired with its scope
-            Object idInPrintType = valueAndType.getForward(tokens.get(i+2).getValueOfToken()); //looking up type of b in print(b), which is paired with its scope
+    public boolean checkForPrintIDAssignment(String expr, int i){
+        Object idValue = idAndValue.getForward(expr); //looking up value of b in b=x when printing(b)
+        String exprScope=(String) idValue;
+        if(exprScope != null){ //means that the variable was assigned a value
+            result = true;
+        }
+        else{
+            result = false;
+        }
+        return result;
+    }
+    public void printStmnt(int i){
+        if((tokens.get(i+2).getTypeOfToken().equals("CHAR")) && (tokens.get(i+3).getValueOfToken().equals(")"))) { //case for print(b)
+            //Object idInPrintScope = idAndScope.getForward(tokens.get(i+2).getValueOfToken()); //looking up scope of b in print(b) which is paired with its scope
+            Object idInPrintType = idAndType.getForward(tokens.get(i+2).getValueOfToken()); //looking up type of b in print(b), which is paired with its scope
             String typePrintID=(String) idInPrintType;
          
             if(typePrintID==null){
@@ -438,20 +452,72 @@ int warningCounter=0;
                 errorCounter++;
             }
             else{
-                if(checkPrintIDScope(tokens.get(i+2).getValueOfToken(), i) == true){
-                    System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] is being used in print statement within its correct SCOPE");
+                if(checkForPrintIDAssignment(tokens.get(i+2).getValueOfToken(), i) == false){
+                    System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] is being used in print statement before being assigned a value");
                     System.out.println("-----------------------------------------------------------");
+                    errorCounter++;
                 }
                 else{
-                    System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] is being used in print statement outside its SCOPE");
-                    System.out.println("-----------------------------------------------------------");
 
+                    if(checkPrintIDScope(tokens.get(i+2).getValueOfToken(), i) == true){
+                        System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] is being used in print statement within its correct SCOPE");
+                        System.out.println("-----------------------------------------------------------");
+                    }
+                    else{
+                        System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] is being used in print statement outside its SCOPE");
+                        System.out.println("-----------------------------------------------------------");
+                        //i dont think this ever happens, because otherwise the var is just not declared yet
+                        errorCounter++;
+                    }
                 }
             }
-            
+        
         }
 
+        if((tokens.get(i+2).getTypeOfToken().equals("DIGIT")) && (tokens.get(i+3).getTypeOfToken().equals("PLUS"))
+        && (tokens.get(i+4).getTypeOfToken().equals("CHAR"))) { //case for print(1+b)
+             //Object idInPrintScope = idAndScope.getForward(tokens.get(i+2).getValueOfToken()); //looking up scope of b in print(1+b) which is paired with its scope
+             Object idInPrintType = idAndType.getForward(tokens.get(i+4).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+             String typePrintID=(String) idInPrintType;
+          
+             if(typePrintID==null){
+                 System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+4).getValueOfToken() + " ] is being used in print statement before being declared");
+                 System.out.println("-----------------------------------------------------------");
+                 errorCounter++;
+             }
+             else{
+                 if(checkForPrintIDAssignment(tokens.get(i+4).getValueOfToken(), i) == false){
+                     System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+4).getValueOfToken() + " ] is being used in print statement before being assigned a value");
+                     System.out.println("-----------------------------------------------------------");
+                     errorCounter++;
+                 }
+                 else{
+ 
+                     if(checkPrintIDScope(tokens.get(i+4).getValueOfToken(), i) == true){
+                         System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+4).getValueOfToken() + " ] is being used in print statement within its correct SCOPE");
+                         System.out.println("-----------------------------------------------------------");
+                         System.out.println("INFO  Analyze - Checking if Variable [ " + tokens.get(i+4).getValueOfToken() + " ] is assigned an [ int ] value");
+                         System.out.println("-----------------------------------------------------------");
+                         if(typePrintID.equals("int")){
+                            System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+4).getValueOfToken() + " ] is being used with correct TYPE");
+                            System.out.println("-----------------------------------------------------------");
+                         }
+                         else{
+                            System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+4).getValueOfToken() + " ] has type [ " + typePrintID + " ] but is being assigned an [ int ] value");
+                            System.out.println("-----------------------------------------------------------");
+                            errorCounter++;
+                         }
+                     }
+                     else{
+                         System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+4).getValueOfToken() + " ] is being used in print statement outside its SCOPE");
+                         System.out.println("-----------------------------------------------------------");
+                         //i dont think this ever happens, because otherwise the var is just not declared yet
+                         errorCounter++;
+                     }
+                 }
+             }
         
+        }
 
     }
 
@@ -523,13 +589,8 @@ int warningCounter=0;
                 break;
             
                 case "print":
-                printStmnt("a", i);printStmnt("g", i);printStmnt("m", i);printStmnt("s", i);                    
-                    printStmnt("b", i);printStmnt("h", i);printStmnt("n", i);printStmnt("t", i);     
-                    printStmnt("c", i);printStmnt("i", i);printStmnt("o", i);printStmnt("u", i);
-                    printStmnt("d", i);printStmnt("j", i);printStmnt("p", i);printStmnt("v", i);     
-                    printStmnt("e", i);printStmnt("k", i);printStmnt("q", i);printStmnt("w", i);
-                    printStmnt("f", i);printStmnt("l", i);printStmnt("r", i);printStmnt("x", i);
-                    printStmnt("y", i);printStmnt("z", i);
+                    printStmnt(i);
+                    break;
                    
                 case "$":
                     checkForUndeclaredVars();
