@@ -750,7 +750,7 @@ else{
 }
 else if((tokens.get(i+2).getTypeOfToken().equals("PLUS")) && (!tokens.get(i+4).getTypeOfToken().equals("PLUS"))){
    // if(tokens.get(i-1).getValueOfToken().equals(letter)){
-        System.out.println("hehehehehehe");
+        //System.out.println("hehehehehehe");
 
         parseMessage("parseStatement();");
         parseMessage("parseAssignmentStatement();");
@@ -823,7 +823,7 @@ else if((tokens.get(i+2).getTypeOfToken().equals("PLUS")) && (!tokens.get(i+4).g
 }
 else if((tokens.get(i-1).getValueOfToken().equals(letter)) && (!tokens.get(i+2).getTypeOfToken().equals("PLUS"))){
     if(tokens.get(i-1).getValueOfToken().equals(letter)){
-        System.out.println("hehehehehehe");
+        //System.out.println("hehehehehehe");
         parseMessage("parseStatement();");
         parseMessage("parseAssignmentStatement();");
         //tree.add(getTree(25, "<StatementList>", 4));

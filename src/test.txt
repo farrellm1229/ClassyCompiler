@@ -1,9 +1,7 @@
 /* Test Case Graciously Provided by: Alan G. Labouseur */
 {
-    int a 
-    {
-        boolean b
-string c 
-       a = 1
-    }
+    int a
+a=8
+print(a)
+
 }$
