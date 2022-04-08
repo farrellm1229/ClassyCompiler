@@ -453,7 +453,7 @@ int warningCounter=0;
     
     String idValueType;
     public String lookupAssignmentValue(String id, int i){
-        System.out.println("once");
+        //System.out.println("once");
         Object idInPrintValue = idAndValue.getForward(id); //looking up type of b in print(1+b), which is paired with its scope
         String valuePrintID=(String) idInPrintValue;
         Object idInPrintType = idAndType.getForward(id); //looking up type of b in print(b), which is paired with its scope
@@ -545,7 +545,7 @@ int warningCounter=0;
                 System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] has been declared");
                 System.out.println("-----------------------------------------------------------");
                  String ty = lookupAssignmentValue(tokens.get(i+2).getValueOfToken(), i);
-                System.out.println(ty);
+               // System.out.println(ty);
                 if(ty!=null){ //means valid var dec and assign stmnt was found
                     
                     System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] is being used");
@@ -572,7 +572,166 @@ int warningCounter=0;
                 if(listOfAssignments.contains(tokens.get(i+2).getValueOfToken())){
                     listOfAssignments.remove(tokens.get(i+2).getValueOfToken());
                  }
-            }/*
+            }
+            if((tokens.get(i+2).getTypeOfToken().equals("DIGIT")) && (tokens.get(i+3).getTypeOfToken().equals("PLUS"))
+            && (tokens.get(i+4).getTypeOfToken().equals("CHAR"))) { //case for print(1+b)
+                //Object idInPrintScope = idAndScope.getForward(tokens.get(i+2).getValueOfToken()); //looking up scope of b in print(b) which is paired with its scope
+                Object idInPrintType = idAndType.getForward(tokens.get(i+4).getValueOfToken()); //looking up type of b in print(b)
+                String typePrintID=(String) idInPrintType;
+             
+                if(typePrintID!=null){
+                    System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+4).getValueOfToken() + " ] has been declared");
+                    System.out.println("-----------------------------------------------------------");
+                     String ty = lookupAssignmentValue(tokens.get(i+4).getValueOfToken(), i);
+                    
+                    if(ty!=null){ //means valid var dec and assign stmnt was found
+                        
+                        System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+4).getValueOfToken() + " ] is being used");
+                        System.out.println("-----------------------------------------------------------");
+                        
+                        System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+4).getValueOfToken() + " ] has [ " + ty + " ] type");
+                        System.out.println("-----------------------------------------------------------");
+                        }
+                    else{
+                
+                        System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+4).getValueOfToken() + " ] is being used before being initialized a value");
+                        System.out.println("-----------------------------------------------------------");
+                        errorCounter++;
+                    }
+                    
+    
+                    }
+                    else{
+                      
+                            System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+4).getValueOfToken() + " ] is being used before being declared");
+                            System.out.println("-----------------------------------------------------------");
+                            errorCounter++;
+                    }
+                    if(listOfAssignments.contains(tokens.get(i+4).getValueOfToken())){
+                        listOfAssignments.remove(tokens.get(i+4).getValueOfToken());
+                     }
+                }
+            if((tokens.get(i+2).getTypeOfToken().equals("DIGIT")) && (tokens.get(i+3).getTypeOfToken().equals("PLUS"))
+            && (tokens.get(i+4).getTypeOfToken().equals("DIGIT")) && (tokens.get(i+5).getTypeOfToken().equals("PLUS"))
+            && (tokens.get(i+6).getTypeOfToken().equals("CHAR"))) { //case for print(1+2+b)
+            //Object idInPrintScope = idAndScope.getForward(tokens.get(i+2).getValueOfToken()); //looking up scope of b in print(b) which is paired with its scope
+                Object idInPrintType = idAndType.getForward(tokens.get(i+6).getValueOfToken()); //looking up type of b in print(b)
+                String typePrintID=(String) idInPrintType;
+             
+                if(typePrintID!=null){
+                    System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+6).getValueOfToken() + " ] has been declared");
+                    System.out.println("-----------------------------------------------------------");
+                     String ty = lookupAssignmentValue(tokens.get(i+6).getValueOfToken(), i);
+                    
+                    if(ty!=null){ //means valid var dec and assign stmnt was found
+                        
+                        System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+6).getValueOfToken() + " ] is being used");
+                        System.out.println("-----------------------------------------------------------");
+                        
+                        System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+6).getValueOfToken() + " ] has [ " + ty + " ] type");
+                        System.out.println("-----------------------------------------------------------");
+                        }
+                    else{
+                
+                        System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+6).getValueOfToken() + " ] is being used before being initialized a value");
+                        System.out.println("-----------------------------------------------------------");
+                        errorCounter++;
+                    }
+                    
+    
+                    }
+                    else{
+                      
+                            System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+6).getValueOfToken() + " ] is being used before being declared");
+                            System.out.println("-----------------------------------------------------------");
+                            errorCounter++;
+                    }
+                    if(listOfAssignments.contains(tokens.get(i+6).getValueOfToken())){
+                        listOfAssignments.remove(tokens.get(i+6).getValueOfToken());
+                     }
+                }
+            if((tokens.get(i+2).getTypeOfToken().equals("DIGIT")) && (tokens.get(i+3).getTypeOfToken().equals("PLUS"))
+            && (tokens.get(i+4).getTypeOfToken().equals("DIGIT")) && (tokens.get(i+5).getTypeOfToken().equals("PLUS"))
+            && (tokens.get(i+6).getTypeOfToken().equals("DIGIT")) && (tokens.get(i+7).getTypeOfToken().equals("PLUS"))
+            && (tokens.get(i+8).getTypeOfToken().equals("CHAR"))) { //case for print(1+2+3+b)
+            //Object idInPrintScope = idAndScope.getForward(tokens.get(i+2).getValueOfToken()); //looking up scope of b in print(b) which is paired with its scope
+                Object idInPrintType = idAndType.getForward(tokens.get(i+8).getValueOfToken()); //looking up type of b in print(b)
+                String typePrintID=(String) idInPrintType;
+             
+                if(typePrintID!=null){
+                    System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+8).getValueOfToken() + " ] has been declared");
+                    System.out.println("-----------------------------------------------------------");
+                     String ty = lookupAssignmentValue(tokens.get(i+8).getValueOfToken(), i);
+                    
+                    if(ty!=null){ //means valid var dec and assign stmnt was found
+                        
+                        System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+8).getValueOfToken() + " ] is being used");
+                        System.out.println("-----------------------------------------------------------");
+                        
+                        System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+8).getValueOfToken() + " ] has [ " + ty + " ] type");
+                        System.out.println("-----------------------------------------------------------");
+                        }
+                    else{
+                
+                        System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+8).getValueOfToken() + " ] is being used before being initialized a value");
+                        System.out.println("-----------------------------------------------------------");
+                        errorCounter++;
+                    }
+                    
+    
+                    }
+                    else{
+                      
+                            System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+8).getValueOfToken() + " ] is being used before being declared");
+                            System.out.println("-----------------------------------------------------------");
+                            errorCounter++;
+                    }
+                    if(listOfAssignments.contains(tokens.get(i+8).getValueOfToken())){
+                        listOfAssignments.remove(tokens.get(i+8).getValueOfToken());
+                     }
+                }
+                if((tokens.get(i+2).getTypeOfToken().equals("DIGIT")) && (tokens.get(i+3).getTypeOfToken().equals("PLUS"))
+            && (tokens.get(i+4).getTypeOfToken().equals("DIGIT")) && (tokens.get(i+5).getTypeOfToken().equals("PLUS"))
+            && (tokens.get(i+6).getTypeOfToken().equals("DIGIT")) && (tokens.get(i+7).getTypeOfToken().equals("PLUS"))
+            && (tokens.get(i+8).getTypeOfToken().equals("DIGIT"))  && (tokens.get(i+9).getTypeOfToken().equals("PLUS"))
+            && (tokens.get(i+10).getTypeOfToken().equals("CHAR"))) { //case for print(1+2+3+b)
+            //Object idInPrintScope = idAndScope.getForward(tokens.get(i+2).getValueOfToken()); //looking up scope of b in print(b) which is paired with its scope
+                Object idInPrintType = idAndType.getForward(tokens.get(i+10).getValueOfToken()); //looking up type of b in print(b)
+                String typePrintID=(String) idInPrintType;
+             
+                if(typePrintID!=null){
+                    System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+10).getValueOfToken() + " ] has been declared");
+                    System.out.println("-----------------------------------------------------------");
+                     String ty = lookupAssignmentValue(tokens.get(i+10).getValueOfToken(), i);
+                    
+                    if(ty!=null){ //means valid var dec and assign stmnt was found
+                        
+                        System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+10).getValueOfToken() + " ] is being used");
+                        System.out.println("-----------------------------------------------------------");
+                        
+                        System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+10).getValueOfToken() + " ] has [ " + ty + " ] type");
+                        System.out.println("-----------------------------------------------------------");
+                        }
+                    else{
+                
+                        System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+10).getValueOfToken() + " ] is being used before being initialized a value");
+                        System.out.println("-----------------------------------------------------------");
+                        errorCounter++;
+                    }
+                    
+    
+                    }
+                    else{
+                      
+                            System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+10).getValueOfToken() + " ] is being used before being declared");
+                            System.out.println("-----------------------------------------------------------");
+                            errorCounter++;
+                    }
+                    if(listOfAssignments.contains(tokens.get(i+10).getValueOfToken())){
+                        listOfAssignments.remove(tokens.get(i+10).getValueOfToken());
+                     }
+                }
+                /*
             if(typePrintID==null){
                 System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] is being used in print statement before being declared");
                 System.out.println("-----------------------------------------------------------");
