@@ -1,8 +1,7 @@
+/* This case will fail Type Checking
+ - because string-type is assigned
+ - boolean type */
 {
-int c
-int a
-int b
-a=8
-b=a
-c=b
-print(1+2+c)}$
+    string a
+    a = "true"
+}$
