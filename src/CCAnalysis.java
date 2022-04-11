@@ -276,7 +276,7 @@ int warningCounter=0;
 
             }
             else{
-                System.out.println(scope);
+                //System.out.println(scope);
                 displayMessage(tokens.get(i).getValueOfToken(), letter);
 
             }
@@ -306,6 +306,7 @@ int warningCounter=0;
     
     List<String> listOfAssignments = new ArrayList<String>();
     public void AssignStmnt(String letter, int i){
+        
         if(tokens.get(i-1).getValueOfToken().equals(letter)) {
             
             numberOfAssignments++;
@@ -392,6 +393,42 @@ int warningCounter=0;
     
         idAndValue.add(tokens.get(i-1).getValueOfToken(), tokens.get(i+1).getValueOfToken());
         listOfAssignments.add(tokens.get(i-1).getValueOfToken());
+        }
+        if(tokens.get(i+1).getValueOfToken().equals(letter)) {
+            
+            numberOfAssignments++;
+            Object idBeforeEquals2 = idAndScope.getForward(tokens.get(i+1).getValueOfToken()); //looking up scope of b in b=a, which is paired with its scope
+            Object idBeforeEqualsType2 = idAndType.getForward(tokens.get(i+1).getValueOfToken()); //looking up type of b in b=a, which is paired with its scope
+            if(idBeforeEqualsType2==null){
+                System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+1).getValueOfToken() + " ] is being used before being declared");
+                System.out.println("-----------------------------------------------------------");
+                errorCounter++;
+            }
+            else{
+            int scopeOfID2=(int) idBeforeEquals2;
+            
+            if(scopeOfID2<=scope){
+            
+                //checkType(tokens.get(i-1).getValueOfToken(),i);
+                if(checkType(tokens.get(i+1).getValueOfToken(), i) == true){
+                    System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+1).getValueOfToken() + " ] is being used with its correct TYPE");
+                    System.out.println("-----------------------------------------------------------");
+                }
+                else{
+                    System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+1).getValueOfToken() + " ] is being used with its incorrect TYPE");
+                    System.out.println("-----------------------------------------------------------");
+                    errorCounter++;
+                }
+
+            }
+            else{
+                    System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+1).getValueOfToken() + " ] is being assigned outside its correct SCOPE");
+                    System.out.println("-----------------------------------------------------------");
+                    errorCounter++;
+
+            }
+        
+            }
         }
     }
 
@@ -486,6 +523,161 @@ int warningCounter=0;
     return idValueType;
 
     }
+    public String lookUpIfStmnt(String expr, int i){
+        
+        Object idBeforeBoolOpType = idAndType.getForward(expr); //looking up type of b in if(b==a)
+        //Object idAfterBoolOpType= idAndType.getForward(tokens.get(i+4).getValueOfToken()); //looking up type of a in if(b==a)
+        
+        Object idBeforeBoolOpVal = idAndValue.getForward(expr); //looking up val of b in if(b==a)
+        //Object idAfterBoolOpVal = idAndValue.getForward(tokens.get(i+4).getValueOfToken()); //looking up type of a in if(b==a)
+        String idType = (String) idBeforeBoolOpType;
+        String idValue = (String) idBeforeBoolOpVal;
+        if(idValue!=null){
+            if ((idType.equals("int")) && ((idValue.equals("0") || idValue.equals("1") || idValue.equals("2") || idValue.equals("3") ||
+            idValue.equals("4") || idValue.equals("5") || idValue.equals("6") || idValue.equals("7") ||
+            idValue.equals("8") || idValue.equals("9") || idValue.equals("a") || idValue.equals("b") || idValue.equals("c") ||
+            idValue.equals("d") || idValue.equals("e") || idValue.equals("f") || idValue.equals("g") ||
+            idValue.equals("h") || idValue.equals("i") || idValue.equals("j") || idValue.equals("k") || idValue.equals("l") ||
+            idValue.equals("m") || idValue.equals("n") || idValue.equals("o") || idValue.equals("p") ||
+            idValue.equals("q") || idValue.equals("r") || idValue.equals("s") || idValue.equals("t") || idValue.equals("u") ||
+            idValue.equals("v") || idValue.equals("w") || idValue.equals("x") || idValue.equals("y") ||
+            idValue.equals("z")))){
+                
+                if(idValue.equals("a") || idValue.equals("b") || idValue.equals("c") ||
+            idValue.equals("d") || idValue.equals("e") || idValue.equals("f") || idValue.equals("g") ||
+            idValue.equals("h") || idValue.equals("i") || idValue.equals("j") || idValue.equals("k") || idValue.equals("l") ||
+            idValue.equals("m") || idValue.equals("n") || idValue.equals("o") || idValue.equals("p") ||
+            idValue.equals("q") || idValue.equals("r") || idValue.equals("s") || idValue.equals("t") || idValue.equals("u") ||
+            idValue.equals("v") || idValue.equals("w") || idValue.equals("x") || idValue.equals("y") ||
+            idValue.equals("z")){
+                    lookUpIfStmnt(idValue, i); //lookup value of c in a = c to make sure c is int also
+                }
+                idValueType="int";
+            }
+            else if ((idType.equals("string")) && ((idValue.equals("a") || idValue.equals("b") || idValue.equals("c") ||
+            idValue.equals("d") || idValue.equals("e") || idValue.equals("f") || idValue.equals("g") ||
+            idValue.equals("h") || idValue.equals("i") || idValue.equals("j") || idValue.equals("k") || idValue.equals("l") ||
+            idValue.equals("m") || idValue.equals("n") || idValue.equals("o") || idValue.equals("p") ||
+            idValue.equals("q") || idValue.equals("r") || idValue.equals("s") || idValue.equals("t") || idValue.equals("u") ||
+            idValue.equals("v") || idValue.equals("w") || idValue.equals("x") || idValue.equals("y") ||
+            idValue.equals("z") || (idValue.startsWith("\"") && idValue.endsWith("\""))))){   
+                if(idValue.equals("a") || idValue.equals("b") || idValue.equals("c") ||
+                    idValue.equals("d") || idValue.equals("e") || idValue.equals("f") || idValue.equals("g") ||
+                    idValue.equals("h") || idValue.equals("i") || idValue.equals("j") || idValue.equals("k") || idValue.equals("l") ||
+                    idValue.equals("m") || idValue.equals("n") || idValue.equals("o") || idValue.equals("p") ||
+                    idValue.equals("q") || idValue.equals("r") || idValue.equals("s") || idValue.equals("t") || idValue.equals("u") ||
+                    idValue.equals("v") || idValue.equals("w") || idValue.equals("x") || idValue.equals("y") ||
+                    idValue.equals("z")){
+                        lookUpIfStmnt(idValue, i); //lookup value of c in a = c to make sure c is string also
+                }
+                idValueType="string";
+            }
+            else if ((idType.equals("boolean")) && ((idValue.equals("a") || idValue.equals("b") || idValue.equals("c") ||
+            idValue.equals("d") || idValue.equals("e") || idValue.equals("f") || idValue.equals("g") ||
+            idValue.equals("h") || idValue.equals("i") || idValue.equals("j") || idValue.equals("k") || idValue.equals("l") ||
+            idValue.equals("m") || idValue.equals("n") || idValue.equals("o") || idValue.equals("p") ||
+            idValue.equals("q") || idValue.equals("r") || idValue.equals("s") || idValue.equals("t") || idValue.equals("u") ||
+            idValue.equals("v") || idValue.equals("w") || idValue.equals("x") || idValue.equals("y") ||
+            idValue.equals("z") ||  idValue.equals("true") || idValue.equals("false")))){
+                
+            if(idValue.equals("a") || idValue.equals("b") || idValue.equals("c") ||
+                idValue.equals("d") || idValue.equals("e") || idValue.equals("f") || idValue.equals("g") ||
+                idValue.equals("h") || idValue.equals("i") || idValue.equals("j") || idValue.equals("k") || idValue.equals("l") ||
+                idValue.equals("m") || idValue.equals("n") || idValue.equals("o") || idValue.equals("p") ||
+                idValue.equals("q") || idValue.equals("r") || idValue.equals("s") || idValue.equals("t") || idValue.equals("u") ||
+                idValue.equals("v") || idValue.equals("w") || idValue.equals("x") || idValue.equals("y") ||
+                idValue.equals("z")){
+                    lookUpIfStmnt(idValue, i); //lookup value of c in a = c to make sure c is int also
+                }
+                idValueType="boolean";
+            }
+        }
+            else {
+                idValueType=null;
+    
+            }
+
+return idValueType;
+
+    }
+    public boolean ifStmnt(int i){
+        Object idBeforeBoolOp = idAndType.getForward(tokens.get(i+2).getValueOfToken()); //looking up type of b in if(b==a)
+        Object idAfterBoolOp = idAndType.getForward(tokens.get(i+4).getValueOfToken()); //looking up type of a in if(b==a)
+
+        String id = (String) idBeforeBoolOp;
+
+        if((tokens.get(i+2).getTypeOfToken()) != (tokens.get(i+4).getTypeOfToken()) && (!tokens.get(i+2).getTypeOfToken().equals("CHAR") && (!tokens.get(i+4).getTypeOfToken().equals("CHAR")))){
+            System.out.println("ERROR Analyze - FAILED! Type [ " + tokens.get(i+2).getTypeOfToken() + " ] cannot be compared to [ " + tokens.get(i+4).getTypeOfToken() + " ]");
+                    System.out.println("-----------------------------------------------------------");
+                    errorCounter++;
+                }
+        if((tokens.get(i+2).getTypeOfToken().equals("CHAR"))&& (!tokens.get(i+4).getTypeOfToken().equals("CHAR"))){
+            
+
+            String idk = lookUpIfStmnt(tokens.get(i+2).getValueOfToken(), i);
+            if(id != null){
+            if(idk != null){
+            if(idk.equals("int")){
+            if((idk.equals("int")) && (tokens.get(i+4).getTypeOfToken().equals("DIGIT"))){
+                System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] with type [ INT ] is being compared to [ " + tokens.get(i+4).getTypeOfToken() + " ]");
+                    System.out.println("-----------------------------------------------------------");
+            }
+            else{
+                System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] with type [ " + idk.toUpperCase() + " ] is being compared to [ " + tokens.get(i+4).getTypeOfToken() + " ]");
+                System.out.println("-----------------------------------------------------------");
+                errorCounter++;
+            }
+        }
+        if(idk.equals("string")){
+
+            if((idk.equals("string")) && (tokens.get(i+4).getTypeOfToken().equals("STRING"))){
+                System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] with type [ STRING ] is being compared to [ " + tokens.get(i+4).getTypeOfToken() + " ]");
+                    System.out.println("-----------------------------------------------------------");
+            }
+            else{
+                System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] with type [ " + idk.toUpperCase() + " ] is being compared to [ " + tokens.get(i+4).getTypeOfToken() + " ]");
+                System.out.println("-----------------------------------------------------------");
+                errorCounter++;
+            }
+        }
+        if(idk.equals("boolean")){
+
+            if((idk.equals("boolean")) && (tokens.get(i+4).getTypeOfToken().equals("BOOL_VAL"))){
+                System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] with type [ BOOLEAN ] is being compared to [ " + tokens.get(i+4).getTypeOfToken() + " ]");
+                    System.out.println("-----------------------------------------------------------");
+            }
+            else{
+                System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] with type [ " + idk.toUpperCase() + " ] is being compared to [ " + tokens.get(i+4).getTypeOfToken() + " ]");
+                System.out.println("-----------------------------------------------------------");
+                errorCounter++;
+            }
+        }
+        if(listOfAssignments.contains(tokens.get(i+2).getValueOfToken())){
+            listOfAssignments.remove(tokens.get(i+2).getValueOfToken());
+         }
+        }
+        
+        
+
+        else{
+                System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] is being used before being initialized a value");
+                System.out.println("-----------------------------------------------------------");
+                errorCounter++;
+
+        }
+    }
+    else{
+        System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] is being used before being declared");
+        System.out.println("-----------------------------------------------------------");
+        errorCounter++;
+
+}
+if(tokens.get(i+4).getTypeOfToken().equals("CHAR")){
+    lookUpIfStmnt(tokens.get(i+4).getValueOfToken(), i);
+}
+}
+        return result;
+    }
     public boolean intExpr(int i){
         Object idBeforePlusType = idAndType.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in b=a, which is paired with its scope
         Object idAfterPlusType = idAndType.getForward(tokens.get(i+1).getValueOfToken()); //looking up type of b in b=a, which is paired with its scope
@@ -501,6 +693,13 @@ int warningCounter=0;
                 }
 
         }
+        else if((!tokens.get(i-1).getTypeOfToken().equals("DIGIT")) || (!tokens.get(i+1).getTypeOfToken().equals("DIGIT"))){
+            System.out.println("ERROR Analyze - FAILED! Expression [ " + tokens.get(i+1).getValueOfToken() + " ] is being used in an int expr but has TYPE [ "+ tokens.get(i+1).getTypeOfToken() + " ]");
+                    System.out.println("-----------------------------------------------------------");
+                    errorCounter++;
+                    result = false;
+        }
+        
         return result;
     }
     public boolean checkForPrintIDAssignment(String expr, int i){
@@ -566,7 +765,7 @@ int warningCounter=0;
                 //Object idInPrintScope = idAndScope.getForward(tokens.get(i+2).getValueOfToken()); //looking up scope of b in print(b) which is paired with its scope
                 Object idInPrintType = idAndType.getForward(tokens.get(i+4).getValueOfToken()); //looking up type of b in print(b)
                 String typePrintID=(String) idInPrintType;
-         if(checkPrintIDScope(tokens.get(i+2).getValueOfToken(), i)==true){
+         if(checkPrintIDScope(tokens.get(i+4).getValueOfToken(), i)==true){
 
              
                 if(typePrintID!=null){
@@ -602,7 +801,7 @@ int warningCounter=0;
                      }
                 }
                 else{
-                    System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] is being used outside its correct SCOPE");
+                    System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+4).getValueOfToken() + " ] is being used outside its correct SCOPE");
                     System.out.println("-----------------------------------------------------------");
                     errorCounter++;
                 }
@@ -613,7 +812,7 @@ int warningCounter=0;
             //Object idInPrintScope = idAndScope.getForward(tokens.get(i+2).getValueOfToken()); //looking up scope of b in print(b) which is paired with its scope
                 Object idInPrintType = idAndType.getForward(tokens.get(i+6).getValueOfToken()); //looking up type of b in print(b)
                 String typePrintID=(String) idInPrintType;
-         if(checkPrintIDScope(tokens.get(i+2).getValueOfToken(), i)==true){
+         if(checkPrintIDScope(tokens.get(i+6).getValueOfToken(), i)==true){
 
              
                 if(typePrintID!=null){
@@ -649,7 +848,7 @@ int warningCounter=0;
                      }
                 }
                 else{
-                    System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] is being used outside its correct SCOPE");
+                    System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+6).getValueOfToken() + " ] is being used outside its correct SCOPE");
                     System.out.println("-----------------------------------------------------------");
                     errorCounter++;
                 }
@@ -661,7 +860,7 @@ int warningCounter=0;
             //Object idInPrintScope = idAndScope.getForward(tokens.get(i+2).getValueOfToken()); //looking up scope of b in print(b) which is paired with its scope
                 Object idInPrintType = idAndType.getForward(tokens.get(i+8).getValueOfToken()); //looking up type of b in print(b)
                 String typePrintID=(String) idInPrintType;
-         if(checkPrintIDScope(tokens.get(i+2).getValueOfToken(), i)==true){
+         if(checkPrintIDScope(tokens.get(i+8).getValueOfToken(), i)==true){
              
                 if(typePrintID!=null){
                     System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+8).getValueOfToken() + " ] has been declared");
@@ -696,7 +895,7 @@ int warningCounter=0;
                      }
                 }
                 else{
-                    System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] is being used outside its correct SCOPE");
+                    System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+8).getValueOfToken() + " ] is being used outside its correct SCOPE");
                     System.out.println("-----------------------------------------------------------");
                     errorCounter++;
                 }
@@ -709,7 +908,7 @@ int warningCounter=0;
             //Object idInPrintScope = idAndScope.getForward(tokens.get(i+2).getValueOfToken()); //looking up scope of b in print(b) which is paired with its scope
                 Object idInPrintType = idAndType.getForward(tokens.get(i+10).getValueOfToken()); //looking up type of b in print(b)
                 String typePrintID=(String) idInPrintType;
-         if(checkPrintIDScope(tokens.get(i+2).getValueOfToken(), i)==true){
+         if(checkPrintIDScope(tokens.get(i+10).getValueOfToken(), i)==true){
              
                 if(typePrintID!=null){
                     System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+10).getValueOfToken() + " ] has been declared");
@@ -744,7 +943,7 @@ int warningCounter=0;
                      }
                 }
                 else{
-                    System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] is being used outside its correct SCOPE");
+                    System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+10).getValueOfToken() + " ] is being used outside its correct SCOPE");
                     System.out.println("-----------------------------------------------------------");
                     errorCounter++;
                 }
@@ -1021,15 +1220,18 @@ int warningCounter=0;
 
                 case "+":
                     intExpr(i);
+                    break;
+                   
+                case "if":
+                    ifStmnt(i);
+                    break;
                    
                 case "$":
-                    checkForUninitializedVars();
+                    
+                    if(errorCounter==0){
+                    
+                        checkForUninitializedVars();
                     checkForUnusedVars();
-                    if(errorCounter>0){
-                        //System.out.println("INFO  Analyze - FAILED! Classy Compiler Has Failed Semantic Analysis With [ " + errorCounter + " ] ERRORS And [ " + warningCounter + " ] WARNINGS");
-                        //System.out.println("-----------------------------------------------------------");
-                    }
-                    else{
                         System.out.println("INFO  Analyze - SUCCESS! Classy Compiler Has Completed Semantic Analysis With [ " + errorCounter + " ] ERRORS And [ " + warningCounter + " ] WARNINGS");
                         System.out.println("-----------------------------------------------------------");
                     }
