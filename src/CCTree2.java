@@ -329,7 +329,7 @@ public class CCTree2 {
                 if(tokens.get(j).getValueOfToken().equals("(")){
                     tree.add(getTree(five+14, "<BooleanExpr>", five+9));//
                     tree.add(getTree(five+15, "[ " +tokens.get(j).getValueOfToken() + " ]",five+14));
-                    System.out.println("1 " +five);
+                 //   System.out.println("1 " +five);
                     //five++;
 
                 }
@@ -340,7 +340,7 @@ public class CCTree2 {
                     
                     tree.add(getTree(five+16, "<Expr>", five+14));//
                     tree.add(getTree(five+17, "[ " +tokens.get(j).getValueOfToken() + " ]",five+16));
-                    System.out.println("2 " +five);
+                 //   System.out.println("2 " +five);
                     five+=23;
 
 
@@ -350,7 +350,7 @@ public class CCTree2 {
                     
                     tree.add(getTree(five+180, "<BooleanOp>", five-7));//
                     tree.add(getTree(five+190, "[ " +tokens.get(j).getValueOfToken() + " ]",five+180));
-                    System.out.println("3 " +five);
+                    //System.out.println("3 " +five);
                 five+=23;
 
 
@@ -358,7 +358,7 @@ public class CCTree2 {
                 else if(tokens.get(j).getValueOfToken().equals(")")){
                     
                     tree.add(getTree(five+21, "[ " +tokens.get(j).getValueOfToken() + " ]",five-102));
-                    System.out.println("5 " +five);
+                   // System.out.println("5 " +five);
                     five+=23;
 
                 }
