@@ -1,10 +1,15 @@
 # Classy Compiler
-Professor Labouseur, please grade the branch titled "Project2". 
+Professor Labouseur, please grade the branch titled "Project3". 
 
-I have created several test cases, please feel free to run through them all. 
+I have created several test cases labeled sem#.txt and have described in the comments of the text files whether or not the programs will pass and why.
 
-Files named testA#.txt will pass parse and create a concrete syntax tree, unless otherwise stated in the comments of the text file. In some cases, I added a test program that would not pass parse to show the relationship between the other programs within (testA5.txt for example). In testA2.txt I added a program identical to the one's before and after it, yet the CST displays incorrectly. I am unsure why this is, and I noted this in the comments in the file. This is the only known error I am aware of in terms of building CST's.
-
-Files named testF#.txt will not pass parse and therefore will not display a CST.
+/*Things I did not add*/
+I used a linked hashmap for my symbol table, and in cases where variables are being redefined within a new scope, a duplicate key is created. Duplicate keys are not allowed in linked hash maps, so in the case for
+{int a
+a=1
+{string a
+a="hi}
+}$
+there is only one instance of a in the symbol table. This is something I know how to fix but I just did not get around to doing so.
 
 Thank you!
