@@ -1,0 +1,16 @@
+/*this passes with one warning*/
+{
+int a
+boolean b
+b = true
+print(b)
+}$
+
+/*this fails because a is being used before given a value*/
+{
+int a
+boolean b
+b = true
+print(b)
+print(a)
+}$

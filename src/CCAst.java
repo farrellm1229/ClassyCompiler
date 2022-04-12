@@ -130,6 +130,7 @@ public class CCAst {
     public static LinkedHashMap<String,String> symbolTable = new LinkedHashMap<String,String>();
     // static Hashtable<Integer,Integer> symTabScopeLine = new Hashtable<Integer,Integer>();  
     
+    
 
     
 
@@ -137,9 +138,10 @@ public class CCAst {
 
 
     //public static ArrayList<Tree> tree = new ArrayList<Tree>();
-    public void intTree(String letter, int i){
+    public void intTree(int i){
         
-        if(tokens.get(i+1).getValueOfToken().equals(letter)) {
+        if(tokens.get(i+1).getTypeOfToken().equals("CHAR")) {
+        
             //System.out.println(scope + "inint");
 
             
@@ -163,10 +165,9 @@ public class CCAst {
                     fifteen=fifteen+10;
                     sixteen=sixteen+10;
     }
-    public void stringTree(String letter, int i){
-        if(tokens.get(i+1).getValueOfToken().equals(letter)) {
-            System.out.println(scope);
-            scope=scope+0;
+    public void stringTree(int i){
+        if(tokens.get(i+1).getTypeOfToken().equals("CHAR")) {
+        
             
             //tree.add(getTree(eleven, "<Statement>", four));
             tree.add(getTree(twelve, "<Variable Declaration>", two));
@@ -189,8 +190,8 @@ public class CCAst {
                     fifteen=fifteen+100;
                     sixteen=sixteen+100;
     }
-    public void booleanTree(String letter, int i){
-        if(tokens.get(i+1).getValueOfToken().equals(letter)) {
+    public void booleanTree(int i){
+        if(tokens.get(i+1).getTypeOfToken().equals("CHAR")) {
             
                    
                     //tree.add(getTree(eleven, "<Statement>", four));
@@ -239,8 +240,31 @@ public class CCAst {
         
     }
 
-    public void assignmentTree(String letter, int i){
-        if(tokens.get(i-1).getValueOfToken().equals(letter)){
+    public void assignmentTree(int i){
+        if((tokens.get(i-1).getTypeOfToken().equals("CHAR")) && (tokens.get(i+3).getValueOfToken().equals("=="))){
+
+            tree.add(getTree(twelve, "<Assignment Statement>", two));
+            tree.add(getTree(thirteen, "<Equality>", twelve));
+            tree.add(getTree(fourteen, "[ " + tokens.get(i+2).getValueOfToken() + " ]" , thirteen));
+            tree.add(getTree(fourteen, "[ " + tokens.get(i+4).getValueOfToken() + " ]", thirteen));
+            //symbolTable.put(tokens.get(i+2).getValueOfToken(), tokens.get(i+4).getValueOfToken());
+            //symTabScopeLine.add(scope);
+
+
+}
+        else if((tokens.get(i-1).getTypeOfToken().equals("CHAR")) && (tokens.get(i+3).getValueOfToken().equals("!="))){
+
+            tree.add(getTree(twelve+7, "<Assignment Statement>", two));
+            tree.add(getTree(thirteen+7, "<Inequality>", twelve+7));
+            tree.add(getTree(fourteen+7, "[ " + tokens.get(i+2).getValueOfToken() + " ]" , thirteen+7));
+            tree.add(getTree(fourteen+7, "[ " + tokens.get(i+4).getValueOfToken() + " ]", thirteen+7));
+            //symbolTable.put(tokens.get(i+2).getValueOfToken(), tokens.get(i+4).getValueOfToken());
+            //symTabScopeLine.add(scope);
+
+
+}
+        else if((tokens.get(i-1).getTypeOfToken().equals("CHAR")) && ((!tokens.get(i+3).getValueOfToken().equals("!=")) ||(!tokens.get(i+3).getValueOfToken().equals("==")))){
+
             
             //tree.add(getTree(25, "<StatementList>", 4));
             //tree.add(getTree(twentysix, "<Statement>", four));
@@ -252,8 +276,21 @@ public class CCAst {
             
             //tree.add(getTree(thirtyone, "<Expr>", twentyseven));
             tree.add(getTree(thirtytwo, "[ " +tokens.get(i+1).getValueOfToken() + " ]",twentyseven));
-        }
-        /*if((tokens.get(i+1).getValueOfToken().equals(letter)) && (!tokens.get(i+1).getValueOfToken().equals(letter))){
+            
+
+}
+twelve=twelve+219;
+            thirteen=thirteen+219;
+            fourteen=fourteen+219;
+twentysix=twentysix+219;
+        twentyseven=twentyseven+219;
+        twentyeight=twentyeight+219;
+        twentynine=twentynine+219;
+        thirty=thirty+219;
+        thirtyone=thirtyone+219;
+        thirtytwo=thirtytwo+219;
+
+        /*if((tokens.get(i+1).getValueOfToken().equals)) && (!tokens.get(i+1).getValueOfToken().equals))){
             //tree.add(getTree(25, "<StatementList>", 4));
             
             tree.add(getTree(twentyseven, "<Assignment Statement>", two));
@@ -264,44 +301,36 @@ public class CCAst {
             //tree.add(getTree(thirtyone, "<Expr>", twentyseven));
             tree.add(getTree(thirtytwo, "[ " +tokens.get(i+1).getValueOfToken() + " ]",twentyseven));
         }*/
-        twentysix=twentysix+6;
-        twentyseven=twentyseven+6;
-        twentyeight=twentyeight+6;
-        twentynine=twentynine+6;
-        thirty=thirty+6;
-        thirtyone=thirtyone+6;
-        thirtytwo=thirtytwo+6;
+
 
 
     }
     
 
-    public void priTree(String letter, int i){
-        if(tokens.get(i+2).getValueOfToken().equals(letter)){
+    public void priTree(int i){
+        if(((tokens.get(i+2).getTypeOfToken().equals("CHAR")) || (tokens.get(i+2).getTypeOfToken().equals("DIGIT")) 
+        || (tokens.get(i+2).getTypeOfToken().equals("STRING")) || (tokens.get(i+2).getTypeOfToken().equals("BOOL_VAL"))) && (!tokens.get(i+3).getTypeOfToken().equals("PLUS"))){
             
 
                     //tree.add(getTree(33, "<Statement>", 4));
                     tree.add(getTree(thirtyfour, "<Print Statement>", two));
-
-                   // tree.add(getTree(35, "[ " +tokens.get(i).getValueOfToken() + " ]", 34)); //[print]
-                    //tree.add(getTree(36, "[ " +tokens.get(i+1).getValueOfToken() + " ]", 34));//[(]
-                   // tree.add(getTree(37, "<Expr>", 36));//
                     tree.add(getTree(thirtyeight, "[ " +tokens.get(i+2).getValueOfToken() + " ]", thirtyfour));// [ x ]
-                    if(tokens.get(i+3).getTypeOfToken().equals("PLUS")){ //case for int expr within print statement
-                        tree.add(getTree(thirtynine, "[ " +tokens.get(i+3).getValueOfToken() + " ]", thirtyfour));// [ + ]
-                        tree.add(getTree(thirtynine+62, "[ " +tokens.get(i+4).getValueOfToken() + " ]", thirtyfour));// [ x ]
-                        //tree.add(getTree(3900, "[ " +tokens.get(i+5).getValueOfToken() + " ]", 34));// [ ) ]
-
-                    }
-                    else{
-                        //tree.add(getTree(39, "[ " +tokens.get(i+3).getValueOfToken() + " ]", 34)); // [ ) ] for case print(x)
-                    }
+                   
         }
+        else if((tokens.get(i+2).getTypeOfToken().equals("DIGIT")) && (tokens.get(i+3).getTypeOfToken().equals("PLUS"))){
+            tree.add(getTree(thirtyfour, "<Print Statement>", two));
+            tree.add(getTree(thirtyfour+21, "<Addition>", thirtyfour));
+            
+            tree.add(getTree(thirtyfour+31, "[ " +tokens.get(i+2).getValueOfToken() + " ]", thirtyfour+21));// [ + ]
+            tree.add(getTree(thirtyfour+41, "[ " +tokens.get(i+4).getValueOfToken() + " ]", thirtyfour+21));// [ x ]
+
+        }
+           
         thirtyfour+=13;
         thirtyeight+=13;
         thirtynine+=13;
 
-        /*else if(tokens.get(i+3).getTypeOfToken().equals(letter)){
+        /*else if(tokens.get(i+3).getTypeOfToken().equals)){
 
                     tree.add(getTree(33, "<Statement>", 4));
                     tree.add(getTree(34, "<PrintStatement>", 33));
@@ -316,67 +345,54 @@ public class CCAst {
                     tree.add(getTree(42, "[ " +tokens.get(i+5).getValueOfToken() + " ]", 34));
         }*/
     }
-    public void whileTree(String letter, int i){
+    public void whileTree(int i){
         
-        if((tokens.get(i+2).getValueOfToken().equals(letter)) && (((i==1)) || (i==7))){ //7 is case for parseTest1.txt
-            
-            //tree.add(getTree(40, "<Statement>", 4));
-            tree.add(getTree(41, "<While Statement>", 2));
-            tree.add(getTree(42, "[ " +tokens.get(i).getValueOfToken() + " ]", 41));
-            tree.add(getTree(43, "<BooleanExpr>", 41));
-            tree.add(getTree(44, "[ " +tokens.get(i+1).getValueOfToken() + " ]", 43));
-            tree.add(getTree(45, "<Expr>", 43));
-            tree.add(getTree(46, "[ " +tokens.get(i+2).getValueOfToken() + " ]", 45));
-            tree.add(getTree(47, "<BoolOp>", 43));
-            tree.add(getTree(48, "[ " +tokens.get(i+3).getValueOfToken() + " ]", 47));
-            tree.add(getTree(49, "<Expr>", 43));
-            tree.add(getTree(50, "[ " +tokens.get(i+4).getValueOfToken() + " ]", 49));
-            tree.add(getTree(51, "[ " +tokens.get(i+5).getValueOfToken() + " ]", 43));
-            tree.add(getTree(52, "<Block>", 41));
-            tree.add(getTree(53, "[ " +tokens.get(i+6).getValueOfToken() + " ]", 52));
-        }
-        //i is 8 in the double while test case
-        if((tokens.get(i+2).getValueOfToken().equals(letter)) && (i!=1) && (i < 14)){ //implying double while statement test case
-                    
-            tree.add(getTree(400, "<Statement>", 4));
-            tree.add(getTree(410, "<WhileStatement>", 400));
-            tree.add(getTree(420, "[ " +tokens.get(i).getValueOfToken() + " ]", 410));
-            tree.add(getTree(430, "<BooleanExpr>", 410));
-            tree.add(getTree(440, "[ " +tokens.get(i+1).getValueOfToken() + " ]", 430));
-            tree.add(getTree(450, "<Expr>", 430));
-            tree.add(getTree(460, "[ " +tokens.get(i+2).getValueOfToken() + " ]", 450));
-            tree.add(getTree(470, "<BoolOp>", 430));
-            tree.add(getTree(480, "[ " +tokens.get(i+3).getValueOfToken() + " ]", 470));
-            tree.add(getTree(490, "<Expr>", 430));
-            tree.add(getTree(500, "[ " +tokens.get(i+4).getValueOfToken() + " ]", 490));
-            tree.add(getTree(510, "[ " +tokens.get(i+5).getValueOfToken() + " ]", 430));
-            tree.add(getTree(520, "<Block>", 410));
-            tree.add(getTree(530, "[ " +tokens.get(i+6).getValueOfToken() + " ]", 520));
-        }
+        
+        if(((tokens.get(i+2).getTypeOfToken().equals("CHAR")) || (tokens.get(i+2).getTypeOfToken().equals("DIGIT"))  || (tokens.get(i+2).getTypeOfToken().equals("STRING"))
+        || (tokens.get(i+2).getTypeOfToken().equals("BOOL_VAL"))) && (tokens.get(i+3).getValueOfToken().equals("=="))){
 
-        if((tokens.get(i+2).getValueOfToken().equals(letter)) && (i!=1) && (i > 14)){ //implying triple while statement test case
-                        //{while(a==true){while(b==true){print(c)}}}$
-            
-            //System.out.print(i);
-            tree.add(getTree(4000, "<Statement>", 4));
-            tree.add(getTree(4100, "<WhileStatement>", 4000));
-            tree.add(getTree(4200, "[ " +tokens.get(i).getValueOfToken() + " ]", 4100));
-            tree.add(getTree(4300, "<BooleanExpr>", 4100));
-            tree.add(getTree(4400, "[ " +tokens.get(i+1).getValueOfToken() + " ]", 4300));
-            tree.add(getTree(4500, "<Expr>", 4300));
-            tree.add(getTree(4600, "[ " +tokens.get(i+2).getValueOfToken() + " ]", 4500));
-            tree.add(getTree(4700, "<BoolOp>", 4300));
-            tree.add(getTree(4800, "[ " +tokens.get(i+3).getValueOfToken() + " ]", 4700));
-            tree.add(getTree(4900, "<Expr>", 4300));
-            tree.add(getTree(5000, "[ " +tokens.get(i+4).getValueOfToken() + " ]", 4900));
-            tree.add(getTree(5100, "[ " +tokens.get(i+5).getValueOfToken() + " ]", 4300));
-            tree.add(getTree(5200, "<Block>", 4100));
-            tree.add(getTree(5300, "[ " +tokens.get(i+6).getValueOfToken() + " ]", 5200));
-            }
-        
+            tree.add(getTree(twelve, "<While Statement>", two));
+            tree.add(getTree(thirteen, "<Equality>", twelve));
+            tree.add(getTree(fourteen, "[ " + tokens.get(i+2).getValueOfToken() + " ]" , thirteen));
+            tree.add(getTree(fourteen, "[ " + tokens.get(i+4).getValueOfToken() + " ]", thirteen));
+            //symbolTable.put(tokens.get(i+2).getValueOfToken(), tokens.get(i+4).getValueOfToken());
+            //symTabScopeLine.add(scope);
+
+
+}
+        else if(((tokens.get(i+2).getTypeOfToken().equals("CHAR")) || (tokens.get(i+2).getTypeOfToken().equals("DIGIT"))  || (tokens.get(i+2).getTypeOfToken().equals("STRING"))
+        || (tokens.get(i+2).getTypeOfToken().equals("BOOL_VAL"))) && (tokens.get(i+3).getValueOfToken().equals("!="))){
+            tree.add(getTree(twelve+7, "<While Statement>", two));
+            tree.add(getTree(thirteen+7, "<Inequality>", twelve+7));
+            tree.add(getTree(fourteen+7, "[ " + tokens.get(i+2).getValueOfToken() + " ]" , thirteen+7));
+            tree.add(getTree(fourteen+7, "[ " + tokens.get(i+4).getValueOfToken() + " ]", thirteen+7));
+            //symbolTable.put(tokens.get(i+2).getValueOfToken(), tokens.get(i+4).getValueOfToken());
+            //symTabScopeLine.add(scope);
+
+
+}
+else if((tokens.get(i+1).getTypeOfToken().equals("BOOL_VAL")) && (!tokens.get(i+2).getTypeOfToken().equals("CHAR"))){
+
+    tree.add(getTree(twelve+77, "<While Statement>", two));
+    tree.add(getTree(fourteen+77, "[ " + tokens.get(i+1).getValueOfToken() + " ]" , twelve+77));
+    //symbolTable.put(tokens.get(i+2).getValueOfToken(), tokens.get(i+4).getValueOfToken());
+    //symTabScopeLine.add(scope);
+
+
+}
+
+
+            //eleven=eleven+113;
+            twelve=twelve+413;
+            thirteen=thirteen+413;
+            fourteen=fourteen+413;
+           // fifteen=fifteen+113;
+            //sixteen=sixteen+113;
+       
     }
-    public void ifTree(String letter, int i){
-        if((tokens.get(i+2).getValueOfToken().equals(letter)) && (tokens.get(i+3).getValueOfToken().equals("=="))){
+    public void ifTree(int i){
+        if(((tokens.get(i+2).getTypeOfToken().equals("CHAR")) || (tokens.get(i+2).getTypeOfToken().equals("DIGIT"))  || (tokens.get(i+2).getTypeOfToken().equals("STRING"))
+        || (tokens.get(i+2).getTypeOfToken().equals("BOOL_VAL"))) && (tokens.get(i+3).getValueOfToken().equals("=="))){
 
             tree.add(getTree(twelve, "<If Statement>", two));
             tree.add(getTree(thirteen, "<Equality>", twelve));
@@ -387,7 +403,8 @@ public class CCAst {
 
 
 }
-        else if((tokens.get(i+2).getValueOfToken().equals(letter)) && (tokens.get(i+3).getValueOfToken().equals("!="))){
+        else if(((tokens.get(i+2).getTypeOfToken().equals("CHAR")) || (tokens.get(i+2).getTypeOfToken().equals("DIGIT"))  || (tokens.get(i+2).getTypeOfToken().equals("STRING"))
+        || (tokens.get(i+2).getTypeOfToken().equals("BOOL_VAL"))) && (tokens.get(i+3).getValueOfToken().equals("!="))){
 
             tree.add(getTree(twelve+7, "<If Statement>", two));
             tree.add(getTree(thirteen+7, "<Inequality>", twelve+7));
@@ -395,6 +412,15 @@ public class CCAst {
             tree.add(getTree(fourteen+7, "[ " + tokens.get(i+4).getValueOfToken() + " ]", thirteen+7));
             //symbolTable.put(tokens.get(i+2).getValueOfToken(), tokens.get(i+4).getValueOfToken());
             //symTabScopeLine.add(scope);
+
+
+}
+else if((tokens.get(i+1).getTypeOfToken().equals("BOOL_VAL")) && (!tokens.get(i+2).getTypeOfToken().equals("CHAR"))){
+
+    tree.add(getTree(twelve+77, "<If Statement>", two));
+    tree.add(getTree(fourteen+77, "[ " + tokens.get(i+1).getValueOfToken() + " ]" , twelve+77));
+    //symbolTable.put(tokens.get(i+2).getValueOfToken(), tokens.get(i+4).getValueOfToken());
+    //symTabScopeLine.add(scope);
 
 
 }
@@ -408,7 +434,7 @@ public class CCAst {
             //sixteen=sixteen+113;
        
 /*
-        if((tokens.get(i+2).getValueOfToken().equals(letter)) && (((i==1)) || (i==7))){ //7 is case for parseTest1.txt
+        if((tokens.get(i+2).getValueOfToken().equals)) && (((i==1)) || (i==7))){ //7 is case for parseTest1.txt
             
             tree.add(getTree(60, "<Statement>", 4));
             tree.add(getTree(61, "<WhileStatement>", 60));
@@ -426,7 +452,7 @@ public class CCAst {
             tree.add(getTree(73, "[ " +tokens.get(i+6).getValueOfToken() + " ]", 72));
         }
 
-        if((tokens.get(i+2).getValueOfToken().equals(letter)) && (i!=1) && (i < 14)){ //implying double if statement test case
+        if((tokens.get(i+2).getValueOfToken().equals)) && (i!=1) && (i < 14)){ //implying double if statement test case
             
             tree.add(getTree(600, "<Statement>", 4));
             tree.add(getTree(610, "<WhileStatement>", 600));
@@ -443,7 +469,7 @@ public class CCAst {
             tree.add(getTree(720, "<Block>", 610));
             tree.add(getTree(730, "[ " +tokens.get(i+6).getValueOfToken() + " ]", 720));
         }
-        if((tokens.get(i+2).getValueOfToken().equals(letter)) && (i!=1) && (i > 14)){ //implying triple if statement test case
+        if((tokens.get(i+2).getValueOfToken().equals)) && (i!=1) && (i > 14)){ //implying triple if statement test case
             
             tree.add(getTree(6000, "<Statement>", 4));
             tree.add(getTree(6100, "<WhileStatement>", 6000));
@@ -509,71 +535,15 @@ public class CCAst {
 
                 //case "int":
                 case "boolean": //having them all together caused issues :(
-                    booleanTree("a", i); booleanTree("b", i); booleanTree("c", i); booleanTree("d", i);
-                    booleanTree("e", i); booleanTree("f", i); booleanTree("g", i); booleanTree("h", i);
-                    booleanTree("i", i); booleanTree("j", i); booleanTree("k", i); booleanTree("l", i);
-                    booleanTree("m", i); booleanTree("n", i); booleanTree("o", i); booleanTree("p", i);
-                    booleanTree("q", i); booleanTree("r", i); booleanTree("s", i); booleanTree("t", i);
-                    booleanTree("u", i); booleanTree("v", i); booleanTree("w", i); booleanTree("x", i);
-                    booleanTree("y", i); booleanTree("z", i);
+                    booleanTree(i);
 
                     break;
 
                 case "int":
-                    intTree("a", i);
-                    intTree("b", i);
-                    intTree("c", i);
-                    intTree("d", i);
-                    intTree("e", i);
-                    intTree("f", i);
-                    intTree("g", i);
-                    intTree("h", i);
-                    intTree("i", i);
-                    intTree("j", i);
-                    intTree("k", i);
-                    intTree("l", i);
-                    intTree("m", i);
-                    intTree("n", i);
-                    intTree("o", i);
-                    intTree("p", i);
-                    intTree("q", i);
-                    intTree("r", i);
-                    intTree("s", i);
-                    intTree("t", i);
-                    intTree("u", i);
-                    intTree("v", i);
-                    intTree("w", i);
-                    intTree("x", i);
-                    intTree("y", i);
-                    intTree("z", i);
+                    intTree(i);
                     break;
                 case "string":
-                    stringTree("a", i);
-                    stringTree("b", i);
-                    stringTree("c", i);
-                    stringTree("d", i);
-                    stringTree("e", i);
-                    stringTree("f", i);
-                    stringTree("g", i);
-                    stringTree("h", i);
-                    stringTree("i", i);
-                    stringTree("j", i);
-                    stringTree("k", i);
-                    stringTree("l", i);
-                    stringTree("m", i);
-                    stringTree("n", i);
-                    stringTree("o", i);
-                    stringTree("p", i);
-                    stringTree("q", i);
-                    stringTree("r", i);
-                    stringTree("s", i);
-                    stringTree("t", i);
-                    stringTree("u", i);
-                    stringTree("v", i);
-                    stringTree("w", i);
-                    stringTree("x", i);
-                    stringTree("y", i);
-                    stringTree("z", i);
+                    stringTree(i);
 
                     break;
                 
@@ -581,13 +551,7 @@ public class CCAst {
                 
               
                 case "=":
-                    assignmentTree("a", i); assignmentTree("b", i); assignmentTree("c", i); assignmentTree("d", i);
-                    assignmentTree("e", i); assignmentTree("f", i); assignmentTree("g", i); assignmentTree("h", i);
-                    assignmentTree("i", i); assignmentTree("j", i); assignmentTree("k", i); assignmentTree("l", i);
-                    assignmentTree("m", i); assignmentTree("n", i); assignmentTree("o", i); assignmentTree("p", i);
-                    assignmentTree("q", i); assignmentTree("r", i); assignmentTree("s", i); assignmentTree("t", i);
-                    assignmentTree("u", i); assignmentTree("v", i); assignmentTree("w", i); assignmentTree("x", i);
-                    assignmentTree("y", i); assignmentTree("z", i); //assignmentTree("STRING", i);
+                    assignmentTree(i);
 
                     break;
                 
@@ -597,36 +561,13 @@ public class CCAst {
                 case "print":
                     //System.out.println("case");
                     //System.out.println(tokens.get(i).getValueOfToken());
-                    priTree("0", i);priTree("1", i);priTree("2", i);priTree("3", i);priTree("4", i);                     
-                    priTree("5", i);priTree("6", i);priTree("7", i);                     
-                    priTree("8", i);priTree("9", i);
-                    //letter cases
-                    priTree("a", i);priTree("g", i);priTree("m", i);priTree("s", i);                    
-                    priTree("b", i);priTree("h", i);priTree("n", i);priTree("t", i);     
-                    priTree("c", i);priTree("i", i);priTree("o", i);priTree("u", i);
-                    priTree("d", i);priTree("j", i);priTree("p", i);priTree("v", i);     
-                    priTree("e", i);priTree("k", i);priTree("q", i);priTree("w", i);
-                    priTree("f", i);priTree("l", i);priTree("r", i);priTree("x", i);
-                    priTree("y", i);priTree("z", i);
-                    priTree("PLUS", i);
+                    priTree(i);
                     break;
                 case "while":
-                    whileTree("a", i);whileTree("g", i);whileTree("m", i);whileTree("s", i);                    
-                    whileTree("b", i);whileTree("h", i);whileTree("n", i);whileTree("t", i);     
-                    whileTree("c", i);whileTree("i", i);whileTree("o", i);whileTree("u", i);
-                    whileTree("d", i);whileTree("j", i);whileTree("p", i);whileTree("v", i);     
-                    whileTree("e", i);whileTree("k", i);whileTree("q", i);whileTree("w", i);
-                    whileTree("f", i);whileTree("l", i);whileTree("r", i);whileTree("x", i);
-                    whileTree("y", i);whileTree("z", i);
+                    whileTree(i);
                 break;
                 case "if":
-                    ifTree("a", i);ifTree("g", i);ifTree("m", i);ifTree("s", i);                    
-                    ifTree("b", i);ifTree("h", i);ifTree("n", i);ifTree("t", i);     
-                    ifTree("c", i);ifTree("i", i);ifTree("o", i);ifTree("u", i);
-                    ifTree("d", i);ifTree("j", i);ifTree("p", i);ifTree("v", i);     
-                    ifTree("e", i);ifTree("k", i);ifTree("q", i);ifTree("w", i);
-                    ifTree("f", i);ifTree("l", i);ifTree("r", i);ifTree("x", i);
-                    ifTree("y", i);ifTree("z", i);
+                    ifTree(i);
                 break;
 
                 //case "$":
@@ -665,14 +606,14 @@ public class CCAst {
         System.out.println("Name    Type    Scope");
         System.out.println("---------------------");
         int test=0;
-        System.out.println(symbolTable.toString());
+        //System.out.println(symbolTable.toString());
 
 
         for (Map.Entry<String, String> entry : symbolTable.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-        
-            System.out.println(key+"       "+value +"       " + symTabScopeLine.get(test));
+            System.out.printf("%-8s%-10s%-8s\n" , key,  value, symTabScopeLine.get(test));
+           // System.out.println("key+"       "+value +"       " + symTabScopeLine.get(test));
             //System.out.println(test);
             //printf("'%-5d'"
             test++;

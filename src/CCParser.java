@@ -90,7 +90,7 @@ public class CCParser {
     }
 
     public boolean createCST(List<CCToken> tokenStream) {
-        CCTree cst = new CCTree(); //create instance of class for CST
+        CCTree2 cst = new CCTree2(); //create instance of class for CST
         //CCAst ast = new CCAst(); //create instance of CST class
 
         

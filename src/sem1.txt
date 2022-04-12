@@ -1,0 +1,38 @@
+{
+int a
+a = 1
+if("a" == 3) { /*this fails because string is being compared to int*/
+a = 2
+}
+}$
+{
+int a
+a = 1
+if(a == 3) { /*this passes, yay!*/
+a = 2
+}
+}$ 
+
+{
+boolean b
+b = true
+while(b != "hi") { /*this fails because boolean is being compared to string*/
+b = false
+}
+}$
+
+{
+boolean b
+b = true
+while(b != false) {
+b = 4 /*this fails because of incorrect type*/
+}
+}$ 
+
+{
+string c
+c="hi"
+if(c == "hello") {
+c = 7 /*this fails because of incorrect type*/
+}
+}$

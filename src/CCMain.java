@@ -242,7 +242,7 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                 //if (lpmData.getType().toString() == "EOP") {
 
 
-                    CCTree cst = new CCTree(); //create instance of CST class
+                    CCTree2 cst = new CCTree2(); //create instance of CST class
                     CCAst ast = new CCAst(); //create instance of CST class
 
                         //Begin Parsing Process
@@ -276,7 +276,12 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                         System.out.println("-----------------------------------------------------------");
                         System.out.print("Classy Compiler Has Finished Building AST Of Program #" + (programNumber-1) + "\n");
                         System.out.println("-----------------------------------------------------------");
+                        System.out.print("Classy Compiler Is Printing Symbol Table For Program #" + (programNumber-1) + "\n");
+                        System.out.println("-----------------------------------------------------------");
                         ast.symbolTable();
+                        System.out.println("-----------------------------------------------------------");
+                        System.out.print("PROGRAM # " + (programNumber-1) + " IS COMPLETE\n");
+                        System.out.println("-----------------------------------------------------------");
                     }
                     else {
                         //System.out.println("-----------------------------------------------------------");

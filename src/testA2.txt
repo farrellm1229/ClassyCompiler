@@ -1,3 +1,0 @@
-{int a a = true print(a)}$ /*this prints a correct tree*/
-{int c c = true print(c)}$ /*this tress is messed up for some reason??*/
-{int z z = true print(z)}$ /*this prints a correct tree*/

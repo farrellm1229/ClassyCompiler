@@ -1,7 +1,0 @@
-
-{
-    int a = 3 /*incorrect definition!*/
-    string a
-a = "cats"
-    print(a)
-}$

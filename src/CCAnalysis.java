@@ -114,8 +114,8 @@ int warningCounter=0;
                     else if(id2.equals(id3)){
                         System.out.println("INFO  Analyze - PASSED! [ " + tokens.get(i-1).getValueOfToken() + "," + id3 + " ] and [ " + tokens.get(i+1).getValueOfToken() +  "," + id2 + " ] have the same TYPE");
                         System.out.println("-----------------------------------------------------------");
-                        System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] has been assigned to [ " + tokens.get(i+1).getValueOfToken() + " ]");
-                        System.out.println("-----------------------------------------------------------");
+                       // System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] has been assigned to [ " + tokens.get(i+1).getValueOfToken() + " ]");
+                       // System.out.println("-----------------------------------------------------------");
                     
     
                     }
@@ -133,13 +133,15 @@ int warningCounter=0;
 
                     errorCounter++;
                 }   */ 
-            
+            if(idAndType.getForward(tokens.get(i+1).getValueOfToken()) != null){
+
                 if((idAndType.getForward(tokens.get(i+1).getValueOfToken()).equals("int")) && (!idAndType.getForward(tokens.get(i+1).getValueOfToken()).equals(null))){
                     result = true;
                 }
                 else{
                     result = false;
                 }
+            }
             }
             else if(tokens.get(i+1).getTypeOfToken().equals("DIGIT")){
                 result = true;
@@ -171,8 +173,8 @@ int warningCounter=0;
                 else if(id2.equals(id3)){
                     System.out.println("INFO  Analyze - PASSED! [ " + tokens.get(i-1).getValueOfToken() + "," + id3 + " ] and [ " + tokens.get(i+1).getValueOfToken() +  "," + id2 + " ] have the same TYPE");
                     System.out.println("-----------------------------------------------------------");
-                    System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] has been assigned to [ " + tokens.get(i+1).getValueOfToken() + " ]");
-                    System.out.println("-----------------------------------------------------------");
+                    //System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] has been assigned to [ " + tokens.get(i+1).getValueOfToken() + " ]");
+                    //System.out.println("-----------------------------------------------------------");
                 
 
                 }
@@ -213,8 +215,23 @@ int warningCounter=0;
                     //System.exit(0);
                     errorCounter++;
                 }
-                                    
+               
 
+                else if(id2.equals(id3)){
+                    System.out.println("INFO  Analyze - PASSED! [ " + tokens.get(i-1).getValueOfToken() + "," + id3 + " ] and [ " + tokens.get(i+1).getValueOfToken() +  "," + id2 + " ] have the same TYPE");
+                    System.out.println("-----------------------------------------------------------");
+                    //System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] has been assigned to [ " + tokens.get(i+1).getValueOfToken() + " ]");
+                    //System.out.println("-----------------------------------------------------------");
+                
+
+                }
+                else if(!id2.equals(id3)) {
+                    System.out.println("INFO  Analyze - FAILED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] has a different TYPE than [ " + tokens.get(i+1).getValueOfToken() + " ]");
+
+                    System.out.println("-----------------------------------------------------------");
+
+                    
+                }
                 if(idAndType.getForward(tokens.get(i+1).getValueOfToken()).equals("boolean")){
                     result = true;
                 }
@@ -434,6 +451,13 @@ int warningCounter=0;
 
     public boolean checkPrintIDScope(String expr, int i){
         Object idInPrintScope = idAndScope.getForward(expr); //looking up scope of b in print(b) which is paired with its scope
+        
+        if(idInPrintScope == null){
+                    System.out.println("ERROR Analyze - FAILED! Variable [ " + expr + " ] is being used before being declared");
+                    System.out.println("-----------------------------------------------------------");
+                    errorCounter++;
+        }
+        else{
         int exprScope=(int) idInPrintScope;
         if(exprScope<= scope){ //if scope of id before = sign is less than or equal to current scope, pass
             //System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is being used within its correct SCOPE");
@@ -443,6 +467,7 @@ int warningCounter=0;
         else{
             result = false;
         }
+    }
         return result;
 
 
@@ -601,6 +626,85 @@ return idValueType;
 
     }
     public boolean ifStmnt(int i){
+        Object idBeforeBoolOp = idAndType.getForward(tokens.get(i+2).getValueOfToken()); //looking up type of b in if(b==a)
+        Object idAfterBoolOp = idAndType.getForward(tokens.get(i+4).getValueOfToken()); //looking up type of a in if(b==a)
+
+        String id = (String) idBeforeBoolOp;
+
+        if((tokens.get(i+2).getTypeOfToken()) != (tokens.get(i+4).getTypeOfToken()) && (!tokens.get(i+2).getTypeOfToken().equals("CHAR") && (!tokens.get(i+4).getTypeOfToken().equals("CHAR")))){
+            System.out.println("ERROR Analyze - FAILED! Type [ " + tokens.get(i+2).getTypeOfToken() + " ] cannot be compared to [ " + tokens.get(i+4).getTypeOfToken() + " ]");
+                    System.out.println("-----------------------------------------------------------");
+                    errorCounter++;
+                }
+        if((tokens.get(i+2).getTypeOfToken().equals("CHAR"))&& (!tokens.get(i+4).getTypeOfToken().equals("CHAR"))){
+            
+
+            String idk = lookUpIfStmnt(tokens.get(i+2).getValueOfToken(), i);
+            if(id != null){
+            if(idk != null){
+            if(idk.equals("int")){
+            if((idk.equals("int")) && (tokens.get(i+4).getTypeOfToken().equals("DIGIT"))){
+                System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] with type [ INT ] is being compared to [ " + tokens.get(i+4).getTypeOfToken() + " ]");
+                    System.out.println("-----------------------------------------------------------");
+            }
+            else{
+                System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] with type [ " + idk.toUpperCase() + " ] is being compared to [ " + tokens.get(i+4).getTypeOfToken() + " ]");
+                System.out.println("-----------------------------------------------------------");
+                errorCounter++;
+            }
+        }
+        if(idk.equals("string")){
+
+            if((idk.equals("string")) && (tokens.get(i+4).getTypeOfToken().equals("STRING"))){
+                System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] with type [ STRING ] is being compared to [ " + tokens.get(i+4).getTypeOfToken() + " ]");
+                    System.out.println("-----------------------------------------------------------");
+            }
+            else{
+                System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] with type [ " + idk.toUpperCase() + " ] is being compared to [ " + tokens.get(i+4).getTypeOfToken() + " ]");
+                System.out.println("-----------------------------------------------------------");
+                errorCounter++;
+            }
+        }
+        if(idk.equals("boolean")){
+
+            if((idk.equals("boolean")) && (tokens.get(i+4).getTypeOfToken().equals("BOOL_VAL"))){
+                System.out.println("INFO  Analyze - PASSED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] with type [ BOOLEAN ] is being compared to [ " + tokens.get(i+4).getTypeOfToken() + " ]");
+                    System.out.println("-----------------------------------------------------------");
+            }
+            else{
+                System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] with type [ " + idk.toUpperCase() + " ] is being compared to [ " + tokens.get(i+4).getTypeOfToken() + " ]");
+                System.out.println("-----------------------------------------------------------");
+                errorCounter++;
+            }
+        }
+        if(listOfAssignments.contains(tokens.get(i+2).getValueOfToken())){
+            listOfAssignments.remove(tokens.get(i+2).getValueOfToken());
+         }
+        }
+        
+        
+
+        else{
+                System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] is being used before being initialized a value");
+                System.out.println("-----------------------------------------------------------");
+                errorCounter++;
+
+        }
+    }
+    else{
+        System.out.println("ERROR Analyze - FAILED! Variable [ " + tokens.get(i+2).getValueOfToken() + " ] is being used before being declared");
+        System.out.println("-----------------------------------------------------------");
+        errorCounter++;
+
+}
+if(tokens.get(i+4).getTypeOfToken().equals("CHAR")){
+    lookUpIfStmnt(tokens.get(i+4).getValueOfToken(), i);
+}
+}
+        return result;
+    }
+
+    public boolean whileStmnt(int i){
         Object idBeforeBoolOp = idAndType.getForward(tokens.get(i+2).getValueOfToken()); //looking up type of b in if(b==a)
         Object idAfterBoolOp = idAndType.getForward(tokens.get(i+4).getValueOfToken()); //looking up type of a in if(b==a)
 
@@ -1225,6 +1329,9 @@ if(tokens.get(i+4).getTypeOfToken().equals("CHAR")){
                 case "if":
                     ifStmnt(i);
                     break;
+                case "while":
+                    whileStmnt(i);
+                    break;
                    
                 case "$":
                     
@@ -1250,8 +1357,6 @@ if(tokens.get(i+4).getTypeOfToken().equals("CHAR")){
     }
     
     public void symValScope(){
-        System.out.println("Name    Type    Scope");
-        System.out.println("---------------------");
         int test=0;
         //System.out.println(actionMap.toString());
         LinkedHashMap<String, Integer> actionMapEntry = actionMap.get(0);
