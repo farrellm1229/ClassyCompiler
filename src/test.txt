@@ -1,6 +1,4 @@
-{int a
-a=4
-int b
-b=2
+{boolean b
+b=true
 print(b)
 }$

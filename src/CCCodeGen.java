@@ -32,23 +32,24 @@ public class CCCodeGen {
     int memCount = 0;
     int varDeclCounter = 0;
     int varDecID = 27;
-    CCHashMap valAndByteCode = new CCHashMap<String, String>();
+    CCHashMap idAndAssignVal = new CCHashMap<String, String>();
 
     public void CodeGenVarDecl(int i) {
         
         if(tokens.get(i+1).getTypeOfToken().equals("CHAR")) {
+
             System.out.println("INFO  CodeGen - Generating code for [ VarDecl ] in scope " + scope);
             System.out.println("-----------------------------------------------------------");
-            System.out.println("INFO  CodeGen - Pushing [ A9 ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ A9 ] byte in memory...");
             memory[memCount] = "A9";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ 00 ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
             memory[memCount] = "00";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ 8D ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ 8D ] byte in memory...");
             memory[memCount] = "8D";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ T" + varDeclCounter + " ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ T" + varDeclCounter + " ] byte in memory...");
             varDeclCounter++;
             idAndValue.add(tokens.get(i+1).getValueOfToken(), "T"+varDeclCounter);
 
@@ -61,41 +62,69 @@ varDecID++;
             //memCount+=1;
             memory[memCount] = "00";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ XX ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ XX ] byte in memory...");
             
             System.out.println("-----------------------------------------------------------");
 
         }
+        
     
     }
     public void CodeGenAssignStmnt(int i) {
         if(tokens.get(i-1).getTypeOfToken().equals("CHAR")) {
+            idAndAssignVal.add(tokens.get(i-1).getValueOfToken(),tokens.get(i+1).getValueOfToken());
             Object idInPrintValue = idAndValue.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
         
             String valuePrintID=(String) idInPrintValue;
             System.out.println("INFO  CodeGen - Generating code for [ AssignStmnt ] in scope "+ scope);
             System.out.println("-----------------------------------------------------------");
-            System.out.println("INFO  CodeGen - Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is assigned [ 0"+ tokens.get(i+1).getValueOfToken() + " ]...");
-            System.out.println("INFO  CodeGen - Pushing [ A9 ] byte to memory...");
-            memory[memCount] = "A9";
-            memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ 0"+ tokens.get(i+1).getValueOfToken() + " ] byte to memory...");
+            if(tokens.get(i+1).getTypeOfToken().equals("DIGIT")) {
+                System.out.println("INFO  CodeGen - Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is assigned [ 0"+ tokens.get(i+1).getValueOfToken() + " ]...");
+                System.out.println("INFO  CodeGen - Storing [ A9 ] byte in memory...");
+                memory[memCount] = "A9";
+                memCount+=1;
+                System.out.println("INFO  CodeGen - Storing [ 0"+ tokens.get(i+1).getValueOfToken() + " ] byte in memory...");
             memory[memCount] = "0"+ tokens.get(i+1).getValueOfToken().toString();
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ 8D ] byte to memory...");
+            }
+            else if(tokens.get(i+1).getTypeOfToken().equals("BOOL_VAL")) {
+                if(tokens.get(i+1).getValueOfToken().equals("true")) {
+
+                System.out.println("INFO  CodeGen - Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is assigned [ 01 ]...");
+                System.out.println("INFO  CodeGen - Storing [ A9 ] byte in memory...");
+                memory[memCount] = "A9";
+                memCount+=1;
+                System.out.println("INFO  CodeGen - Storing [ 01 ] byte in memory...");
+            memory[memCount] = "01";
+            memCount+=1;
+                }
+                else if(tokens.get(i+1).getValueOfToken().equals("false")) {
+                    
+                System.out.println("INFO  CodeGen - Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is assigned [ 00 ]...");
+                System.out.println("INFO  CodeGen - Storing [ A9 ] byte in memory...");
+                memory[memCount] = "A9";
+                memCount+=1;
+                System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
+            memory[memCount] = "00";
+            memCount+=1;
+                }
+                
+            }
+            
+            System.out.println("INFO  CodeGen - Storing [ 8D ] byte in memory...");
             memory[memCount] = "8D";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ " + valuePrintID + " ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ " + valuePrintID + " ] byte in memory...");
 
             Object idInPrintValue2 = idAndVar.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
         
             String valuePrintID2=(String) idInPrintValue2;
             memory[memCount] =valuePrintID2;
             memCount+=1;
-            varDecID++;
+            //varDecID++;
             memory[memCount] = "00";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ XX ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ XX ] byte in memory...");
             
             System.out.println("-----------------------------------------------------------");
 
@@ -106,67 +135,166 @@ varDecID++;
     public void CodeGenPrintStmnt(int i) {
         
         if(tokens.get(i+2).getTypeOfToken().equals("CHAR")) {
+
+            
+            Object idInPrintAssignedVal = idAndAssignVal.getForward(tokens.get(i+2).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+        
+            String valueInPrint=(String) idInPrintAssignedVal;
+            
+if(valueInPrint.equals("0") || valueInPrint.equals("1") ||valueInPrint.equals("2") || valueInPrint.equals("3") ||valueInPrint.equals("4") || valueInPrint.equals("5") ||
+valueInPrint.equals("6") || valueInPrint.equals("7") ||valueInPrint.equals("8") || valueInPrint.equals("9")){ 
             Object idInPrintValue = idAndVar.getForward(tokens.get(i+2).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
         
             String valuePrintID=(String) idInPrintValue;
             System.out.println("INFO  CodeGen - Generating code for [ PrintStmnt ] in scope "+ scope);
             System.out.println("-----------------------------------------------------------");
-            System.out.println("INFO  CodeGen - Pushing [ AC ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ AC ] byte in memory...");
             memory[memCount] = "AC";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ T0 ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ T0 ] byte in memory...");
             memory[memCount] = valuePrintID;
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ XX ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ XX ] byte in memory...");
             memory[memCount] = "00";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ A2 ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ A2 ] byte in memory...");
             memory[memCount] = "A2";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ 01 ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ 01 ] byte in memory...");
             memory[memCount] = "01";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ FF ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ FF ] byte in memory...");
             memory[memCount] = "FF";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ 00 ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
             memory[memCount] = "00";
             memCount+=1;
 
 
-            System.out.println("INFO  CodeGen - Pushing [ 66 ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ 66 ] byte in memory...");
             memory[memCount] = "66";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ 61 ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ 61 ] byte in memory...");
             memory[memCount] = "61";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ 6C ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ 6C ] byte in memory...");
             memory[memCount] = "6C";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ 73 ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ 73 ] byte in memory...");
             memory[memCount] = "73";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ 65 ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ 65 ] byte in memory...");
             memory[memCount] = "65";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ 00 ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
             memory[memCount] = "00";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ 74 ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ 74 ] byte in memory...");
             memory[memCount] = "74";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ 72 ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ 72 ] byte in memory...");
             memory[memCount] = "72";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ 75 ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ 75 ] byte in memory...");
             memory[memCount] = "75";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ 65 ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ 65 ] byte in memory...");
             memory[memCount] = "65";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ 00 ] byte to memory...");
+            System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
             memory[memCount] = "00";
             memCount+=1;
+}
+
+    else if(valueInPrint.equals("false") || valueInPrint.equals("true")){ 
+
+                Object idInPrintValue = idAndVar.getForward(tokens.get(i+2).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+        
+            String valuePrintID=(String) idInPrintValue;
+            System.out.println("INFO  CodeGen - Generating code for [ PrintStmnt ] in scope "+ scope);
+            System.out.println("-----------------------------------------------------------");
+            System.out.println("INFO  CodeGen - Storing [ A2 ] byte in memory...");
+            memory[memCount] = "A2";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 01 ] byte in memory...");
+            memory[memCount] = "01";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ EC ] byte in memory...");
+            memory[memCount] = "EC";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ T ] byte in memory...");
+            memory[memCount] = valuePrintID;
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ XX ] byte in memory...");
+            memory[memCount] = "00";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ A0 ] byte in memory...");
+            memory[memCount] = "A0";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ falseLOC ] byte in memory...");
+            memory[memCount] = "19";
+            memCount+=1;
+
+
+            System.out.println("INFO  CodeGen - Storing [ D0 ] byte in memory...");
+            memory[memCount] = "D0";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 02 ] byte in memory...");
+            memory[memCount] = "02";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ A0 ] byte in memory...");
+            memory[memCount] = "A0";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ trueLOC ] byte in memory...");
+            memory[memCount] = "1F";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ A2 ] byte in memory...");
+            memory[memCount] = "A2";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 02 ] byte in memory...");
+            memory[memCount] = "02";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ FF ] byte in memory...");
+            memory[memCount] = "FF";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
+            memory[memCount] = "00";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 66 ] byte in memory...");
+            memory[memCount] = "66";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 61 ] byte in memory...");
+            memory[memCount] = "61";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 6C ] byte in memory...");
+            memory[memCount] = "6C";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 73 ] byte in memory...");
+            memory[memCount] = "73";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 65 ] byte in memory...");
+            memory[memCount] = "65";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
+            memory[memCount] = "00";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 74 ] byte in memory...");
+            memory[memCount] = "74";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 72 ] byte in memory...");
+            memory[memCount] = "72";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 75 ] byte in memory...");
+            memory[memCount] = "75";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 65 ] byte in memory...");
+            memory[memCount] = "65";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
+            memory[memCount] = "00";
+            memCount+=1;
+            }
+
         }
     }
     public void CodeGenIfStmnt(int i) {
@@ -183,7 +311,7 @@ varDecID++;
                 memCount+=1;
             }
         }
-        System.out.println(Arrays.toString(memory).replaceAll("[\\,]", ""));
+        System.out.println(Arrays.toString(memory).replaceAll("[\\,]", "").replaceAll("[\\[]", "").replaceAll("[\\]]", ""));
     }
 
     public void generate(List<CCToken> tokenStream) {
@@ -231,7 +359,13 @@ varDecID++;
                 
                    
                 case "$":
+
+                    System.out.println("-----------------------------------------------------------");
+                    System.out.println("INFO  CodeGen - SUCCESS! Classy Compiler Has Generated The Following Code:");
+                    System.out.println("-----------------------------------------------------------");
                     memArray();
+                    System.out.println("-----------------------------------------------------------");
+
                     if(errorCounter==0){
                     
                         //System.out.println("INFO  Analyze - SUCCESS! Classy Compiler Has Completed Semantic Analysis With [ " + errorCounter + " ] ERRORS And [ " + warningCounter + " ] WARNINGS");
