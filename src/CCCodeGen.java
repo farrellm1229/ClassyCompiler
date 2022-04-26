@@ -14,6 +14,11 @@ import javax.swing.Action;
 
 
 public class CCCodeGen {
+
+    CCHashMap idAndValue = new CCHashMap<String, String>();
+    CCHashMap idAndVar = new CCHashMap<String, String>();
+
+
     int errorCounter = 0;
     int scope = -1;
     String[] memory = new String[256];
@@ -25,6 +30,9 @@ public class CCCodeGen {
     }
 
     int memCount = 0;
+    int varDeclCounter = 0;
+    int varDecID = 27;
+    CCHashMap valAndByteCode = new CCHashMap<String, String>();
 
     public void CodeGenVarDecl(int i) {
         
@@ -40,9 +48,17 @@ public class CCCodeGen {
             System.out.println("INFO  CodeGen - Pushing [ 8D ] byte to memory...");
             memory[memCount] = "8D";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ T0 ] byte to memory...");
-            memory[memCount] = "1D";
+            System.out.println("INFO  CodeGen - Pushing [ T" + varDeclCounter + " ] byte to memory...");
+            varDeclCounter++;
+            idAndValue.add(tokens.get(i+1).getValueOfToken(), "T"+varDeclCounter);
+
+            memory[memCount] ="" + varDecID;
             memCount+=1;
+            idAndVar.add(tokens.get(i+1).getValueOfToken(), "" +varDecID);
+varDecID++;
+            
+            // memory[memCount] = "1D";
+            //memCount+=1;
             memory[memCount] = "00";
             memCount+=1;
             System.out.println("INFO  CodeGen - Pushing [ XX ] byte to memory...");
@@ -54,6 +70,9 @@ public class CCCodeGen {
     }
     public void CodeGenAssignStmnt(int i) {
         if(tokens.get(i-1).getTypeOfToken().equals("CHAR")) {
+            Object idInPrintValue = idAndValue.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+        
+            String valuePrintID=(String) idInPrintValue;
             System.out.println("INFO  CodeGen - Generating code for [ AssignStmnt ] in scope "+ scope);
             System.out.println("-----------------------------------------------------------");
             System.out.println("INFO  CodeGen - Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is assigned [ 0"+ tokens.get(i+1).getValueOfToken() + " ]...");
@@ -66,9 +85,14 @@ public class CCCodeGen {
             System.out.println("INFO  CodeGen - Pushing [ 8D ] byte to memory...");
             memory[memCount] = "8D";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Pushing [ T0 ] byte to memory...");
-            memory[memCount] = "1D";
+            System.out.println("INFO  CodeGen - Pushing [ " + valuePrintID + " ] byte to memory...");
+
+            Object idInPrintValue2 = idAndVar.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+        
+            String valuePrintID2=(String) idInPrintValue2;
+            memory[memCount] =valuePrintID2;
             memCount+=1;
+            varDecID++;
             memory[memCount] = "00";
             memCount+=1;
             System.out.println("INFO  CodeGen - Pushing [ XX ] byte to memory...");
@@ -78,15 +102,20 @@ public class CCCodeGen {
         }
     
     }
+
     public void CodeGenPrintStmnt(int i) {
+        
         if(tokens.get(i+2).getTypeOfToken().equals("CHAR")) {
+            Object idInPrintValue = idAndVar.getForward(tokens.get(i+2).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+        
+            String valuePrintID=(String) idInPrintValue;
             System.out.println("INFO  CodeGen - Generating code for [ PrintStmnt ] in scope "+ scope);
             System.out.println("-----------------------------------------------------------");
             System.out.println("INFO  CodeGen - Pushing [ AC ] byte to memory...");
             memory[memCount] = "AC";
             memCount+=1;
             System.out.println("INFO  CodeGen - Pushing [ T0 ] byte to memory...");
-            memory[memCount] = "1D";
+            memory[memCount] = valuePrintID;
             memCount+=1;
             System.out.println("INFO  CodeGen - Pushing [ XX ] byte to memory...");
             memory[memCount] = "00";
@@ -134,6 +163,9 @@ public class CCCodeGen {
             memCount+=1;
             System.out.println("INFO  CodeGen - Pushing [ 65 ] byte to memory...");
             memory[memCount] = "65";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Pushing [ 00 ] byte to memory...");
+            memory[memCount] = "00";
             memCount+=1;
         }
     }
