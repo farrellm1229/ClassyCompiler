@@ -247,7 +247,9 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
 
                         //Begin Parsing Process
                     CCParser parser = new CCParser();
-                    CCAnalysis analysis = new CCAnalysis(); //create instance of CST class
+                    CCAnalysis analysis = new CCAnalysis(); //create instance of Analysis class
+                    CCCodeGen gen = new CCCodeGen(); //create instance of CST class
+
 
                     
                     boolean parseStatus = parser.parseOutcome(listOfTokens);
@@ -280,6 +282,9 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                         System.out.println("-----------------------------------------------------------");
                         ast.symbolTable();
                         System.out.println("-----------------------------------------------------------");
+                        System.out.print("Classy Compiler Is Generating Code For Program #" + (programNumber-1) + "\n");
+                        System.out.println("-----------------------------------------------------------");
+                        gen.generate(listOfTokens);
                         System.out.print("PROGRAM # " + (programNumber-1) + " IS COMPLETE\n");
                         System.out.println("-----------------------------------------------------------");
                     }

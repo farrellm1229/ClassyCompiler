@@ -1,30 +1,4 @@
-{
-string a
-a="hi"
-while(b!=1){ /*fails because using a variable before declaring it*/
-print(a)
-}
-}$
-{
-string a
-a="hi"
-while(a!=1){ /*fails because comparing string to digit*/
-print(a)
-}
-}$
-
-{
-string a
-while(a!="hey"){ /*fails because using variable a before giving it a value*/
-print(a)
-}
-}$
-
-{
-string a
-a="hi"
-while(a!="hey"){ /*passes*/
-print(a)
-}
-}$
-
+{int a
+a=9
+print(a)}
+$
