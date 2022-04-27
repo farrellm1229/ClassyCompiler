@@ -1,5 +1,6 @@
 {string a
-string b
-b="ok"
-print(b)
+a="hey"
+
+print(a)
+
 }$

@@ -18,6 +18,8 @@ public class CCCodeGen {
     CCHashMap idAndValue = new CCHashMap<String, String>();
     CCHashMap idAndVar = new CCHashMap<String, String>();
     CCHashMap idAndCounter = new CCHashMap<String, String>();
+    CCHashMap decimalAndHex = new CCHashMap<String, String>();
+
 
 
 
@@ -207,15 +209,29 @@ varDecID++;
                // System.out.println("hehrhiehoieh");
                 int lengthOfString = (tokens.get(i+1).getValueOfToken().length()-2);
                 String stringForAscii = tokens.get(i+1).getValueOfToken().substring(1, lengthOfString+1);
+                int heapLocation = (255-stringForAscii.length());
                 for(int k=0; k<stringForAscii.length(); k++){
-                char character = stringForAscii.charAt(k); 
-                int ascii = (int) character;
-                System.out.println(ascii);
-                String decimalToHex = Integer.toHexString((ascii));
+                    char character = stringForAscii.charAt(k); 
+                    int ascii = (int) character;
+                    System.out.println(ascii);
+                    String decimalToHex = Integer.toHexString((ascii)).toUpperCase();
 
+                    decimalAndHex.add(ascii, decimalToHex);
+                    //System.out.println(decimalToHex);
 
-                }
-                System.out.println(decimalToHex);
+                    //add string to heap in correct locations based on string length
+                    
+                 
+
+                    memory[heapLocation] = decimalToHex;
+                    heapLocation++;
+                    memory[255] = "00";
+
+                
+            }
+
+                
+
                 System.out.println("INFO  CodeGen - Storing [ A9 ] byte in memory...");
                 memory[memCount] = "A9";
                 memCount+=1;
