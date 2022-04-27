@@ -268,25 +268,6 @@ public class CCMain { //good name? maybe, maybe not...but maybe?
                         analysis.symValScope();
 
 
-                        System.out.print("Classy Compiler Is Now Building An Abstract Syntax Tree Of Program #" + (programNumber-1) + "\n");
-                        System.out.println("-----------------------------------------------------------");
-                        
-
-                        
-                        
-                        parser.createAST(listOfTokens);
-                        System.out.println("-----------------------------------------------------------");
-                        System.out.print("Classy Compiler Has Finished Building AST Of Program #" + (programNumber-1) + "\n");
-                        System.out.println("-----------------------------------------------------------");
-                        System.out.print("Classy Compiler Is Printing Symbol Table For Program #" + (programNumber-1) + "\n");
-                        System.out.println("-----------------------------------------------------------");
-                        ast.symbolTable();
-                        System.out.println("-----------------------------------------------------------");
-                        System.out.print("Classy Compiler Is Generating Code For Program #" + (programNumber-1) + "\n");
-                        System.out.println("-----------------------------------------------------------");
-                        gen.generate(listOfTokens);
-                        System.out.print("PROGRAM # " + (programNumber-1) + " IS COMPLETE\n");
-                        System.out.println("-----------------------------------------------------------");
                     }
                     else {
                         //System.out.println("-----------------------------------------------------------");

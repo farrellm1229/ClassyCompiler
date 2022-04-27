@@ -1246,6 +1246,16 @@ if(tokens.get(i+4).getTypeOfToken().equals("CHAR")){
 
     public static List<CCToken> tokens = new ArrayList<CCToken>();
 
+    CCTree2 cst = new CCTree2(); //create instance of CST class
+                    CCAst ast = new CCAst(); //create instance of CST class
+
+                        //Begin Parsing Process
+                    CCParser parser = new CCParser();
+                    //CCAnalysis analysis = new CCAnalysis(); //create instance of Analysis class
+                    CCCodeGen gen = new CCCodeGen(); //create instance of CST class
+
+                    int programNumber =1;
+
     public void analyze(List<CCToken> tokenStream) {
       
 
@@ -1341,10 +1351,32 @@ if(tokens.get(i+4).getTypeOfToken().equals("CHAR")){
                     checkForUnusedVars();
                         System.out.println("INFO  Analyze - SUCCESS! Classy Compiler Has Completed Semantic Analysis With [ " + errorCounter + " ] ERRORS And [ " + warningCounter + " ] WARNINGS");
                         System.out.println("-----------------------------------------------------------");
+                        
+                        System.out.print("Classy Compiler Is Now Building An Abstract Syntax Tree Of Program #" + (programNumber) + "\n");
+                        System.out.println("-----------------------------------------------------------");
+                        
+
+                        
+                        
+                        parser.createAST(tokens);
+                        System.out.println("-----------------------------------------------------------");
+                        System.out.print("Classy Compiler Has Finished Building AST Of Program #" + (programNumber) + "\n");
+                        System.out.println("-----------------------------------------------------------");
+                        System.out.print("Classy Compiler Is Printing Symbol Table For Program #" + (programNumber) + "\n");
+                        System.out.println("-----------------------------------------------------------");
+                        ast.symbolTable();
+                        System.out.println("-----------------------------------------------------------");
+                        System.out.print("Classy Compiler Is Generating Code For Program #" + (programNumber) + "\n");
+                        System.out.println("-----------------------------------------------------------");
+                        gen.generate(tokens);
+                        System.out.print("PROGRAM # " + (programNumber) + " IS COMPLETE\n");
+                        System.out.println("-----------------------------------------------------------");
+                        programNumber++;
                     }
                 break;
                     
             }
+            
             //boolean test = (tokens.get(i+1).getTypeOfToken().equals("ASSIGNMENT"));
            
             //j++;

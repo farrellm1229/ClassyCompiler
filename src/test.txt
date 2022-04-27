@@ -1,4 +1,6 @@
 {boolean b
 b=true
+boolean c
+c=false
 print(b)
 }$
