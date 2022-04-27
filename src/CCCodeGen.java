@@ -36,17 +36,13 @@ public class CCCodeGen {
     int varDeclCounter = 0;
     int varDecID = 0x1B;
     int f7 = 46;
-int lengthOfString = 0;
+
     CCHashMap idAndAssignVal = new CCHashMap<String, String>();
     CCHashMap idAndf7 = new CCHashMap<String, String>();
 
 
-    public void lookupStringLength(String stringValue){
-
-    }
     public void CodeGenVarDecl(int i) {
-        
-        if((tokens.get(i+1).getTypeOfToken().equals("CHAR")) && (!tokens.get(i-1).getValueOfToken().equals("string"))){
+        if((tokens.get(i+1).getTypeOfToken().equals("CHAR")) && (!tokens.get(i).getValueOfToken().equals("string"))){
             
             numOfBytes += 5;
 
@@ -87,21 +83,19 @@ varDecID++;
 
         }
 
-
-        else if((tokens.get(i+1).getTypeOfToken().equals("CHAR")) && (tokens.get(i-1).getValueOfToken().equals("string"))){
-            lookupStringLength(tokens.get(i-1).getValueOfToken());
-
+        else if((tokens.get(i+1).getTypeOfToken().equals("CHAR")) && (tokens.get(i).getValueOfToken().equals("string"))){
+           //System.out.println("ijdojodjoisjs");
             System.out.println("INFO  CodeGen - Generating code for [ VarDecl ] in scope " + scope);
             System.out.println("-----------------------------------------------------------");
-            System.out.println("INFO  CodeGen - Storing [ A9 ] byte in memory...");
-            memory[memCount] = "A9";
-            memCount+=1;
-            
-
+            idAndValue.add(tokens.get(i+1).getValueOfToken(), "T"+varDeclCounter);
+            varDeclCounter++;
+           
         }
+        
     
     }
 
+    
     
     public void CodeGenAssignStmnt(int i) {
         if(tokens.get(i-1).getTypeOfToken().equals("CHAR")) {
@@ -132,6 +126,37 @@ varDecID++;
                 System.out.println("INFO  CodeGen - Storing [ 01 ] byte in memory...");
             memory[memCount] = "01";
             memCount+=1;
+            
+            System.out.println("INFO  CodeGen - Storing [ 8D ] byte in memory...");
+            memory[memCount] = "8D";
+            memCount+=1;
+            
+            
+            Object idInPrintValue3 = idAndValue.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+        
+            String valuePrintID3=(String) idInPrintValue3;
+            //System.out.println("INFO  CodeGen - Storing [ " + valuePrintID + " ] byte in memory...");
+            System.out.println("INFO  CodeGen - Storing [ " + idInPrintValue3 + " ] byte in memory...");
+
+            Object idInPrintValue2 = idAndVar.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+        
+            String valuePrintID2=(String) idInPrintValue2;
+            Object idInPrintValue4 = idAndf7.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+        
+            String valuePrintID4=(String) idInPrintValue4;
+            String idk = Integer.toHexString(f7);
+            if(valuePrintID4 !=null){
+            memory[memCount] = valuePrintID4.toUpperCase();
+            //memory[memCount] =valuePrintID2;
+            memCount+=1;
+            }
+            //varDecID++;
+            memory[memCount] = "00";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ XX ] byte in memory...");
+            
+            System.out.println("-----------------------------------------------------------");
+
                 }
                 else if(tokens.get(i+1).getValueOfToken().equals("false")) {
                     
@@ -144,46 +169,78 @@ varDecID++;
             memCount+=1;
                 }
                 
-            }
-            else if(tokens.get(i+1).getTypeOfToken().equals("STRING")) {
-                lengthOfString = (tokens.get(i+1).getValueOfToken().length()-2);
-                
-            }
-                System.out.println(lengthOfString);
-                System.out.println("INFO  CodeGen - Adding [ string ] to heap...");
-
-                System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
-                memory[memCount] = "00";
-                memCount+=1;
+            
                 System.out.println("INFO  CodeGen - Storing [ 8D ] byte in memory...");
                 memory[memCount] = "8D";
                 memCount+=1;
-                System.out.println("INFO  CodeGen - Storing [ T" + varDeclCounter + " ] byte in memory...");
-                String stringStorage = Integer.toHexString(255 - lengthOfString);
-
-                memory[memCount] = "" + stringStorage.toUpperCase();
+                
+                
+                Object idInPrintValue3 = idAndValue.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+            
+                String valuePrintID3=(String) idInPrintValue3;
+                //System.out.println("INFO  CodeGen - Storing [ " + valuePrintID + " ] byte in memory...");
+                System.out.println("INFO  CodeGen - Storing [ " + idInPrintValue3 + " ] byte in memory...");
+    
+                Object idInPrintValue2 = idAndVar.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+            
+                String valuePrintID2=(String) idInPrintValue2;
+                Object idInPrintValue4 = idAndf7.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+            
+                String valuePrintID4=(String) idInPrintValue4;
+                String idk = Integer.toHexString(f7);
+                if(valuePrintID4 !=null){
+                memory[memCount] = valuePrintID4.toUpperCase();
+                //memory[memCount] =valuePrintID2;
                 memCount+=1;
-                
-              /*  
-                idAndValue.add(tokens.get(i+1).getValueOfToken(), "T"+varDeclCounter);
-                varDeclCounter++;
-                
-                String idk = Integer.toHexString(f7+1);
-                idAndf7.add(tokens.get(i+1).getValueOfToken(), idk);
-                f7++;
-                memory[memCount] = idk.toUpperCase();
-                //memory[memCount] ="" + varDecID;
-                memCount+=1;
-                idAndVar.add(tokens.get(i+1).getValueOfToken(), "" +idk.toUpperCase());
-    varDecID++;
-                
-            */    // memory[memCount] = "1D";
-                //memCount+=1;
+                }
+                //varDecID++;
                 memory[memCount] = "00";
                 memCount+=1;
                 System.out.println("INFO  CodeGen - Storing [ XX ] byte in memory...");
                 
                 System.out.println("-----------------------------------------------------------");
+    
+    
+            }
+            
+            else if(tokens.get(i+1).getTypeOfToken().equals("STRING")) {
+               // System.out.println("hehrhiehoieh");
+                int lengthOfString = (tokens.get(i+1).getValueOfToken().length()-2);
+                String stringForAscii = tokens.get(i+1).getValueOfToken().substring(1, lengthOfString+1);
+                for(int k=0; k<stringForAscii.length(); k++){
+                char character = stringForAscii.charAt(k); 
+                int ascii = (int) character;
+                System.out.println(ascii);
+                String decimalToHex = Integer.toHexString((ascii));
+
+
+                }
+                System.out.println(decimalToHex);
+                System.out.println("INFO  CodeGen - Storing [ A9 ] byte in memory...");
+                memory[memCount] = "A9";
+                memCount+=1;
+                System.out.println(lengthOfString);
+                System.out.println("INFO  CodeGen - Adding [ string ] to heap...");
+
+                String stringStorage = Integer.toHexString((255 - lengthOfString));
+                System.out.println("INFO  CodeGen - Storing [ " + stringStorage.toUpperCase() + " ] byte in memory...");
+
+                memory[memCount] = "" + stringStorage.toUpperCase();
+                memCount+=1;
+                System.out.println("INFO  CodeGen - Storing [ 8D ] byte in memory...");
+                memory[memCount] = "8D";
+                memCount+=1;
+                System.out.println("INFO  CodeGen - Storing [ 0F ] byte in memory...");
+                memory[memCount] = "0F";
+                memCount+=1;
+                System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
+                memory[memCount] = "00";
+                memCount+=1;
+                
+            
+               
+                
+            }
 
         }
     
@@ -337,6 +394,40 @@ valueInPrint.equals("6") || valueInPrint.equals("7") ||valueInPrint.equals("8") 
             System.out.println(test);
 */
             }
+    else if(valueInPrint.startsWith("\"")){
+        Object idInPrintValue = idAndVar.getForward(tokens.get(i+2).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+        
+            String valuePrintID=(String) idInPrintValue;
+            Object idk1 = idAndValue.getForward(tokens.get(i+2).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+        
+            String idk2=(String) idk1;
+            System.out.println("INFO  CodeGen - Generating code for [ PrintStmnt ] in scope "+ scope);
+            System.out.println("-----------------------------------------------------------");
+            System.out.println("INFO  CodeGen - Storing [ AC ] byte in memory...");
+            memory[memCount] = "AC";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ " + idk2 + " ] byte in memory...");
+
+            memory[memCount] = "0F";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ XX ] byte in memory...");
+            memory[memCount] = "00";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ A2 ] byte in memory...");
+            memory[memCount] = "A2";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 02 ] byte in memory...");
+            memory[memCount] = "02";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ FF ] byte in memory...");
+            memory[memCount] = "FF";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
+            memory[memCount] = "00";
+            memCount+=1;
+
+    
+    }
 
         }
     }
@@ -370,7 +461,29 @@ valueInPrint.equals("6") || valueInPrint.equals("7") ||valueInPrint.equals("8") 
 
     }
     public void loadIntCode(){
+            memory[memCount] = "A9";
+            memCount+=1;
+            memory[memCount] = "00";
+            memCount+=1;
+            memory[memCount] = "8D";
+            memCount+=1;
+            String idk = Integer.toHexString(numOfBytes+1);
             
+            memory[memCount] = idk.toUpperCase();
+            //memory[memCount] ="" + varDecID;
+            memCount+=1;
+            //idAndVar.add(tokens.get(i+1).getValueOfToken(), "" +varDecID);
+varDecID++;
+            
+            // memory[memCount] = "1D";
+            //memCount+=1;
+            memory[memCount] = "00";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ XX ] byte in memory...");
+            
+            System.out.println("-----------------------------------------------------------");
+
+
     }
     public void generate(List<CCToken> tokenStream) {
       
