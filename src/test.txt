@@ -1,6 +1,12 @@
-{boolean b
+{int b
 boolean c
 c=false
-b=true
+b=4
+print(c)
+}$
+{int b
+boolean c
+c=false
+b=4
 print(b)
 }$
