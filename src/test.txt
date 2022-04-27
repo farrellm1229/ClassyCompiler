@@ -1,12 +1,5 @@
-{int b
-boolean c
-c=false
-b=4
-print(c)
-}$
-{int b
-boolean c
-c=false
-b=4
+{string a
+string b
+b="ok"
 print(b)
 }$
