@@ -17,6 +17,8 @@ public class CCCodeGen {
 
     CCHashMap idAndValue = new CCHashMap<String, String>();
     CCHashMap idAndVar = new CCHashMap<String, String>();
+    CCHashMap idAndCounter = new CCHashMap<String, String>();
+
 
 
     int errorCounter = 0;
@@ -55,8 +57,10 @@ public class CCCodeGen {
             memory[memCount] = "8D";
             memCount+=1;
             System.out.println("INFO  CodeGen - Storing [ T" + varDeclCounter + " ] byte in memory...");
-            varDeclCounter++;
+           
+            
             idAndValue.add(tokens.get(i+1).getValueOfToken(), "T"+varDeclCounter);
+            varDeclCounter++;
             
             String idk = Integer.toHexString(f7+1);
             f7++;
@@ -126,8 +130,13 @@ varDecID++;
             System.out.println("INFO  CodeGen - Storing [ 8D ] byte in memory...");
             memory[memCount] = "8D";
             memCount+=1;
+            
+            
+            Object idInPrintValue3 = idAndValue.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+        
+            String valuePrintID3=(String) idInPrintValue3;
             //System.out.println("INFO  CodeGen - Storing [ " + valuePrintID + " ] byte in memory...");
-            System.out.println("INFO  CodeGen - Storing [ T" + varDeclCounter + " ] byte in memory...");
+            System.out.println("INFO  CodeGen - Storing [ " + idInPrintValue3 + " ] byte in memory...");
 
             Object idInPrintValue2 = idAndVar.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
         
