@@ -2,5 +2,5 @@
 boolean c
 c=false
 b=true
-print(c)
+print(b)
 }$

@@ -38,6 +38,8 @@ public class CCCodeGen {
     int f7 = 46;
 
     CCHashMap idAndAssignVal = new CCHashMap<String, String>();
+    CCHashMap idAndf7 = new CCHashMap<String, String>();
+
 
     public void CodeGenVarDecl(int i) {
         
@@ -59,10 +61,12 @@ public class CCCodeGen {
             System.out.println("INFO  CodeGen - Storing [ T" + varDeclCounter + " ] byte in memory...");
            
             
+            
             idAndValue.add(tokens.get(i+1).getValueOfToken(), "T"+varDeclCounter);
             varDeclCounter++;
             
             String idk = Integer.toHexString(f7+1);
+            idAndf7.add(tokens.get(i+1).getValueOfToken(), idk);
             f7++;
             memory[memCount] = idk.toUpperCase();
             //memory[memCount] ="" + varDecID;
@@ -141,9 +145,12 @@ varDecID++;
             Object idInPrintValue2 = idAndVar.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
         
             String valuePrintID2=(String) idInPrintValue2;
+            Object idInPrintValue4 = idAndf7.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+        
+            String valuePrintID4=(String) idInPrintValue4;
             String idk = Integer.toHexString(f7);
             
-            memory[memCount] = idk.toUpperCase();
+            memory[memCount] = valuePrintID4.toUpperCase();
             //memory[memCount] =valuePrintID2;
             memCount+=1;
             //varDecID++;
