@@ -1,6 +1,7 @@
 {string a
-a="hey"
-
-print(a)
+a="howdy"
+string b
+b = "partner"
+print(b)
 
 }$
