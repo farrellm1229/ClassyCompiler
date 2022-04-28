@@ -310,7 +310,7 @@ varDecID++;
                 //System.out.println("INFO  CodeGen - Storing [ 0F ] byte in memory...");
                 //memory[memCount] = "0F";
                 //memCount+=1;
-                System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
+                //System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
                 memory[memCount] = "00";
                 memCount+=1;
                 
@@ -363,9 +363,9 @@ valueInPrint.equals("6") || valueInPrint.equals("7") ||valueInPrint.equals("8") 
             System.out.println("INFO  CodeGen - Storing [ FF ] byte in memory...");
             memory[memCount] = "FF";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
-            memory[memCount] = "00";
-            memCount+=1;
+            //System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
+            //memory[memCount] = "00";
+            //memCount+=1;
 
 /*
             System.out.println("INFO  CodeGen - Storing [ 66 ] byte in memory...");
@@ -434,9 +434,9 @@ valueInPrint.equals("6") || valueInPrint.equals("7") ||valueInPrint.equals("8") 
             System.out.println("INFO  CodeGen - Storing [ FF ] byte in memory...");
             memory[memCount] = "FF";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
-            memory[memCount] = "00";
-            memCount+=1;
+          //  System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
+           // memory[memCount] = "00";
+           // memCount+=1;
              /* System.out.println("INFO  CodeGen - Storing [ 66 ] byte in memory...");
             memory[memCount] = "66";
             memCount+=1;
@@ -507,9 +507,9 @@ valueInPrint.equals("6") || valueInPrint.equals("7") ||valueInPrint.equals("8") 
             System.out.println("INFO  CodeGen - Storing [ FF ] byte in memory...");
             memory[memCount] = "FF";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
-            memory[memCount] = "00";
-            memCount+=1;
+          //  System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
+           // memory[memCount] = "00";
+            //memCount+=1;
 
     
     }

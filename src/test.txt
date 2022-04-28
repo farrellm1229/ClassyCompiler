@@ -2,6 +2,7 @@
 a="howdy"
 string b
 b = "partner"
+print(a)
 print(b)
 
 }$
