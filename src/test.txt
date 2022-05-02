@@ -1,8 +1,5 @@
-{string a
-a="howdy"
-string b
-b = "partner"
-print(a)
+{
+int b
+b=4
 print(b)
-
 }$

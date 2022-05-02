@@ -132,6 +132,25 @@ varDecID++;
                 System.out.println("INFO  CodeGen - Storing [ 0"+ tokens.get(i+1).getValueOfToken() + " ] byte in memory...");
             memory[memCount] = "0"+ tokens.get(i+1).getValueOfToken().toString();
             memCount+=1;
+
+                System.out.println("INFO  CodeGen - Storing [ 8D ] byte in memory...");
+                memory[memCount] = "8D";
+                memCount+=1;
+
+            Object idInPrintValue4 = idAndf7.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+
+                String valuePrintID4=(String) idInPrintValue4;
+            String idk = Integer.toHexString(f7);
+            
+            if(valuePrintID4 !=null){
+            memory[memCount] = valuePrintID4.toUpperCase();
+            //memory[memCount] =valuePrintID2;
+            memCount+=1;
+            }
+
+            System.out.println("INFO  CodeGen - Storing [ XX ] byte in memory...");
+                memory[memCount] = "00";
+                memCount+=1;
             }
             else if(tokens.get(i+1).getTypeOfToken().equals("BOOL_VAL")) {
                 if(tokens.get(i+1).getValueOfToken().equals("true")) {
@@ -153,7 +172,7 @@ varDecID++;
         
             String valuePrintID3=(String) idInPrintValue3;
             //System.out.println("INFO  CodeGen - Storing [ " + valuePrintID + " ] byte in memory...");
-            System.out.println("INFO  CodeGen - Storing [ " + idInPrintValue3 + " ] byte in memory...");
+            System.out.println("INFO  CodeGen - Storing [ " + valuePrintID3 + " ] byte in memory...");
 
             Object idInPrintValue2 = idAndVar.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
         
@@ -197,7 +216,7 @@ varDecID++;
             
                 String valuePrintID3=(String) idInPrintValue3;
                 //System.out.println("INFO  CodeGen - Storing [ " + valuePrintID + " ] byte in memory...");
-                System.out.println("INFO  CodeGen - Storing [ " + idInPrintValue3 + " ] byte in memory...");
+                System.out.println("INFO  CodeGen - Storing [ " + valuePrintID3 + " ] byte in memory...");
     
                 Object idInPrintValue2 = idAndVar.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
             
