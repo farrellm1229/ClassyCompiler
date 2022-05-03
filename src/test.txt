@@ -1,5 +1,6 @@
 {
 int b
 b=4
+if(b==4){
 print(b)
-}$
+}}$
