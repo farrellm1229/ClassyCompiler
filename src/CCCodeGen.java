@@ -544,6 +544,8 @@ valueInPrint.equals("6") || valueInPrint.equals("7") ||valueInPrint.equals("8") 
 
         
         if((tokens.get(i+2).getTypeOfToken().equals("CHAR")) && (tokens.get(i+4).getTypeOfToken().equals("DIGIT"))){
+
+            if(tokens.get(i+3).getValueOfToken().equals("==")){
             
             numOfBytes += 5;
             System.out.println("-----------------------------------------------------------");
@@ -587,6 +589,56 @@ valueInPrint.equals("6") || valueInPrint.equals("7") ||valueInPrint.equals("8") 
             memCount+=1;
 
         }
+        else if(tokens.get(i+3).getValueOfToken().equals("!=")){
+            System.out.println("-----------------------------------------------------------");
+            System.out.println("INFO  CodeGen - Generating code for [ IfStmnt ] in scope " + scope);
+            System.out.println("-----------------------------------------------------------");
+            System.out.println("INFO  CodeGen - Storing [ A2 ] byte in memory...");
+            memory[memCount] = "A2";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 0"+ tokens.get(i+4).getValueOfToken() + " ] byte in memory...");
+            memory[memCount] = "0"+ tokens.get(i+4).getValueOfToken().toString();
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ EC ] byte in memory...");
+            memory[memCount] = "EC";
+            memCount+=1;
+            //System.out.println("INFO  CodeGen - Storing [ 8D ] byte in memory...");
+            //memory[memCount] = "8D";
+            //memCount+=1;
+            Object tVar = idAndValue.getForward(tokens.get(i+2).getValueOfToken());
+            String tVarCounter = (String) tVar;
+            Object tVar2 = idAndf7.getForward(tokens.get(i+2).getValueOfToken());
+            String tVarCounter2 = (String) tVar2.toString().toUpperCase();
+
+            System.out.println("INFO  CodeGen - Storing [ "+ tVarCounter + " ] byte in memory...");
+            memory[memCount] = tVarCounter2;
+            memCount+=1;
+            System.out.println("here");
+            System.out.println(tVarCounter2);
+            System.out.println(tVarCounter);
+
+            System.out.println("INFO  CodeGen - Storing [ XX ] byte in memory...");
+            System.out.println("-----------------------------------------------------------");
+
+            memory[memCount] = "00";
+            memCount+=1;
+
+            memory[memCount] = "A2";
+            memCount+=1;
+            memory[memCount] = "00";
+            memCount+=1;
+
+            //hereiam
+
+            memory[memCount] = "D0";
+            memCount+=1;
+
+            
+            memory[memCount] = "06";
+            memCount+=1;
+
+        }
+    }
 
       
         
