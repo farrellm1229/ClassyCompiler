@@ -628,13 +628,39 @@ valueInPrint.equals("6") || valueInPrint.equals("7") ||valueInPrint.equals("8") 
             memory[memCount] = "00";
             memCount+=1;
 
-            //hereiam
-
             memory[memCount] = "D0";
             memCount+=1;
 
-            
+            memory[memCount] = "02";
+            memCount+=1;
+            //hereiam
+            memory[memCount] = "A2";
+            memCount+=1;
+            memory[memCount] = "01";
+            memCount+=1;
+            memory[memCount] = "EC";
+            memCount+=1;
+            memory[memCount] = "FF";
+            memCount+=1;
+            memory[memCount] = "00";
+            memCount+=1;
+            memory[memCount] = "D0";
+            memCount+=1;
             memory[memCount] = "06";
+            memCount+=1;
+            memory[memCount] = "AC";
+            memCount+=1;
+            memory[memCount] = tVarCounter2;
+            memCount+=1;
+            memory[memCount] = "00";
+            memCount+=1;
+            memory[memCount] = "A2";
+            memCount+=1;
+            memory[memCount] = "01";
+            memCount+=1;
+            memory[memCount] = "FF";
+            memCount+=1;
+            memory[memCount] = "00";
             memCount+=1;
 
         }

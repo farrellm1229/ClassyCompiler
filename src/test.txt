@@ -1,6 +1,6 @@
 {
 int b
-b=4
+b=5
 if(b!=4){
 print(b)
 }}$
