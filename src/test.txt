@@ -1,6 +1,4 @@
-{
-int b
-b=5
-if(b!=4){
-print(b)
-}}$
+{int a
+a = 1+2
+print(a)
+}$
