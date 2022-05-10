@@ -1,5 +1,8 @@
 {string a
-a="idk"
-print(a)
-print("idkk")
-}$ 
+a="test"
+print("One time, at band camp, I made a compiler from scratch and wrote this program to prove that if the memory gets overflown, the Classy Compiler can handle it!")\
+print("Oh, and one time, at band camp, I wrote this long string inside a print statement to show how the memory size cannot exceed 256")
+}$
+{string a
+a="test"
+print("Oh, and another time, at band camp, I wrote this really long string but the memory isn't overflown so it still prints! Cool, huh?"}$  

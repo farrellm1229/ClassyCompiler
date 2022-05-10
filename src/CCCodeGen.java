@@ -54,6 +54,8 @@ public class CCCodeGen {
 
 
     public void CodeGenVarDecl(int i) {
+        try{
+    
         if((tokens.get(i+1).getTypeOfToken().equals("CHAR")) && (!tokens.get(i).getValueOfToken().equals("string"))){
             
             numOfBytes += 5;
@@ -115,12 +117,19 @@ varDecID++;
            
         }
         
-    
+    }catch(ArrayIndexOutOfBoundsException e) {
+            
+            System.out.println("ERROR CodeGen - Classy Compiler Has Stopped Generating Code Due To A Memory Overflow");
+            System.out.println("-----------------------------------------------------------");
+            System.exit(1);
+
+         }
     }
 
     
     
     public void CodeGenAssignStmnt(int i) {
+        try{
         if(tokens.get(i-1).getTypeOfToken().equals("CHAR")) {
             
             numOfBytes += 5;
@@ -308,7 +317,7 @@ varDecID++;
                 //System.out.println(lengthOfString);
                 System.out.println("INFO  CodeGen - Adding [ string ] to heap...");
 
-                System.out.println(place);
+                //System.out.println(place);
                 if(marker2 == true){
                     place2 = place;
 
@@ -357,10 +366,19 @@ varDecID++;
             }
 
         }
+    }catch(ArrayIndexOutOfBoundsException e) {
+            
+            System.out.println("ERROR CodeGen - Classy Compiler Has Stopped Generating Code Due To A Memory Overflow");
+            System.out.println("-----------------------------------------------------------");
+            System.exit(1);
+
+         }
     
     }
 
     public void CodeGenPrintStmnt(int i) {
+
+        try{
         
         if(tokens.get(i+2).getTypeOfToken().equals("CHAR")) {
 
@@ -529,7 +547,6 @@ valueInPrint.equals("6") || valueInPrint.equals("7") ||valueInPrint.equals("8") 
             memCount+=1;
             System.out.println("INFO  CodeGen - Storing [ " + idk2 + " ] byte in memory...");
 
-            System.out.println(valuePrintID);
             memory[memCount] = valuePrintID;
             memCount+=1;
             System.out.println("INFO  CodeGen - Storing [ XX ] byte in memory...");
@@ -602,7 +619,7 @@ valueInPrint.equals("6") || valueInPrint.equals("7") ||valueInPrint.equals("8") 
              //System.out.println(lengthOfString);
              System.out.println("INFO  CodeGen - Adding [ string ] to heap...");
 
-             System.out.println(place);
+             //System.out.println(place);
              if(marker2 == true){
                  place2 = place;
 
@@ -649,9 +666,16 @@ varDecID++;
             
              
          }
+        }catch(ArrayIndexOutOfBoundsException e) {
+            
+            System.out.println("ERROR CodeGen - Classy Compiler Has Stopped Generating Code Due To A Memory Overflow");
+            System.out.println("-----------------------------------------------------------");
+            System.exit(1);
+
+         }
     }
     public void CodeGenIfStmnt(int i) {
-
+try{
         
         if((tokens.get(i+2).getTypeOfToken().equals("CHAR")) && (tokens.get(i+4).getTypeOfToken().equals("DIGIT"))){
 
@@ -787,7 +811,13 @@ varDecID++;
     }
 
       
-        
+}catch(ArrayIndexOutOfBoundsException e) {
+            
+        System.out.println("ERROR CodeGen - Classy Compiler Has Stopped Generating Code Due To A Memory Overflow");
+        System.out.println("-----------------------------------------------------------");
+        System.exit(1);
+
+     }
     
     }
     public static List<CCToken> tokens = new ArrayList<CCToken>();
@@ -807,7 +837,7 @@ varDecID++;
     }
 
     public void checkForLengthOfCodeGen(int count){
-        System.out.println(count);
+        //System.out.println(count);
 
         //generateCode(count);
 
