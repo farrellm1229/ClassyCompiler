@@ -552,6 +552,103 @@ valueInPrint.equals("6") || valueInPrint.equals("7") ||valueInPrint.equals("8") 
     }
 
         }
+        else if(tokens.get(i+2).getTypeOfToken().equals("STRING")) {
+            // System.out.println("hehrhiehoieh");
+             int lengthOfString = (tokens.get(i+2).getValueOfToken().length()-2);
+             String stringForAscii = tokens.get(i+2).getValueOfToken().substring(1, lengthOfString+1);
+             
+             int heapLocation = (place-stringForAscii.length());
+            
+
+             int test = heapLocation;
+             boolean marker = false;
+             boolean marker2 = false;
+
+             for(int k=0; k<stringForAscii.length(); k++){
+                 memory[test-1] = "00";
+                 char character = stringForAscii.charAt(k); 
+                 int ascii = (int) character;
+                 //System.out.println(ascii);
+                 String decimalToHex = Integer.toHexString((ascii)).toUpperCase();
+
+                 decimalAndHex.add(ascii, decimalToHex);
+                 //System.out.println(decimalToHex);
+
+                 //add string to heap in correct locations based on string length
+                 
+              
+
+                 memory[heapLocation] = decimalToHex;
+                 heapLocation++;
+                 marker = true;
+                 
+                
+                 memory[255] = "00";
+
+             
+         }
+
+         if(marker == true){
+             place = (place-(stringForAscii.length()+1));
+            // marker = false;
+             //System.out.println(place);
+          
+         }
+             
+
+             System.out.println("INFO  CodeGen - Storing [ A0 ] byte in memory...");
+             memory[memCount] = "A0";
+             memCount+=1;
+             //System.out.println(lengthOfString);
+             System.out.println("INFO  CodeGen - Adding [ string ] to heap...");
+
+             System.out.println(place);
+             if(marker2 == true){
+                 place2 = place;
+
+             }
+             String stringStorage = Integer.toHexString((place+1));
+
+             System.out.println("INFO  CodeGen - Storing [ " + stringStorage.toUpperCase() + " ] byte in memory...");
+
+             memory[memCount] = "" + stringStorage.toUpperCase();
+             memCount+=1;
+             System.out.println("INFO  CodeGen - Storing [ A2 ] byte in memory...");
+             memory[memCount] = "A2";
+             memCount+=1;
+
+             System.out.println("INFO  CodeGen - Storing [ T" + (varDeclCounter) + " ] byte in memory...");
+        
+         
+         
+         idAndValue.add(tokens.get(i+1).getValueOfToken(), "T"+varDeclCounter);
+         //varDeclCounter++;
+         
+         String idk = Integer.toHexString(f7+1);
+         idAndf7.add(tokens.get(i+1).getValueOfToken(), idk);
+         //f7++;
+        // System.out.println("idk");
+         //System.out.println(idk);
+
+         varStorage.add(tokens.get(i-1).getValueOfToken(), idk.toUpperCase());
+
+         //memory[memCount] = idk.toUpperCase();
+         memory[memCount] ="02";;
+         memCount+=1;
+         idAndVar.add(tokens.get(i+1).getValueOfToken(), "" +idk.toUpperCase());
+varDecID++;
+         
+             //System.out.println("INFO  CodeGen - Storing [ 0F ] byte in memory...");
+             //memory[memCount] = "0F";
+             //memCount+=1;
+             //System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
+             memory[memCount] = "FF";
+             memCount+=1;
+             
+         
+            
+             
+         }
     }
     public void CodeGenIfStmnt(int i) {
 
@@ -682,9 +779,9 @@ valueInPrint.equals("6") || valueInPrint.equals("7") ||valueInPrint.equals("8") 
             System.out.println("INFO  CodeGen - Storing [ FF ] byte in memory...");
             memory[memCount] = "FF";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
-            memory[memCount] = "00";
-            memCount+=1;
+            //System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
+            //memory[memCount] = "00";
+            //memCount+=1;
             
         }
     }
