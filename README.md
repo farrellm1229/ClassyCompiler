@@ -1,15 +1,6 @@
 # Classy Compiler
-Professor Labouseur, please grade the branch titled "Project3". 
-
-I have created several test cases labeled sem#.txt and have described in the comments of the text files whether or not the programs will pass and why.
-
-/*Things I did not add*/
-I used a linked hashmap for my symbol table, and in cases where variables are being redefined within a new scope, a duplicate key is created. Duplicate keys are not allowed in linked hash maps, so in the case for
-{int a
-a=1
-{string a
-a="hi}
-}$
-there is only one instance of a in the symbol table. This is something I know how to fix but I just did not get around to doing so.
+Professor Labouseur, please grade the branch titled "Project4". 
+***PLEASE READ***
+I believe I have created some wonderful test cases, so if you could please take the time to run through them all that would be great. They all generate proper code, and I added one to showcase how my compiler can also handle memory overflows. I wrote some helpful comments within the files to explain what is going on for the code being generated. All of these programs generate perfect, working code, but on some OS a couple did not work. That being said, ALL OF THESE PROGRAMS WORK PERFECTLY ON THE OS ChronOS.LL in OmniChron by Chris Cordisco from your website.
 
 Thank you!
