@@ -22,6 +22,8 @@ public class CCCodeGen {
     CCHashMap varStorage = new CCHashMap<String, String>();
     CCHashMap varStorage2 = new CCHashMap<String, String>();
     CCHashMap assignedValue = new CCHashMap<String, String>();
+    CCHashMap assignedValue2 = new CCHashMap<String, String>();
+
 
 
 
@@ -135,20 +137,37 @@ varDecID++;
             numOfBytes += 5;
             idAndAssignVal.add(tokens.get(i-1).getValueOfToken(),tokens.get(i+1).getValueOfToken());
             Object idInPrintValue = idAndValue.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
-        
+            
             String valuePrintID=(String) idInPrintValue;
             System.out.println("-----------------------------------------------------------");
             System.out.println("INFO  CodeGen - Generating code for [ AssignStmnt ] in scope "+ scope);
             System.out.println("-----------------------------------------------------------");
             if(tokens.get(i+1).getTypeOfToken().equals("DIGIT")) {
+                if(!tokens.get(i+2).getValueOfToken().equals("+")){
+                    assignedValue2.add(tokens.get(i-1).getValueOfToken(), tokens.get(i+1).getValueOfToken());
+                   // System.out.println("okookoo");
+                    //System.out.println(tokens.get(i+1).getValueOfToken());
+                }
                 assignedValue.add(tokens.get(i-1).getValueOfToken(), tokens.get(i+1).getValueOfToken()); //store a, 3 in a=3
                 System.out.println("INFO  CodeGen - Variable [ " + tokens.get(i-1).getValueOfToken() + " ] is assigned [ 0"+ tokens.get(i+1).getValueOfToken() + " ]...");
                 System.out.println("INFO  CodeGen - Storing [ A9 ] byte in memory...");
                 memory[memCount] = "A9";
                 memCount+=1;
-                if(tokens.get(i+2).getValueOfToken().equals("+")){
+                if((tokens.get(i+2).getValueOfToken().equals("+")) && (tokens.get(i+3).getTypeOfToken().equals("DIGIT"))){
                     System.out.println("INFO  CodeGen - Storing [ 0"+ (Integer.valueOf(tokens.get(i+1).getValueOfToken()) + Integer.valueOf(tokens.get(i+3).getValueOfToken())) +" ] byte in memory...");
                     int v = (Integer.valueOf(tokens.get(i+1).getValueOfToken()) + Integer.valueOf(tokens.get(i+3).getValueOfToken()));
+                    String v2 = Integer.toString(v);
+                    memory[memCount] = "0"+ v2;
+                memCount+=1;
+                assignedValue.add(tokens.get(i-1).getValueOfToken(), v2);
+                }
+                else if((tokens.get(i+2).getValueOfToken().equals("+")) && (tokens.get(i+3).getTypeOfToken().equals("CHAR"))){
+                    Object lookUpValue = assignedValue2.getForward(tokens.get(i+3).getValueOfToken());
+                    String lUpVal = (String) lookUpValue;
+                   // System.out.println("imhere");
+                    //System.out.println(lUpVal);
+                    System.out.println("INFO  CodeGen - Storing [ 0"+ (Integer.valueOf(tokens.get(i+1).getValueOfToken()) + Integer.valueOf(lUpVal)) +" ] byte in memory...");
+                    int v = (Integer.valueOf(tokens.get(i+1).getValueOfToken()) + Integer.valueOf(lUpVal));
                     String v2 = Integer.toString(v);
                     memory[memCount] = "0"+ v2;
                 memCount+=1;
@@ -721,6 +740,72 @@ try{
             
         }
         else if(tokens.get(i+3).getValueOfToken().equals("!=")){
+            if(tokens.get(i+4).getTypeOfToken().equals("BOOL_VAL")){
+                System.out.println("-----------------------------------------------------------");
+            System.out.println("INFO  CodeGen - Generating code for [ IfStmnt - Inequality ] in scope " + scope);
+            System.out.println("-----------------------------------------------------------");
+            System.out.println("INFO  CodeGen - Storing [ A2 ] byte in memory...");
+            memory[memCount] = "A2";
+            memCount+=1;
+            if(tokens.get(i+4).getValueOfToken().equals("true")){
+            System.out.println("INFO  CodeGen - Storing [ 01 ] byte in memory...");
+            memory[memCount] = "01";
+            memCount+=1;
+            }
+            else if(tokens.get(i+4).getValueOfToken().equals("false")){
+                System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
+                memory[memCount] = "00";
+                memCount+=1;
+                }
+            System.out.println("INFO  CodeGen - Storing [ EC ] byte in memory...");
+            memory[memCount] = "EC";
+            memCount+=1;
+            //System.out.println("INFO  CodeGen - Storing [ 8D ] byte in memory...");
+            //memory[memCount] = "8D";
+            //memCount+=1;
+            Object tVar = idAndValue.getForward(tokens.get(i+2).getValueOfToken());
+            String tVarCounter = (String) tVar;
+            Object tVar2 = idAndf7.getForward(tokens.get(i+2).getValueOfToken());
+            String tVarCounter2 = (String) tVar2.toString().toUpperCase();
+
+            System.out.println("INFO  CodeGen - Storing [ "+ tVarCounter + " ] byte in memory...");
+            memory[memCount] = tVarCounter2;
+            memCount+=1;
+
+            System.out.println("INFO  CodeGen - Storing [ XX ] byte in memory...");
+            System.out.println("-----------------------------------------------------------");
+
+            memory[memCount] = "00";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ A2 ] byte in memory...");
+            memory[memCount] = "A2";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
+            memory[memCount] = "00";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ D0 ] byte in memory...");
+            memory[memCount] = "D0";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 02 ] byte in memory...");
+            memory[memCount] = "02";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ A2 ] byte in memory...");
+            //hereiam
+            memory[memCount] = "A2";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ 01 ] byte in memory...");
+            memory[memCount] = "01";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ EC ] byte in memory...");
+            memory[memCount] = "EC";
+            memCount+=1;
+            System.out.println("INFO  CodeGen - Storing [ FF ] byte in memory...");
+            memory[memCount] = "FF";
+            memCount+=1;
+
+            }
+
+            else if(tokens.get(i+4).getTypeOfToken().equals("DIGIT")){
             System.out.println("-----------------------------------------------------------");
             System.out.println("INFO  CodeGen - Generating code for [ IfStmnt - Inequality ] in scope " + scope);
             System.out.println("-----------------------------------------------------------");
@@ -785,7 +870,7 @@ try{
             System.out.println("INFO  CodeGen - Storing [ 06 ] byte in memory...");
             memory[memCount] = "06";
             memCount+=1;
-            System.out.println("INFO  CodeGen - Storing [ AC ] byte in memory...");
+          /*  System.out.println("INFO  CodeGen - Storing [ AC ] byte in memory...");
             memory[memCount] = "AC";
             memCount+=1;
             System.out.println("INFO  CodeGen - Storing [ " + tVarCounter + " ] byte in memory...");
@@ -806,8 +891,8 @@ try{
             //System.out.println("INFO  CodeGen - Storing [ 00 ] byte in memory...");
             //memory[memCount] = "00";
             //memCount+=1;
-            
-        }
+            */
+        }}
     }
 
       
