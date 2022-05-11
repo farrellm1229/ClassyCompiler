@@ -1,8 +1,10 @@
 {
 int a
-a=2
+a=1
+
+while(a!=9){
 print(a)
 a=1+a
-print(a)
+}
 
 }$
