@@ -1,0 +1,16 @@
+{
+int a
+int b
+b=2
+a=5+b
+print(a) /*a is 5 + 2 so this prints 7*/
+}$
+
+{
+int a
+a=2
+print(a)
+a=1+a
+print(a)
+/*this prints 2 then 3*/
+}$

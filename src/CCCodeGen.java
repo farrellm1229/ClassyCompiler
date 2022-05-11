@@ -163,6 +163,7 @@ varDecID++;
                 }
                 else if((tokens.get(i+2).getValueOfToken().equals("+")) && (tokens.get(i+3).getTypeOfToken().equals("CHAR"))){
                     //A9 03 6D 39 00 8D 39 00 A2 01 EC FF 00 D0 DE 00
+                    if(mark==true){
                     Object lookUpValue = assignedValue2.getForward(tokens.get(i+3).getValueOfToken());
                     String lUpVal = (String) lookUpValue;
                    // System.out.println("imhere");
@@ -170,12 +171,13 @@ varDecID++;
                     System.out.println("INFO  CodeGen - Storing [ 0"+ (Integer.valueOf(tokens.get(i+1).getValueOfToken()) + Integer.valueOf(lUpVal)) +" ] byte in memory...");
                     int v = (Integer.valueOf(tokens.get(i+1).getValueOfToken()) + Integer.valueOf(lUpVal));
                     String v2 = Integer.toString(v);
-                   
+                  
                     //memory[memCount] = "0"+ v2;
                     memory[memCount] = "0" + tokens.get(i+1).getValueOfToken();
                 memCount+=1;
                 assignedValue.add(tokens.get(i-1).getValueOfToken(), v2);
-
+                   
+                    
                 Object idInPrintValue4 = idAndf7.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
 
                 String valuePrintID4=(String) idInPrintValue4;
@@ -210,7 +212,37 @@ varDecID++;
                 memCount+=1;
                 memory[memCount] = "00";
                 memCount+=1;
-                
+                    }
+                    else{
+                        Object lookUpValue = assignedValue2.getForward(tokens.get(i+3).getValueOfToken());
+                    String lUpVal = (String) lookUpValue;
+                   // System.out.println("imhere");
+                    //System.out.println(lUpVal);
+                    System.out.println("INFO  CodeGen - Storing [ 0"+ (Integer.valueOf(tokens.get(i+1).getValueOfToken()) + Integer.valueOf(lUpVal)) +" ] byte in memory...");
+                    int v = (Integer.valueOf(tokens.get(i+1).getValueOfToken()) + Integer.valueOf(lUpVal));
+                    String v2 = Integer.toString(v);
+                    memory[memCount] = "0"+ v2;
+                memCount+=1;
+                assignedValue.add(tokens.get(i-1).getValueOfToken(), v2);
+                memory[memCount] = "8D";
+                memCount+=1;
+
+            Object idInPrintValue4 = idAndf7.getForward(tokens.get(i-1).getValueOfToken()); //looking up type of b in print(1+b), which is paired with its scope
+
+                String valuePrintID4=(String) idInPrintValue4;
+            String idk = Integer.toHexString(f7);
+            
+            if(valuePrintID4 !=null){
+            memory[memCount] = valuePrintID4.toUpperCase();
+            //memory[memCount] =valuePrintID2;
+            memCount+=1;
+            }
+
+            System.out.println("INFO  CodeGen - Storing [ XX ] byte in memory...");
+                memory[memCount] = "00";
+                memCount+=1; 
+            }
+            
                 }
                 else{
                 System.out.println("INFO  CodeGen - Storing [ 0"+ tokens.get(i+1).getValueOfToken() + " ] byte in memory...");
@@ -947,7 +979,10 @@ try{
     
     }
 
+    boolean mark;
+
     public void CodeGenWhileStmnt(int i) {
+        mark=true;
         try{
             if((tokens.get(i+2).getTypeOfToken().equals("CHAR")) && (tokens.get(i+4).getTypeOfToken().equals("DIGIT"))){
 
