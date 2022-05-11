@@ -1344,7 +1344,7 @@ if(tokens.get(i+4).getTypeOfToken().equals("CHAR")){
                     break;
                    
                 case "$":
-                    
+                    //counterProgram++;
                     if(errorCounter==0){
                     
                         checkForUninitializedVars();
@@ -1373,6 +1373,7 @@ if(tokens.get(i+4).getTypeOfToken().equals("CHAR")){
                         System.out.println("-----------------------------------------------------------");
                         programNumber++;
                     }
+                    
                 break;
                     
             }

@@ -1,0 +1,8 @@
+{
+int a
+a=1
+while(a!=9){
+print(a)
+a=1+a
+}
+}$ /*this generates code that prints 1-8*/

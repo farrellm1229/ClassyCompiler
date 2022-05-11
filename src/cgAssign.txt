@@ -1,0 +1,11 @@
+{boolean b
+boolean c 
+
+/*this is an important test case because 
+if you declare c before b, 
+c still gets assigned the correct temp var and b does as well */
+
+c=true
+b=true
+print(c)
+}$

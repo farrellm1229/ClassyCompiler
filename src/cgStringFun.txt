@@ -1,0 +1,12 @@
+{
+string a
+a="heap is "
+string b
+b="a funny "
+
+print(a)
+print(b)
+print("word")
+
+
+}$

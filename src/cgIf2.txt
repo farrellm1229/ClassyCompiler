@@ -1,0 +1,12 @@
+{/*this shows the code gen prints a, but not b*/
+int a
+a=4
+int b
+b=2
+if(a==4){
+print(a)
+}
+
+if(b==3){
+print(b) 
+}}$

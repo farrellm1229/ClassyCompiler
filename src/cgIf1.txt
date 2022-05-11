@@ -1,0 +1,10 @@
+{
+int a
+a=4
+int b
+b=2
+if(a!=4){
+print(a)
+}
+print(b) /*this shows the code gen prints b, but not a*/
+}$

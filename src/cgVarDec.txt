@@ -1,0 +1,13 @@
+/*first program code gen prints false aka 0, second program code gen prints 4*/
+{int b
+boolean c
+c=false
+b=4
+print(c)
+}$
+{int b
+boolean c
+c=false
+b=4
+print(b)
+}$

@@ -188,8 +188,8 @@ varDecID++;
                 memory[memCount] = "8D";
                 memCount+=1;
                 
-System.out.println("value in print id 4");
-System.out.println(valuePrintID4.toUpperCase());
+//System.out.println("value in print id 4");
+//System.out.println(valuePrintID4.toUpperCase());
                 memory[memCount] = valuePrintID4.toUpperCase();
                 memCount+=1;
                 memory[memCount] = "00";
@@ -973,8 +973,8 @@ try{
                 //int tVar3 = (int) tVar2;
                 String ic = (String) tVar2;
                 int ix = Integer.decode("0x" + ic);
-                System.out.println(ic);
-                System.out.println(ix);
+               // System.out.println(ic);
+                //System.out.println(ix);
                 ix+=1;
                 String ix2 = Integer.toHexString(ix);
                 //System.out.println(ix2); //this is 2F + 1
@@ -1119,8 +1119,8 @@ try{
                 //int tVar3 = (int) tVar2;
                 String ic = (String) tVar2;
                 int ix = Integer.decode("0x" + ic);
-                System.out.println(ic);
-                System.out.println(ix);
+                //System.out.println(ic);
+                //System.out.println(ix);
                 ix+=1;
                 String ix2 = Integer.toHexString(ix);
                 //System.out.println(ix2); //this is 2F + 1
