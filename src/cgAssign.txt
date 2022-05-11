@@ -5,7 +5,7 @@ boolean c
 if you declare c before b, 
 c still gets assigned the correct temp var and b does as well */
 
-c=true
+c=false
 b=true
 print(c)
 }$
